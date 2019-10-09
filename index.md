@@ -21,12 +21,6 @@ B. Sc. majoring in Applied mathematics, the University of Science and Technology
 
 # Conference Presentations
 
-C. Li, R. Zhang, J. Li and P. Stoica, "Model Order Determination for Signed Measurements via the Bayesian Information Criterion," 2018 IEEE 10th Sensor Array and Multichannel Signal Processing Workshop (SAM), Sheffield, 2018, pp. 366-370. (doi: 10.1109/SAM.2018.8448871) oral presentation
+C. Li, R. Zhang, J. Li and P. Stoica, "Model Order Determination for Signed Measurements via the Bayesian Information Criterion," 2018 IEEE 10th Sensor Array and Multichannel Signal Processing Workshop (SAM), Sheffield, 2018, pp. 366-370. (doi: 10.1109/SAM.2018.8448871) **oral presentation**
 
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
 
-```
-The final element.
-```
