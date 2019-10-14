@@ -11,7 +11,7 @@ layout: default
 Master student in the department of Electronic Engineering and Information Science, the University of Science and Technology of China (USTC), Hefei, P.R.China
 
 2013-2017
-B. Sc. majoring in Applied mathematics, the University of Science and Technology of China (USTC), Hefei, P.R.China
+B. Sc. majoring in Applied mathematics, School of the Gifted Young, the University of Science and Technology of China (USTC), Hefei, P.R.China
 
 # Publications
 
@@ -21,6 +21,6 @@ B. Sc. majoring in Applied mathematics, the University of Science and Technology
 
 # Conference Presentations
 
-C. Li, R. Zhang, J. Li and P. Stoica, "Model Order Determination for Signed Measurements via the Bayesian Information Criterion," 2018 IEEE 10th Sensor Array and Multichannel Signal Processing Workshop (SAM), Sheffield, 2018, pp. 366-370. (doi: 10.1109/SAM.2018.8448871) **oral presentation**
+1. **C. Li**, R. Zhang, J. Li and P. Stoica, "Model Order Determination for Signed Measurements via the Bayesian Information Criterion," 2018 IEEE 10th Sensor Array and Multichannel Signal Processing Workshop (SAM), Sheffield, 2018, pp. 366-370. (doi: 10.1109/SAM.2018.8448871) **oral presentation**
 
 
