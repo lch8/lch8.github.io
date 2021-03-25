@@ -8,13 +8,13 @@ layout: default
 # Education
 
 2021-now
-PhD student in Circuits and Systems group of the Electrical Engineering, Mathematics & Computer Science (EEMCS), Delft University of Technology(TUDelft), Delft, the Netherlands
+PhD student in Circuits and Systems group of the Electrical Engineering, Mathematics & Computer Science (EEMCS), Delft University of Technology(**TUDelft**), Delft, the Netherlands
 
 2017-2020
-M. Sc. majoring in Electrical Engineering, School of Information Science and Technology, the University of Science and Technology of China (USTC), Hefei, P.R.China
+M. Sc. majoring in Electrical Engineering, School of Information Science and Technology, the University of Science and Technology of China (**USTC**), Hefei, P.R.China
 
 2013-2017
-B. Sc. majoring in Applied mathematics, School of the Gifted Young, the University of Science and Technology of China (USTC), Hefei, P.R.China
+B. Sc. majoring in Applied mathematics, School of the Gifted Young, the University of Science and Technology of China (**USTC**), Hefei, P.R.China
 
 # Publications
 
