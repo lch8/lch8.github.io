@@ -45,4 +45,3 @@ C. Li, R. Zhang, J. Li and P. Stoica, "Bayesian Information Criterion for Signed
 
 
 # 💻 Internships
-- *2019.05 - 2020.02*, [Lorem](https://github.com/), China.
