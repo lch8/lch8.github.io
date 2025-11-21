@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ddimport React, { useState, useEffect } from 'react';
 import { 
   Mail, 
   MapPin, 
@@ -31,16 +31,16 @@ import {
 const data = {
   profile: {
     name: "Changheng Li",
-    title: "PhD Candidate in Electrical Engineering",
+    title: "Postdoc",
     affiliation: "Delft University of Technology (TUD)",
-    department: "Group of Signal Processing Systems, EEMCS",
+    department: "Group of Embedded Systems, EEMCS",
     email: "C.Li-7@tudelft.nl",
     location: "Delft, The Netherlands",
-    googleScholar: "#", // Add your Google Scholar URL here
+    googleScholar: "https://scholar.google.com/citations?hl=en&user=dG05wrgAAAAJ&view_op=list_works&sortby=pubdate", // Add your Google Scholar URL here
     researchGate: "#",  // Add your ResearchGate URL here
     github: "#",        // Add your GitHub URL here
     linkedin: "#",      // Add your LinkedIn URL here
-    about: "I am a PhD candidate at Delft University of Technology, working under the supervision of Prof. Alle-Jan van der Veen and Dr. Richard C. Hendriks. My research focuses on advanced signal processing techniques, specifically targeting microphone arrays and speech enhancement in complex acoustic environments. I received my Master's and Bachelor's degrees from the University of Science and Technology of China (USTC), where I was part of the School of the Gifted Young.",
+    about: "I am a Postdoc researcher at Delft University of Technology. My research focuses on advanced signal processing techniques, specifically targeting microphone arrays and speech enhancement in complex acoustic environments. I received my Doctoral degree from TUD and my Master's and Bachelor's degrees from the University of Science and Technology of China (USTC), where I was part of the School of the Gifted Young.",
   },
   interests: [
     { title: "Microphone Array Signal Processing", icon: "Mic", desc: "Beamforming, localization, and parameter estimation in reverberant environments." },
@@ -56,7 +56,7 @@ const data = {
     {
       degree: "PhD in Electrical Engineering",
       school: "Delft University of Technology (TUD)",
-      year: "Mar. 2021 – Sept. 2025 (Expected)",
+      year: "Mar. 2021 – Sept. 2025",
       details: "Promotors: Prof. Alle-Jan van der Veen & Dr. Richard C. Hendriks"
     },
     {
