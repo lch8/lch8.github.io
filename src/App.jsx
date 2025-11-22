@@ -31,36 +31,36 @@ import {
 const data = {
   profile: {
     name: "Changheng Li",
-    title: "PhD Candidate in Electrical Engineering",
-    affiliation: "Delft University of Technology (TUD)",
-    department: "Group of Signal Processing Systems, EEMCS",
+    title: "Postdoctoral Researcher",
+    affiliation: "Delft University of Technology (TU Delft)",
+    department: "Embedded Systems Group & WISE",
     email: "C.Li-7@tudelft.nl",
     location: "Delft, The Netherlands",
     googleScholar: "#", // Add your Google Scholar URL here
     researchGate: "#",  // Add your ResearchGate URL here
     github: "#",        // Add your GitHub URL here
     linkedin: "#",      // Add your LinkedIn URL here
-    about: "I am a PhD candidate at Delft University of Technology, working under the supervision of Prof. Alle-Jan van der Veen and Dr. Richard C. Hendriks. My research focuses on advanced signal processing techniques, specifically targeting microphone arrays and speech enhancement in complex acoustic environments. I received my Master's and Bachelor's degrees from the University of Science and Technology of China (USTC), where I was part of the School of the Gifted Young.",
+    about: "I am a Postdoc with the Embedded Systems Group and WISE at TU Delft. My research focuses on wireless communication and sensing within the context of 6G. In particular, I am focusing on the optimal phase-shift design for Liquid Crystal Reconfigurable Intelligent Surface (LC-RIS) aided communication. I completed my PhD in the Signal Processing Systems (SPS) group at TU Delft. I earned my Master's degree in Electronic Engineering and Bachelor's degree in Applied Mathematics (School of the Gifted Young), both from the University of Science and Technology of China (USTC).",
   },
   interests: [
-    { title: "Microphone Array Signal Processing", icon: "Mic", desc: "Beamforming, localization, and parameter estimation in reverberant environments." },
-    { title: "Speech Enhancement", icon: "Layers", desc: "Noise reduction and dereverberation algorithms for hearing aids and communication systems." },
-    { title: "Reconfigurable Intelligent Surfaces", icon: "Code", desc: "Leveraging smart surfaces to control acoustic propagation and improve signal quality." },
+    { title: "6G Wireless & Sensing", icon: "Code", desc: "Integrated sensing and communication (ISAC) within the context of 6G networks." },
+    { title: "Reconfigurable Intelligent Surfaces", icon: "Layers", desc: "Optimal phase-shift design for Liquid Crystal RIS (LC-RIS) aided communication." },
+    { title: "Signal Processing", icon: "Mic", desc: "Microphone array processing and speech enhancement in complex acoustic environments." },
   ],
   news: [
+    { date: "Present", text: "Started as a Postdoctoral Researcher at TU Delft (Embedded Systems & WISE)." },
     { date: "April 2024", text: "Invited talk at Fudan University on Microphone array signal dereverberation." },
     { date: "2023", text: "Paper accepted at the 57th Asilomar Conference on Signals, Systems, and Computers." },
-    { date: "2023", text: "Two papers published in IEEE/ACM Transactions on Audio, Speech, and Language Processing." },
   ],
   education: [
     {
       degree: "PhD in Electrical Engineering",
-      school: "Delft University of Technology (TUD)",
-      year: "Mar. 2021 – Sept. 2025 (Expected)",
-      details: "Promotors: Prof. Alle-Jan van der Veen & Dr. Richard C. Hendriks"
+      school: "Delft University of Technology (TU Delft)",
+      year: "2021 – 2025",
+      details: "Signal Processing Systems (SPS) Group. Promotors: Prof. Alle-Jan van der Veen & Dr. Richard C. Hendriks"
     },
     {
-      degree: "M.Sc. in Electrical Engineering",
+      degree: "M.Sc. in Electronic Engineering",
       school: "University of Science and Technology of China (USTC)",
       year: "Sep. 2017 – Jun. 2020",
       details: "School of Information Science and Technology. Advisor: Dr. Jian Li"
@@ -170,7 +170,7 @@ const data = {
       link: "#"
     }
   ],
-  skills: ["MATLAB", "Python", "LaTeX", "Signal Processing", "Parameter Estimation"],
+  skills: ["MATLAB", "Python", "LaTeX", "Signal Processing", "Parameter Estimation", "6G Sensing"],
   awards: [
     { title: "National Award for Graduates", issuer: "Ministry of Education, China", year: "2018" }
   ],
