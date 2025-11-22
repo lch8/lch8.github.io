@@ -36,7 +36,7 @@ const data = {
     department: "Embedded Systems Group & WISE",
     email: "C.Li-7@tudelft.nl",
     location: "Delft, The Netherlands",
-    googleScholar: "#", // Add your Google Scholar URL here
+    googleScholar: "https://scholar.google.com/citations?hl=en&user=dG05wrgAAAAJ&view_op=list_works&sortby=pubdate", // Add your Google Scholar URL here
     researchGate: "#",  // Add your ResearchGate URL here
     github: "#",        // Add your GitHub URL here
     linkedin: "#",      // Add your LinkedIn URL here
