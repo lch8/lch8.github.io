@@ -15,7 +15,11 @@ The redesign groups existing work into research questions and keeps future quest
 
 Corrections include the 2025 publication of the multi-source paper; the 2024 publication of the consensus-control paper; ALS page range 3922–3934; the full one-bit MIMO title and author list. The two entries without verified DOI metadata retain their existing title, authors, venue and year, and link to a title search instead of an invented identifier.
 
-PhD education displays the verified graduation year (2025), avoiding inconsistent start dates across public bios. The old empty social links, template favicon and non-working CV download have been replaced with a real GitHub link, a monogram favicon and an email request for the CV. The existing visitor map is available on request through a disclosure in the footer.
+PhD education displays the verified graduation year (2025), avoiding inconsistent start dates across public bios. The old empty social links, template favicon and non-working CV download have been replaced with a real GitHub link, a monogram favicon and a downloadable public academic CV. The CV is assembled from the same public profile, education, teaching, award and publication records used by this site. It includes selected publications and links to the full archive. The existing visitor map is available on request through a disclosure in the footer.
+
+## Homepage hierarchy
+
+The homepage leads with the researcher's name and current role. Two main research areas, three concrete contributions, two future questions and one compact blog entry provide the overview. Detailed research, publications and academic background have independent pages. Research philosophy, repeated summaries and the decorative hero diagram were removed from the homepage to shorten the reading path. The contribution descriptions use the same verified papers; no new performance figures are introduced.
 
 ## Writing
 

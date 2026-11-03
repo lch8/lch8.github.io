@@ -22,6 +22,9 @@ export default defineConfig({
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         blog: fileURLToPath(new URL('./blog/index.html', import.meta.url)),
+        research: fileURLToPath(new URL('./research/index.html', import.meta.url)),
+        publications: fileURLToPath(new URL('./publications/index.html', import.meta.url)),
+        cv: fileURLToPath(new URL('./cv/index.html', import.meta.url)),
       },
     },
   },
