@@ -1,16 +1,40 @@
-# React + Vite
+# Changheng Li — research homepage & blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite. Deployed by the existing GitHub Actions workflow to https://lch8.github.io/.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm ci
+npm run dev
+```
 
-## React Compiler
+## Production build
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```sh
+npm run build
+```
 
-## Expanding the ESLint configuration
+Build output is in `dist/`. The build validates post/PDF paths and generates RSS and sitemap files before building both the homepage and the blog index. The existing GitHub Pages workflow runs on changes pushed to `main`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Content structure
+
+- `src/data/site.js`: profile, three research summaries, future questions and education.
+- `src/data/publications.js`: publications, verified DOI links and formatted citation text.
+- `src/data/posts.js`: blog metadata shared by the homepage, blog index, RSS and sitemap.
+- `src/App.jsx`: homepage and blog-list components.
+- `src/index.css`: responsive layout and light/dark themes.
+- `public/blog/<slug>/index.html`: standalone, readable article pages.
+- `public/downloads/`: article PDFs.
+- `docs/CONTENT_SOURCES.md`: sources for publication corrections and editorial decisions.
+
+## Add a blog post
+
+1. Create `public/blog/<slug>/index.html` with the article content.
+2. Put any downloadable PDF under `public/downloads/`.
+3. Add one object to `src/data/posts.js` (newest first), including `slug`, `title`, `excerpt`, ISO `date`, `dateLabel`, `type`, `tags`, `readingTime`, `href`, and optional `pdf`.
+4. Run `npm run build`; inspect the page and links, then commit the source changes.
+
+No database or external CMS is required. The article URLs and downloads work as static files on GitHub Pages. Blog pages do not depend on a server-side router.
+
+The `Selected` publication view gives five representative papers. Topic filters and `All` expose the full archive. Ongoing LC-RIS work and future research questions are shown with their own status, independently of the publication list.

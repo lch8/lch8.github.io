@@ -1,0 +1,2840 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Changheng Li"><meta name="description" content="A worked tutorial comparing 32 simultaneous optical satellite downlinks with eight time-shared paths."><title>Can One Optical Satellite Terminal Serve 32 Users?</title><style>*{box-sizing:border-box}body{margin:0;background:#f5f8fa;color:#17364d;font:18px/1.75 Georgia,serif}main{max-width:900px;margin:36px auto;background:white;padding:58px 65px;box-shadow:0 4px 24px #17364d08}h1,h2,h3,nav,summary,table,figcaption,.equation{font-family:system-ui,sans-serif}h1{font-size:2.5rem;line-height:1.15;letter-spacing:-.04em}h2{font-size:1.65rem;line-height:1.3;margin:2.5em 0 .8em}h3{font-size:1.12rem;line-height:1.4;color:#00877c;margin:1.7em 0 .7em}p{margin:.8em 0 1em}a{color:#1768a5;text-decoration-thickness:1px;text-underline-offset:3px}nav{font-size:.82rem;background:#edf4f8;padding:14px 18px;border-left:3px solid #00877c}nav a{margin-right:14px;display:inline-block}table{width:100%;border-collapse:collapse;font-size:.83rem;line-height:1.55;margin:20px 0}td,th{padding:11px 12px;text-align:left;vertical-align:top}th{background:#17364d;color:white}tbody tr:nth-child(odd){background:#edf4f8}.table-wrap{overflow-x:auto}figure{margin:24px 0}figure svg{width:100%;height:auto;display:block}figcaption{font-size:.82rem;line-height:1.55;color:#526c7c;margin-top:10px}.equation{background:#f6f9fb;padding:14px 18px;margin:18px 0;text-align:center;font-size:1rem;overflow-x:auto}section{scroll-margin-top:20px}details.note{border-top:1px solid #cadbe4;margin:24px 0;padding-top:16px}summary{font-weight:650;cursor:pointer;color:#00877c}details.note h2{font-size:1.3rem;margin-top:1em}@media(max-width:640px){body{font-size:17px}main{margin:0;padding:28px 21px}h1{font-size:2rem}table{min-width:570px}h2{font-size:1.5rem}}@media print{body{background:white;font-size:10pt}main{box-shadow:none;margin:0;padding:0;max-width:none}nav{display:none}details>*{display:block}section{break-before:page}figure,table{break-inside:avoid}}</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://lch8.github.io/blog/multiuser-optical-satellite-communications/">
+<link rel="alternate" type="application/rss+xml" title="Changheng Li · Blog" href="/feed.xml">
+<meta property="og:type" content="article"><meta property="og:title" content="Can one optical satellite terminal serve 32 users?">
+<meta property="og:description" content="A worked tutorial on beams, power budgets, tracking and multiple access. By Changheng Li.">
+<meta property="og:url" content="https://lch8.github.io/blog/multiuser-optical-satellite-communications/">
+<meta property="article:published_time" content="2026-11-03">
+<style>
+body{background:#fafbf9;color:#19374b}main{max-width:930px;box-shadow:none;margin:35px auto 50px;padding:46px 65px;background:#fff;border:1px solid #dce3e1;border-radius:4px;font-size:17px;line-height:1.85}h1{font-family:Georgia,serif;font-weight:400;font-size:2.7rem;color:inherit}h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.02em}h3{color:#006d68}a{color:#006d68}.article-masthead{font:13px/1.5 system-ui,sans-serif;border-bottom:1px solid #dce3e1;background:#fafbf9}.article-masthead-inner{max-width:1100px;margin:auto;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;gap:20px}.article-brand{font-weight:650;text-decoration:none;color:inherit}.article-brand span{font-family:Georgia,serif;font-size:22px;margin-right:12px}.article-nav-links{display:flex;gap:24px;align-items:center}.article-nav-links a{color:inherit;font-size:12px;text-decoration:none}.article-theme-button{border:1px solid #dce3e1;border-radius:3px;background:transparent;color:inherit;cursor:pointer;padding:6px 10px;font-size:11px}.article-tools{max-width:930px;margin:28px auto 0;display:flex;justify-content:space-between;gap:20px;padding:0 4px;font:12px/1.5 system-ui,sans-serif}.article-tools a{text-decoration:none;display:inline-flex;gap:8px;align-items:center}.article-tools .article-download{border-bottom:1px solid #bacdc6;padding-bottom:4px}.article-footer{max-width:930px;margin:0 auto 35px;border-top:1px solid #dce3e1;padding:22px 5px;font:12px/1.75 system-ui,sans-serif;display:flex;justify-content:space-between;gap:25px}.article-footer a{text-decoration:none}nav[aria-label="Article sections"]{font-size:11px;line-height:2.2;background:#edf4ef;border-color:#006d68}details.note>summary{font-size:14px}.equation{font-size:15px;background:#f3f7f4}figure{background:#fff;color:#17364d}table{font-size:12px}th{background:#19374b}tbody tr:nth-child(odd){background:#edf4ef}summary:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid #00877c;outline-offset:4px}
+:root[data-theme=dark]{color-scheme:dark}:root[data-theme=dark] body{background:#101e28;color:#e5edea}:root[data-theme=dark] main{background:#162834;border-color:#30434c}:root[data-theme=dark] h3,:root[data-theme=dark] a,:root[data-theme=dark] summary{color:#83c9b5}:root[data-theme=dark] .article-masthead{background:#101e28;border-color:#30434c}:root[data-theme=dark] .article-nav-links a,:root[data-theme=dark] .article-brand{color:#e5edea}:root[data-theme=dark] nav[aria-label="Article sections"],:root[data-theme=dark] .equation{background:#1b3636}:root[data-theme=dark] tbody tr:nth-child(odd){background:#1b3636}:root[data-theme=dark] figure{padding:12px;border-radius:3px}:root[data-theme=dark] figure a{color:#1768a5}:root[data-theme=dark] .article-footer,:root[data-theme=dark] details.note{border-color:#30434c}
+@media(max-width:680px){main{margin:22px 0 30px;padding:28px 21px;border:0;border-radius:0;font-size:16px}h1{font-size:2.2rem;line-height:1.18}.article-masthead-inner{padding:16px 21px}.article-nav-links{gap:14px}.article-nav-links a:first-child{display:none}.article-tools{padding:0 21px;margin-top:23px;font-size:11px}.article-footer{padding:20px 21px;margin-bottom:20px;display:block}.article-footer a{display:block;margin-top:12px}table{min-width:570px;font-size:11px}nav[aria-label="Article sections"]{font-size:10px}figcaption{font-size:11px}.equation{font-size:13px}}
+@media print{.article-masthead,.article-tools,.article-footer{display:none}main{border:0;margin:0;padding:0}details.note{break-before:page}}
+</style>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('cl-theme')||'light'}catch{}</script>
+</head><body><header class="article-masthead"><div class="article-masthead-inner"><a class="article-brand" href="/"><span>CL.</span>Changheng Li</a><div class="article-nav-links"><a href="/#research">Research</a><a href="/blog/">Blog</a><button type="button" class="article-theme-button" id="theme-toggle" aria-label="Switch color theme">Theme ◐</button></div></div></header><div class="article-tools"><a href="/blog/">← All writing</a><a class="article-download" href="/downloads/multiuser-fso-tutorial.pdf" target="_blank" rel="noreferrer">Download PDF ↗</a></div><main><nav aria-label="Article sections"><a href="#page2">1 · Service</a><a href="#page3">2 · Messages</a><a href="#page5">3 · Power</a><a href="#page9">4 · Time sharing</a><a href="#page12">5 · Evidence</a><a href="#page14">6 · Decision</a><a href="#note16">Technical notes</a><a href="#page20">References</a></nav><section id="page1"><h1>Can One Optical Satellite Terminal Serve 32 Users?</h1><h3>Beams, power budgets, tracking, and multiple access</h3><p><b>Changheng Li · Technical tutorial · Revised 3 November 2026</b></p><p>A satellite can already send data to one ground station at 200 Gb/s: NASA&#x27;s TBIRD demonstration achieved that link rate and delivered up to 4.8 TB in a pass [<a href="#ref1">1</a>]. Now imagine a more modest aggregate demand: 32 ground terminals, each requesting 1 Gb/s. Why is this still a difficult design problem?</p><p>Each terminal needs its own message, enough received energy, and a beam that stays on target. A fast modem solves only part of this problem. Sharing the telescope can reduce duplicated hardware, but dividing power, partitioning aperture, and switching between users change what each user receives.</p><p>This tutorial follows that design choice from the optical field to delivered service. We first calculate the energy available to one user. We then compare 32 simultaneous paths with eight paths visiting four groups in turn. Finally, experiments tell us which parts of the proposed terminal are supported by evidence and which measurements determine the architecture choice.</p><p><b>The central result of the example:</b> eight-way time sharing raises both active-link power and required active-link rate by a factor of four. With equal loss and no switching overhead, the received energy per delivered bit stays the same. The decision therefore turns on receiver capability, hardware cost, pointing continuity, and waiting time.</p><h3>Who this is for</h3><p>The assumed background is basic digital communications and linear algebra. Optical concepts are introduced when they affect a design decision. Sections 1–6 form the main reading path; the technical notes and research outlook can be read separately.</p><div class="table-wrap"><table><thead><tr><th>Reading path</th><th>Question</th></tr></thead><tbody><tr><td>1 · Define the service</td><td>Who receives what, and when?</td></tr><tr><td>2 · Follow the message</td><td>What does an optical receiver actually observe?</td></tr><tr><td>3 · Share the physical resources</td><td>How much energy reaches each user?</td></tr><tr><td>4 · Compare concurrency and time sharing</td><td>What do eight paths save, and what do they cost?</td></tr><tr><td>5 · Read the experimental evidence</td><td>Which subsystem capabilities have been demonstrated?</td></tr><tr><td>6 · Make a conditional choice</td><td>Which measurements decide whether an architecture works?</td></tr></tbody></table></div></section><section id="page2"><h2>1 · Define the service before choosing the terminal</h2><p>Our reference scenario is <b>one LEO satellite sending independent downlink messages to 32 ground terminals</b>. We examine an interval during which all terminals are visible and acquired. Each has a 10 cm receiving aperture. A 1000 km slant range is used for all users to isolate the resource-sharing effects; an orbital simulation would replace it with a separate, time-varying range for each user.</p><p>The number 32 is a design stress case. The same reasoning applies to a general user count K. The illustrative inputs below remain fixed throughout the main comparison.</p><div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Reference value and meaning</th></tr></thead><tbody><tr><td>Service demand</td><td>1 Gb/s net payload per user; 32 Gb/s aggregate</td></tr><tr><td>Optical wavelength</td><td>1550 nm</td></tr><tr><td>Satellite aperture</td><td>20 cm diameter; total area held fixed</td></tr><tr><td>Laser output</td><td>4 W total while transmitting, before the listed losses</td></tr><tr><td>Receiving aperture</td><td>10 cm diameter per ground terminal</td></tr><tr><td>Beam half-divergence</td><td>10 μrad, measured at 1/e² intensity</td></tr><tr><td>Fixed loss</td><td>6 dB for transmit optics, clear-air attenuation and receive optics; 3 dB for steering/routing</td></tr><tr><td>Fluctuation reserve</td><td>12 dB illustrative combined allowance for pointing and clear-air fading</td></tr><tr><td>Power comparison plane</td><td>Receiver optical input after the listed optical losses, before photodetection</td></tr></tbody></table></div><h3>Two service contracts, two different problems</h3><p><b>Strict concurrency</b> requires all 32 users to receive at once. It needs 32 independently modulated paths or another implementation providing 32 concurrent independent payload channels. <b>Frame-average service</b> requires each user to receive an average of 1 Gb/s over a declared frame. Eight paths can then visit four groups, provided active rate and delay meet the contract.</p><p>A 100 km-wide plane normal to the central line of sight subtends about 5.7° at 1000 km. This is an illustrative angular coverage requirement. Individual beams remain only microradians wide. Actual ground coverage depends on Earth projection and orbit geometry, and users&#x27; minimum angular separation still needs to be specified.</p><p>Three hardware choices will recur: replicate complete terminals; share a telescope among independent data paths; or share fewer paths over time. For a fair resource comparison, replicated terminals must also respect the same total aperture area and power. Giving every replica a separate 20 cm aperture would increase total area by 32.</p><p><b>The first decision is now clear:</b> choose the service contract. Next, identify what physical resources a single independent message needs.</p></section><section id="page3"><h2>2 · Follow one message from bits to observations</h2><p>A laser supplies an optical field. A modulator changes that field according to an electrical data waveform. A telescope shapes the outgoing beam, and steering places it on the receiver. The receiving aperture collects part of the field; the detector converts the collected light into electrical observations. Decoding recovers the message.</p><p>These functions separate two questions. The optical path determines how much light reaches a terminal. The detector determines what information the processor can extract from that light. We can calculate a received-power budget before selecting a receiver, then compare it with that receiver&#x27;s sensitivity at the desired net rate and error target.</p><h3>Start with a single coherent observation</h3><p>A coherent receiver mixes the incoming field with a reference laser, called the local oscillator. After synchronization, a useful normalized baseband model for one received stream is:</p><div class="equation">y = hx + n, E[|x|²] ≤ P.</div><p>Here x is a transmitted complex-field amplitude, h includes propagation and optical coupling, y is the recovered complex sample, and n describes receiver noise. The normalization makes squared field amplitude correspond to optical power. Frequency recovery, phase noise and the noise covariance remain part of the receiver model.</p><p>When several transmitted streams and observations are retained, the model becomes <b>y = Hx + n</b>. Column j of H describes transmitted stream j; row i describes observation i. Several rows can belong to one user. A matrix with 32 rows therefore does not, by itself, describe 32 independent users.</p><h3>Direct detection gives a different observation</h3><p>A direct detector responds to intensity. With intensity modulation and direct detection (IM/DD), the input is nonnegative optical power. If contributions add incoherently in the measurement, a model of the form y = Gp + n can be useful. Overlapping coherent fields instead produce intensity proportional to the squared magnitude of their sum; cross terms then matter.</p><p>Photon counting describes a detection regime: at low light levels, counts may require a Poisson likelihood with signal-dependent mean and variance. It is not a separate modulation format. Technical note A develops these models and the associated power constraints [<a href="#ref11">11</a>, <a href="#ref12">12</a>].</p><p><b>For our design:</b> first determine available receive power. Later, use a receiver sensitivity curve measured at the same optical plane, net rate and error target. The simple Gaussian rate formulas used in a few illustrations have their assumptions stated locally.</p></section><section id="page4"><h3>Three different meanings of “more spatial channels”</h3><p>Suppose turbulence distorts a beam carrying message A. Collecting it through several apertures or optical modes gives several observations of A. Combining them can improve reception. This is <b>diversity</b>.</p><p>Now place messages A and B on different spatial field patterns and collect them at one terminal. The receiver must separate the patterns. This is <b>modal multiplexing</b>. Finally, aim A at one ground terminal and B at another. This is <b>multiuser beam transmission</b>. The physical destinations differ, even if both systems use matrix processing.</p><figure role="img" aria-label="Figure 1. Three uses of spatial resources. Diversity supplies repeated observations of one message; modal multiplexing carries distinct messages to one terminal; multiuser beams address distinct terminals. Field patterns and apertures are schematic, not to scale."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="712.731176pt" height="222.238125pt" viewBox="0 0 712.731176 222.238125" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:32.496850</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 222.238125 
+L 712.731176 222.238125 
+L 712.731176 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 151.569318 176.494125 
+C 152.765792 176.494125 153.913424 174.463506 154.759459 170.849487 
+C 155.605494 167.235468 156.080859 162.333119 156.080859 157.222125 
+C 156.080859 152.111131 155.605494 147.208782 154.759459 143.594763 
+C 153.913424 139.980744 152.765792 137.950125 151.569318 137.950125 
+C 150.372843 137.950125 149.225212 139.980744 148.379176 143.594763 
+C 147.533141 147.208782 147.057776 152.111131 147.057776 157.222125 
+C 147.057776 162.333119 147.533141 167.235468 148.379176 170.849487 
+C 149.225212 174.463506 150.372843 176.494125 151.569318 176.494125 
+z
+" clip-path="url(#p7ff44ff32a)" style="fill: #dfedf5; stroke: #1768a5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 151.569318 99.406125 
+C 152.765792 99.406125 153.913424 97.375506 154.759459 93.761487 
+C 155.605494 90.147468 156.080859 85.245119 156.080859 80.134125 
+C 156.080859 75.023131 155.605494 70.120782 154.759459 66.506763 
+C 153.913424 62.892744 152.765792 60.862125 151.569318 60.862125 
+C 150.372843 60.862125 149.225212 62.892744 148.379176 66.506763 
+C 147.533141 70.120782 147.057776 75.023131 147.057776 80.134125 
+C 147.057776 85.245119 147.533141 90.147468 148.379176 93.761487 
+C 149.225212 97.375506 150.372843 99.406125 151.569318 99.406125 
+z
+" clip-path="url(#p7ff44ff32a)" style="fill: #dfedf5; stroke: #1768a5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="16.223082" y="121.4375" transform="rotate(-0 16.223082 121.4375)">Message A</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 76.612033 119.668544 
+Q 108.711896 137.951389 139.06305 155.238237 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 136.577116 151.520693 
+L 139.06305 155.238237 
+L 134.597454 154.996457 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 162.042184 155.84589 
+Q 180.89393 137.950509 198.286111 121.44065 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 194.008113 122.744005 
+L 198.286111 121.44065 
+L 196.761996 125.645061 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 76.612033 117.687706 
+Q 108.711896 99.404861 139.06305 82.118013 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 134.597454 82.359793 
+L 139.06305 82.118013 
+L 136.577116 85.835557 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 162.042184 81.51036 
+Q 180.89393 99.405741 198.286111 115.9156 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 196.761996 111.711189 
+L 198.286111 115.9156 
+L 194.008113 114.612245 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="198.9405" y="121.4375" transform="rotate(-0 198.9405 121.4375)">A</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(67.428373 196.131512)">Several observations</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(59.100248 207.329325)">One recovered message</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="7.2" y="16.318125" transform="rotate(-0 7.2 16.318125)">A  Diversity</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_8">
+    <path d="M 401.481 166.858125 
+C 406.566017 166.858125 411.44345 161.781576 415.039101 152.74653 
+C 418.634751 143.711483 420.65505 131.45561 420.65505 118.678125 
+C 420.65505 105.90064 418.634751 93.644767 415.039101 84.60972 
+C 411.44345 75.574674 406.566017 70.498125 401.481 70.498125 
+C 396.395983 70.498125 391.51855 75.574674 387.922899 84.60972 
+C 384.327249 93.644767 382.30695 105.90064 382.30695 118.678125 
+C 382.30695 131.45561 384.327249 143.711483 387.922899 152.74653 
+C 391.51855 161.781576 396.395983 166.858125 401.481 166.858125 
+z
+" clip-path="url(#p1a05d44cf0)" style="fill: #f1f5f7; stroke: #17364d; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 401.481 118.678125 
+C 403.275712 118.678125 404.997159 117.459753 406.266212 115.291342 
+C 407.535265 113.122931 408.248312 110.181521 408.248312 107.114925 
+C 408.248312 104.048329 407.535265 101.106919 406.266212 98.938508 
+C 404.997159 96.770097 403.275712 95.551725 401.481 95.551725 
+C 399.686288 95.551725 397.964841 96.770097 396.695788 98.938508 
+C 395.426735 101.106919 394.713688 104.048329 394.713688 107.114925 
+C 394.713688 110.181521 395.426735 113.122931 396.695788 115.291342 
+C 397.964841 117.459753 399.686288 118.678125 401.481 118.678125 
+z
+" clip-path="url(#p1a05d44cf0)" style="fill: #1768a5"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 401.481 146.429805 
+C 403.39536 146.429805 405.23157 145.130209 406.585226 142.817237 
+C 407.938883 140.504265 408.699466 137.366761 408.699466 134.095725 
+C 408.699466 130.824689 407.938883 127.687185 406.585226 125.374213 
+C 405.23157 123.061241 403.39536 121.761645 401.481 121.761645 
+C 399.56664 121.761645 397.73043 123.061241 396.376774 125.374213 
+C 395.023117 127.687185 394.262534 130.824689 394.262534 134.095725 
+C 394.262534 137.366761 395.023117 140.504265 396.376774 142.817237 
+C 397.73043 145.130209 399.56664 146.429805 401.481 146.429805 
+L 401.481 146.429805 
+z
+" clip-path="url(#p1a05d44cf0)" style="fill: none; stroke: #d8762d; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1768a5" x="250.344371" y="99.406125" transform="rotate(-0 250.344371 99.406125)">A</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #d8762d" x="250.344371" y="137.950125" transform="rotate(-0 250.344371 137.950125)">B</text>
+   </g>
+   <g id="patch_11">
+    <path d="M 268.137821 99.406125 
+Q 325.915115 99.406125 381.679948 99.406125 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 377.679948 97.406125 
+L 381.679948 99.406125 
+L 377.679948 101.406125 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 268.137821 137.950125 
+Q 325.915115 137.950125 381.679948 137.950125 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 377.679948 135.950125 
+L 381.679948 137.950125 
+L 377.679948 139.950125 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(299.437463 196.131512)">Different field patterns</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(299.194494 207.329325)">One receiving terminal</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="243.577059" y="16.318125" transform="rotate(-0 243.577059 16.318125)">B  Modal multiplexing</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_13">
+    <path d="M 518.302218 149.513325 
+C 519.797811 149.513325 521.23235 146.264334 522.289894 140.481904 
+C 523.347439 134.699474 523.941644 126.855716 523.941644 118.678125 
+C 523.941644 110.500534 523.347439 102.656776 522.289894 96.874346 
+C 521.23235 91.091916 519.797811 87.842925 518.302218 87.842925 
+C 516.806624 87.842925 515.372085 91.091916 514.314541 96.874346 
+C 513.256997 102.656776 512.662791 110.500534 512.662791 118.678125 
+C 512.662791 126.855716 513.256997 134.699474 514.314541 140.481904 
+C 515.372085 146.264334 516.806624 149.513325 518.302218 149.513325 
+z
+" clip-path="url(#p34ad70dfe6)" style="fill: #dfedf5; stroke: #1768a5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 525.069529 118.678125 
+L 649.136912 77.050605 
+L 649.136912 60.091245 
+z
+" clip-path="url(#p34ad70dfe6)" style="fill: #1768a5; opacity: 0.15"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 655.904224 82.061325 
+C 656.951139 82.061325 657.955316 80.639891 658.695597 78.110078 
+C 659.435878 75.580265 659.851822 72.148621 659.851822 68.570925 
+C 659.851822 64.993229 659.435878 61.561585 658.695597 59.031772 
+C 657.955316 56.501959 656.951139 55.080525 655.904224 55.080525 
+C 654.857308 55.080525 653.853131 56.501959 653.11285 59.031772 
+C 652.372569 61.561585 651.956625 64.993229 651.956625 68.570925 
+C 651.956625 72.148621 652.372569 75.580265 653.11285 78.110078 
+C 653.853131 80.639891 654.857308 82.061325 655.904224 82.061325 
+z
+" clip-path="url(#p34ad70dfe6)" style="fill: #1768a5; opacity: 0.6"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 525.069529 118.678125 
+L 649.136912 177.265005 
+L 649.136912 160.305645 
+z
+" clip-path="url(#p34ad70dfe6)" style="fill: #d8762d; opacity: 0.15"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 655.904224 182.275725 
+C 656.951139 182.275725 657.955316 180.854291 658.695597 178.324478 
+C 659.435878 175.794665 659.851822 172.363021 659.851822 168.785325 
+C 659.851822 165.207629 659.435878 161.775985 658.695597 159.246172 
+C 657.955316 156.716359 656.951139 155.294925 655.904224 155.294925 
+C 654.857308 155.294925 653.853131 156.716359 653.11285 159.246172 
+C 652.372569 161.775985 651.956625 165.207629 651.956625 168.785325 
+C 651.956625 172.363021 652.372569 175.794665 653.11285 178.324478 
+C 653.853131 180.854291 654.857308 182.275725 655.904224 182.275725 
+z
+" clip-path="url(#p34ad70dfe6)" style="fill: #d8762d; opacity: 0.6"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 526.920999 117.93037 
+Q 587.102116 93.624971 645.417212 70.073203 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 640.959311 69.716667 
+L 645.417212 70.073203 
+L 642.457242 73.425602 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="664.927306" y="71.054362" transform="rotate(-0 664.927306 71.054362)">User A</text>
+   </g>
+   <g id="patch_19">
+    <path d="M 526.920999 119.42588 
+Q 587.102116 143.731279 645.417212 167.283047 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 642.457242 163.930648 
+L 645.417212 167.283047 
+L 640.959311 167.639583 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="664.927306" y="171.268762" transform="rotate(-0 664.927306 171.268762)">User B</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(534.384053 196.131512)">Independent messages</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(538.549678 207.329325)">Different destinations</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="479.954118" y="16.318125" transform="rotate(-0 479.954118 16.318125)">C  Multiuser beams</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7ff44ff32a">
+   <rect x="7.2" y="22.318125" width="225.577059" height="192.72"/>
+  </clipPath>
+  <clipPath id="p1a05d44cf0">
+   <rect x="243.577059" y="22.318125" width="225.577059" height="192.72"/>
+  </clipPath>
+  <clipPath id="p34ad70dfe6">
+   <rect x="479.954118" y="22.318125" width="225.577059" height="192.72"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 1. Three uses of spatial resources. Diversity supplies repeated observations of one message; modal multiplexing carries distinct messages to one terminal; multiuser beams address distinct terminals. Field patterns and apertures are schematic, not to scale.</figcaption></figure><h3>Why this distinction changes the design</h3><p>Our 32-user downlink primarily needs the third capability. Diversity may help a weak user, and modal multiplexing may be useful in a suitable geometry, but neither automatically supplies independent destinations. Coherently combining many emitters to form one stronger beam is another operation: those emitters may still carry only one message.</p><p>The receiving aperture also decides which field patterns survive collection. In H = UΣVᴴ, a small singular value represents weak coupling between an input pattern and a collected output pattern. Equalization can separate sufficiently strong collected channels; it cannot replace optical energy lost outside the aperture.</p><p>For one aperture pair, a useful dimensionless geometry scale is F = AₜAᵣ/(λR)². With our 20 cm and 10 cm apertures, F ≈ 1.0 × 10⁻⁴. The numerator measures aperture area; the denominator brings in diffraction spreading over range. This small value motivates a weakly coupled, dominant-mode approximation for this pair. It is not a fractional mode count. Establishing several useful modes requires the singular spectrum of the actual propagation and collection operator [<a href="#ref3">3</a>].</p><p>Different ground users have different receiving apertures at different positions. Their number is not bounded by the single-pair mode count. Their useful separation depends instead on beam patterns, angular spacing, received power and pointing uncertainty.</p><p><b>We can now count the right thing:</b> independent messages delivered to distinct terminals. Next, follow the power assigned to one of them.</p></section><section id="page5"><h2>3 · How much energy reaches one of 32 users?</h2><p>With equal allocation, each simultaneous beam receives 4/32 = <b>0.125 W</b> before the listed losses. At range R = 1000 km and half-divergence θ = 10 μrad, its Gaussian 1/e² intensity radius is w = Rθ = <b>10 m</b>. The receiving radius is only a = 0.05 m.</p><p>For a centered circular receiver, integrating a circular Gaussian intensity profile gives the collected fraction:</p><div class="equation">η<sub>geo</sub> = 1 − exp(−2a²/w²) ≈ 2a²/w² ≈ 5.0 × 10⁻⁵.</div><p>The approximation uses a much smaller receiving radius than beam radius. Only about one part in twenty thousand of the beam enters the receiving aperture. This geometric loss is already large before steering loss or fluctuations are charged.</p><div class="table-wrap"><table><thead><tr><th>Budget step</th><th>Contribution</th><th>Remaining level</th></tr></thead><tbody><tr><td>Total laser output</td><td>4 W</td><td>36.02 dBm</td></tr><tr><td>Divide among 32 beams</td><td>−15.05 dB</td><td>20.97 dBm</td></tr><tr><td>Centered geometric collection</td><td>−43.01 dB</td><td>−22.04 dBm</td></tr><tr><td>Fixed optical and clear-air loss</td><td>−6 dB</td><td>−28.04 dBm</td></tr><tr><td>Steering/routing loss</td><td>−3 dB</td><td>−31.04 dBm</td></tr><tr><td>Combined fluctuation reserve</td><td>−12 dB</td><td><b>−43.04 dBm = 49.6 nW</b></td></tr></tbody></table></div><p>The level before the reserve is about 0.787 μW. Applying 12 dB produces a design comparison level of 49.6 nW; it does not assign that level a particular outage probability until the reserve is calibrated against measured fluctuations.</p><h3>Connect aperture to the chosen beam width</h3><p>For an ideal Gaussian beam, θ ≈ λ/(πw₀), where w₀ is the transmit waist radius. A 10 μrad beam at 1550 nm corresponds to w₀ ≈ 49.3 mm. A 20 cm-diameter aperture has radius 100 mm, about twice this waist. It can accommodate that illumination with little Gaussian-tail truncation in this idealized model. The aperture and divergence are therefore mutually consistent inputs; aberration, scan angle and beam quality must be checked in a real optical design.</p><p>At 1550 nm, photon energy is hc/λ ≈ 1.28 × 10⁻¹⁹ J. The design level corresponds to about <b>387 arriving photons per net bit at 1 Gb/s</b>. Detector quantum efficiency converts arriving photons to detected events. To decide whether the link works, compare 49.6 nW with the required sensitivity at the chosen error target. Section 4 makes that comparison a function of the number of active paths.</p></section><section id="page6"><h3>Sharing power and partitioning aperture are separate choices</h3><p>If all beams retain the same effective aperture and divergence, splitting total power among K beams costs a factor K in receive power. If the aperture area is also split into K equal pieces with the same relative Gaussian illumination, each diameter falls by √K and each divergence grows by √K. A small far-field receiver then collects another factor K less power.</p><figure role="img" aria-label="Figure 2. The two penalties have different origins. Both designs divide power; the partitioned design also broadens each spot. Four subapertures are drawn for clarity. The far-field, small-receiver approximation and equal relative illumination give 1/K versus 1/K² receive-power scaling."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="690.229636pt" height="236.638125pt" viewBox="0 0 690.229636 236.638125" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:32.698069</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 236.638125 
+L 690.229636 236.638125 
+L 690.229636 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 40.042964 148.661325 
+C 46.575505 148.661325 52.841371 145.387805 57.460575 139.561718 
+C 62.07978 133.735632 64.675186 125.832655 64.675186 117.593325 
+C 64.675186 109.353995 62.07978 101.451018 57.460575 95.624932 
+C 52.841371 89.798845 46.575505 86.525325 40.042964 86.525325 
+C 33.510422 86.525325 27.244557 89.798845 22.625352 95.624932 
+C 18.006147 101.451018 15.410741 109.353995 15.410741 117.593325 
+C 15.410741 125.832655 18.006147 133.735632 22.625352 139.561718 
+C 27.244557 145.387805 33.510422 148.661325 40.042964 148.661325 
+z
+" clip-path="url(#pcf775e0f9d)" style="fill: #dceaf3; stroke: #1768a5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 72.885927 130.020525 
+L 72.885927 121.735725 
+L 253.522227 105.166125 
+L 253.522227 146.590125 
+z
+" clip-path="url(#pcf775e0f9d)" style="fill: #1768a5; opacity: 0.15"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 276.512302 146.590125 
+C 280.86733 146.590125 285.044573 144.407778 288.124043 140.523721 
+C 291.203513 136.639663 292.933784 131.371012 292.933784 125.878125 
+C 292.933784 120.385238 291.203513 115.116587 288.124043 111.232529 
+C 285.044573 107.348472 280.86733 105.166125 276.512302 105.166125 
+C 272.157274 105.166125 267.98003 107.348472 264.900561 111.232529 
+C 261.821091 115.116587 260.09082 120.385238 260.09082 125.878125 
+C 260.09082 131.371012 261.821091 136.639663 264.900561 140.523721 
+C 267.98003 144.407778 272.157274 146.590125 276.512302 146.590125 
+z
+" clip-path="url(#pcf775e0f9d)" style="fill: #1768a5; opacity: 0.13"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 276.512302 130.020525 
+C 277.383307 130.020525 278.218756 129.584056 278.83465 128.807244 
+C 279.450544 128.030433 279.796598 126.976702 279.796598 125.878125 
+C 279.796598 124.779548 279.450544 123.725817 278.83465 122.949006 
+C 278.218756 122.172194 277.383307 121.735725 276.512302 121.735725 
+C 275.641296 121.735725 274.805848 122.172194 274.189954 122.949006 
+C 273.57406 123.725817 273.228005 124.779548 273.228005 125.878125 
+C 273.228005 126.976702 273.57406 128.030433 274.189954 128.807244 
+C 274.805848 129.584056 275.641296 130.020525 276.512302 130.020525 
+z
+" clip-path="url(#pcf775e0f9d)" style="fill: #17364d"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="40.042964" y="120.3527" transform="rotate(-0 40.042964 120.3527)">D</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="260.09082" y="59.599725" transform="rotate(-0 260.09082 59.599725)">Same receiver</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(120.108101 192.5441)">Per beam: P / K</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(107.347945 203.741912)">Divergence retained</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(81.236226 214.939725)">Received power scales as 1 / K</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="7.2" y="16.318125" transform="rotate(-0 7.2 16.318125)">Full effective aperture</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 375.947926 145.347405 
+C 378.735144 145.347405 381.40858 143.950703 383.379441 141.464906 
+C 385.350301 138.97911 386.457675 135.607172 386.457675 132.091725 
+C 386.457675 128.576278 385.350301 125.20434 383.379441 122.718544 
+C 381.40858 120.232747 378.735144 118.836045 375.947926 118.836045 
+C 373.160709 118.836045 370.487273 120.232747 368.516412 122.718544 
+C 366.545551 125.20434 365.438178 128.576278 365.438178 132.091725 
+C 365.438178 135.607172 366.545551 138.97911 368.516412 141.464906 
+C 370.487273 143.950703 373.160709 145.347405 375.947926 145.347405 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #f6e5d8; stroke: #d8762d; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 375.947926 116.350605 
+C 378.735144 116.350605 381.40858 114.953903 383.379441 112.468106 
+C 385.350301 109.98231 386.457675 106.610372 386.457675 103.094925 
+C 386.457675 99.579478 385.350301 96.20754 383.379441 93.721744 
+C 381.40858 91.235947 378.735144 89.839245 375.947926 89.839245 
+C 373.160709 89.839245 370.487273 91.235947 368.516412 93.721744 
+C 366.545551 96.20754 365.438178 99.579478 365.438178 103.094925 
+C 365.438178 106.610372 366.545551 109.98231 368.516412 112.468106 
+C 370.487273 114.953903 373.160709 116.350605 375.947926 116.350605 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #f6e5d8; stroke: #d8762d; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 398.938001 145.347405 
+C 401.725219 145.347405 404.398655 143.950703 406.369515 141.464906 
+C 408.340376 138.97911 409.447749 135.607172 409.447749 132.091725 
+C 409.447749 128.576278 408.340376 125.20434 406.369515 122.718544 
+C 404.398655 120.232747 401.725219 118.836045 398.938001 118.836045 
+C 396.150783 118.836045 393.477347 120.232747 391.506487 122.718544 
+C 389.535626 125.20434 388.428253 128.576278 388.428253 132.091725 
+C 388.428253 135.607172 389.535626 138.97911 391.506487 141.464906 
+C 393.477347 143.950703 396.150783 145.347405 398.938001 145.347405 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #f6e5d8; stroke: #d8762d; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 398.938001 116.350605 
+C 401.725219 116.350605 404.398655 114.953903 406.369515 112.468106 
+C 408.340376 109.98231 409.447749 106.610372 409.447749 103.094925 
+C 409.447749 99.579478 408.340376 96.20754 406.369515 93.721744 
+C 404.398655 91.235947 401.725219 89.839245 398.938001 89.839245 
+C 396.150783 89.839245 393.477347 91.235947 391.506487 93.721744 
+C 389.535626 96.20754 388.428253 99.579478 388.428253 103.094925 
+C 388.428253 106.610372 389.535626 109.98231 391.506487 112.468106 
+C 393.477347 114.953903 396.150783 116.350605 398.938001 116.350605 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #f6e5d8; stroke: #d8762d; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 420.285927 134.162925 
+L 420.285927 117.593325 
+L 600.922227 84.454125 
+L 600.922227 167.302125 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #d8762d; opacity: 0.15"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 623.912302 167.302125 
+C 632.622358 167.302125 640.976845 162.937431 647.135784 155.169316 
+C 653.294724 147.401202 656.755265 136.863898 656.755265 125.878125 
+C 656.755265 114.892352 653.294724 104.355048 647.135784 96.586934 
+C 640.976845 88.818819 632.622358 84.454125 623.912302 84.454125 
+C 615.202246 84.454125 606.847759 88.818819 600.68882 96.586934 
+C 594.52988 104.355048 591.069338 114.892352 591.069338 125.878125 
+C 591.069338 136.863898 594.52988 147.401202 600.68882 155.169316 
+C 606.847759 162.937431 615.202246 167.302125 623.912302 167.302125 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #d8762d; opacity: 0.13"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 623.912302 130.020525 
+C 624.783307 130.020525 625.618756 129.584056 626.23465 128.807244 
+C 626.850544 128.030433 627.196598 126.976702 627.196598 125.878125 
+C 627.196598 124.779548 626.850544 123.725817 626.23465 122.949006 
+C 625.618756 122.172194 624.783307 121.735725 623.912302 121.735725 
+C 623.041296 121.735725 622.205848 122.172194 621.589954 122.949006 
+C 620.97406 123.725817 620.628005 124.779548 620.628005 125.878125 
+C 620.628005 126.976702 620.97406 128.030433 621.589954 128.807244 
+C 622.205848 129.584056 623.041296 130.020525 623.912302 130.020525 
+z
+" clip-path="url(#p0e1fb7f071)" style="fill: #17364d"/>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="607.49082" y="59.599725" transform="rotate(-0 607.49082 59.599725)">Same receiver</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(424.801851 191.9291)">Per beam: P / K; diameter D / √K</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(463.356539 203.741912)">Divergence × √K</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(426.631539 214.939725)">Received power scales as 1 / K²</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="354.6" y="16.318125" transform="rotate(-0 354.6 16.318125)">Equal-area subapertures</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pcf775e0f9d">
+   <rect x="7.2" y="22.318125" width="328.429636" height="207.12"/>
+  </clipPath>
+  <clipPath id="p0e1fb7f071">
+   <rect x="354.6" y="22.318125" width="328.429636" height="207.12"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 2. The two penalties have different origins. Both designs divide power; the partitioned design also broadens each spot. Four subapertures are drawn for clarity. The far-field, small-receiver approximation and equal relative illumination give 1/K versus 1/K² receive-power scaling.</figcaption></figure><p>In our example, dividing the 20 cm aperture into 32 equal-area pieces gives a diameter of about 3.54 cm per piece. With the same illumination ratio, divergence becomes about 56.6 μrad. The design receive level falls from 49.6 nW to approximately <b>1.55 nW per user</b>. This is why a claim of “32 beams” needs an accompanying aperture map.</p><h3>What sharing the full aperture actually requires</h3><p>Several angular beams can use a common pupil, but the optical network must inject independent modulated fields, route them with acceptable loss, and maintain the required beam quality across the field. Sharing a telescope alone does not guarantee that implementation. Our full-aperture budget assumes it is achieved and assigns steering/routing a provisional 3 dB loss.</p><p>The illustrative split-aperture calculation is also relevant to replicated terminals under a fixed total aperture-area budget. Replication may change pointing independence, reliability, scan loss and packaging. Those differences need their own measurements; they are not included in the geometric factor above.</p><p><b>The design consequence:</b> preserve effective aperture where practical, then measure the price paid in optical efficiency and control. A saved 3 dB of real loss has the same receive-power effect as doubling total laser output. Before pursuing an even narrower beam, however, we need to examine how accurately it can be pointed.</p></section><section id="page7"><h3>A narrower beam helps until pointing error dominates</h3><p>For a small receiver displaced by angular error r, Gaussian-beam collection has the approximate dependence θ⁻² exp(−2r²/θ²). The factor θ⁻² rewards concentration; the exponential penalizes missing the beam center. This already explains why maximum centered intensity need not give the best reliable service.</p><p>Assume independent, zero-mean Gaussian errors on two angular axes, each with standard deviation σ. The radial error exceeds r with probability exp[−r²/(2σ²)]. To allow an exceedance probability ε, choose:</p><div class="equation">r<sub>ε</sub> = σ√[2 ln(1/ε)].</div><p>The receiver lies inside that angular radius with probability 1 − ε. Evaluate the received intensity at the boundary to obtain a lower power level exceeded with that probability:</p><div class="equation">G<sub>ε</sub>(θ) ∝ θ⁻² exp[−4σ² ln(1/ε)/θ²].</div><p>Taking the logarithm makes the optimization transparent: differentiate −2 ln θ − 4σ² ln(1/ε)/θ² and set the derivative to zero. The balance occurs at <b>θ<sub>opt</sub> = 2σ√ln(1/ε)</b>.</p><figure role="img" aria-label="Figure 3. Left: narrowing raises centered intensity but reduces tolerance to displacement. The dashed line is the 99.9% radial-error quantile for σ = 2 μrad. Right: the resulting lower-tail power has an optimum near 10.5 μrad. These are calculated pointing-only curves, with equal transmitted power."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="698.06125pt" height="265.674375pt" viewBox="0 0 698.06125 265.674375" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:32.977719</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 265.674375 
+L 698.06125 265.674375 
+L 698.06125 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 43.78125 228.04 
+L 343.46125 228.04 
+L 343.46125 7.2 
+L 43.78125 7.2 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m03dd3e2837" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m03dd3e2837" x="69.786539" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="69.786539" y="242.638437" transform="rotate(-0 69.786539 242.638437)">−20</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="131.703895" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="131.703895" y="242.638437" transform="rotate(-0 131.703895 242.638437)">−10</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="193.62125" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="193.62125" y="242.638437" transform="rotate(-0 193.62125 242.638437)">0</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="255.538605" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="255.538605" y="242.638437" transform="rotate(-0 255.538605 242.638437)">10</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="317.455961" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="317.455961" y="242.638437" transform="rotate(-0 317.455961 242.638437)">20</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="193.62125" y="256.316562" transform="rotate(-0 193.62125 256.316562)">Angular offset (μrad)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_6">
+      <defs>
+       <path id="mb397432820" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="231.839219" transform="rotate(-0 36.78125 231.839219)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="202.36093" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="206.160149" transform="rotate(-0 36.78125 206.160149)">0.5</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="176.68186" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="180.481079" transform="rotate(-0 36.78125 180.481079)">1.0</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="151.002791" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="154.802009" transform="rotate(-0 36.78125 154.802009)">1.5</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="125.323721" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="129.12294" transform="rotate(-0 36.78125 129.12294)">2.0</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="99.644651" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="103.44387" transform="rotate(-0 36.78125 103.44387)">2.5</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="73.965581" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="77.7648" transform="rotate(-0 36.78125 77.7648)">3.0</text>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="48.286512" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="52.08573" transform="rotate(-0 36.78125 52.08573)">3.5</text>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mb397432820" x="43.78125" y="22.607442" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="36.78125" y="26.406661" transform="rotate(-0 36.78125 26.406661)">4.0</text>
+     </g>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="14.798438" y="117.62" transform="rotate(-90 14.798438 117.62)">Relative local intensity</text>
+    </g>
+   </g>
+   <g id="line2d_15">
+    <path d="M 57.403068 228.04 
+L 133.357781 227.934939 
+L 138.360786 227.689065 
+L 141.544516 227.323983 
+L 143.818609 226.878854 
+L 146.092702 226.197204 
+L 147.911977 225.414569 
+L 149.731252 224.350861 
+L 151.095707 223.321745 
+L 152.460163 222.052252 
+L 153.824619 220.500003 
+L 155.189075 218.61884 
+L 156.553531 216.359452 
+L 157.917987 213.670303 
+L 159.282443 210.498868 
+L 160.646899 206.793217 
+L 162.011355 202.503913 
+L 163.375811 197.586228 
+L 164.740267 192.002603 
+L 166.559541 183.475665 
+L 168.378816 173.68713 
+L 170.19809 162.657944 
+L 172.472183 147.257432 
+L 175.201095 126.841123 
+L 183.842649 59.767782 
+L 185.661924 48.046281 
+L 187.02638 40.430757 
+L 188.390836 34.00651 
+L 189.755292 28.915478 
+L 190.664929 26.320087 
+L 191.574566 24.395326 
+L 192.484203 23.160926 
+L 192.939022 22.806868 
+L 193.393841 22.62961 
+L 193.848659 22.62961 
+L 194.303478 22.806868 
+L 194.758297 23.160926 
+L 195.213115 23.690868 
+L 196.122753 25.272483 
+L 197.03239 27.535453 
+L 197.942027 30.456656 
+L 198.851664 34.00651 
+L 200.21612 40.430757 
+L 201.580576 48.046281 
+L 203.399851 59.767782 
+L 205.673944 76.327901 
+L 209.312493 105.144474 
+L 213.405861 137.271767 
+L 215.679954 153.61843 
+L 217.954047 168.324043 
+L 219.773322 178.739102 
+L 221.592596 187.896033 
+L 223.411871 195.800611 
+L 225.231145 202.503913 
+L 226.595601 206.793217 
+L 227.960057 210.498868 
+L 229.324513 213.670303 
+L 230.688969 216.359452 
+L 232.053425 218.61884 
+L 233.417881 220.500003 
+L 234.782337 222.052252 
+L 236.146793 223.321745 
+L 237.511248 224.350861 
+L 239.330523 225.414569 
+L 241.149798 226.197204 
+L 243.423891 226.878854 
+L 245.697984 227.323983 
+L 248.881714 227.689065 
+L 252.975082 227.908159 
+L 259.797362 228.017923 
+L 282.538294 228.039986 
+L 329.839432 228.04 
+L 329.839432 228.04 
+" clip-path="url(#p730497b604)" style="fill: none; stroke: #d8762d; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 57.403068 228.036789 
+L 86.056642 227.917188 
+L 96.517471 227.664758 
+L 103.794569 227.277029 
+L 109.707211 226.736086 
+L 114.710216 226.045607 
+L 118.803584 225.270637 
+L 122.896952 224.261178 
+L 126.535501 223.131353 
+L 130.17405 221.751195 
+L 133.357781 220.316704 
+L 136.541511 218.654784 
+L 139.725242 216.755226 
+L 142.908972 214.613941 
+L 146.547521 211.8756 
+L 150.18607 208.845728 
+L 154.279438 205.13451 
+L 159.282443 200.277641 
+L 171.562546 188.195657 
+L 175.201095 185.013513 
+L 178.384826 182.539839 
+L 181.113737 180.706763 
+L 183.387831 179.41239 
+L 185.661924 178.351452 
+L 187.936017 177.540587 
+L 190.21011 176.992671 
+L 192.484203 176.716488 
+L 194.758297 176.716488 
+L 197.03239 176.992671 
+L 199.306483 177.540587 
+L 201.580576 178.351452 
+L 203.854669 179.41239 
+L 206.128763 180.706763 
+L 208.857674 182.539839 
+L 211.586586 184.640449 
+L 214.770317 187.370262 
+L 218.863684 191.20611 
+L 225.231145 197.544866 
+L 232.508243 204.705382 
+L 237.05643 208.845728 
+L 240.694979 211.8756 
+L 244.333528 214.613941 
+L 247.517258 216.755226 
+L 250.700989 218.654784 
+L 253.884719 220.316704 
+L 257.06845 221.751195 
+L 260.706999 223.131353 
+L 264.345548 224.261178 
+L 267.984097 225.170857 
+L 272.077465 225.969731 
+L 276.625651 226.628602 
+L 282.083475 227.173789 
+L 288.450936 227.568805 
+L 296.637671 227.837589 
+L 308.917775 227.990015 
+L 329.839432 228.036789 
+L 329.839432 228.036789 
+" clip-path="url(#p730497b604)" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 57.403068 226.898288 
+L 71.047627 226.23049 
+L 83.32773 225.412559 
+L 95.607834 224.372063 
+L 108.342756 223.066829 
+L 123.806589 221.240499 
+L 155.643894 217.402063 
+L 166.104722 216.407765 
+L 175.201095 215.756251 
+L 183.842649 215.359592 
+L 192.029385 215.204708 
+L 200.21612 215.273088 
+L 208.402856 215.56118 
+L 217.04441 216.087091 
+L 226.595601 216.897997 
+L 237.511248 218.05288 
+L 253.429901 219.987312 
+L 277.990107 222.965724 
+L 291.179848 224.329264 
+L 303.459951 225.378026 
+L 315.740054 226.204034 
+L 328.929795 226.860911 
+L 329.839432 226.898288 
+L 329.839432 226.898288 
+" clip-path="url(#p730497b604)" style="fill: none; stroke: #00877c; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 239.649648 228.04 
+L 239.649648 7.2 
+" clip-path="url(#p730497b604)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #17364d"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 43.78125 228.04 
+L 43.78125 7.2 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 43.78125 228.04 
+L 343.46125 228.04 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(242.126343 58.751736)">99.9% angular</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #17364d" transform="translate(242.126343 68.829767)">error radius</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_5">
+     <path d="M 264.495 49.015 
+L 337.86125 49.015 
+Q 339.46125 49.015 339.46125 47.415 
+L 339.46125 12.8 
+Q 339.46125 11.2 337.86125 11.2 
+L 264.495 11.2 
+Q 262.895 11.2 262.895 12.8 
+L 262.895 47.415 
+Q 262.895 49.015 264.495 49.015 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_19">
+     <path d="M 266.095 17.74125 
+L 274.095 17.74125 
+L 282.095 17.74125 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="288.495" y="20.54125" transform="rotate(-0 288.495 20.54125)">θ = 5 μrad</text>
+    </g>
+    <g id="line2d_20">
+     <path d="M 266.095 29.54625 
+L 274.095 29.54625 
+L 282.095 29.54625 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_19">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="288.495" y="32.34625" transform="rotate(-0 288.495 32.34625)">θ = 10 μrad</text>
+    </g>
+    <g id="line2d_21">
+     <path d="M 266.095 41.35125 
+L 274.095 41.35125 
+L 282.095 41.35125 
+" style="fill: none; stroke: #00877c; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="288.495" y="44.15125" transform="rotate(-0 288.495 44.15125)">θ = 20 μrad</text>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 391.18125 228.04 
+L 690.86125 228.04 
+L 690.86125 7.2 
+L 391.18125 7.2 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_6">
+     <g id="line2d_22">
+      <path d="M 395.408711 228.04 
+L 395.408711 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_23">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="395.408711" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_21">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="395.408711" y="242.638437" transform="rotate(-0 395.408711 242.638437)">0</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_24">
+      <path d="M 442.380498 228.04 
+L 442.380498 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_25">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="442.380498" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_22">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="442.380498" y="242.638437" transform="rotate(-0 442.380498 242.638437)">5</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_26">
+      <path d="M 489.352284 228.04 
+L 489.352284 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_27">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="489.352284" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_23">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="489.352284" y="242.638437" transform="rotate(-0 489.352284 242.638437)">10</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_28">
+      <path d="M 536.324071 228.04 
+L 536.324071 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_29">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="536.324071" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_24">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="536.324071" y="242.638437" transform="rotate(-0 536.324071 242.638437)">15</text>
+     </g>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_30">
+      <path d="M 583.295858 228.04 
+L 583.295858 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_31">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="583.295858" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_25">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="583.295858" y="242.638437" transform="rotate(-0 583.295858 242.638437)">20</text>
+     </g>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_32">
+      <path d="M 630.267645 228.04 
+L 630.267645 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_33">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="630.267645" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_26">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="630.267645" y="242.638437" transform="rotate(-0 630.267645 242.638437)">25</text>
+     </g>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_34">
+      <path d="M 677.239432 228.04 
+L 677.239432 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_35">
+      <g>
+       <use xlink:href="#m03dd3e2837" x="677.239432" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_27">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="677.239432" y="242.638437" transform="rotate(-0 677.239432 242.638437)">30</text>
+     </g>
+    </g>
+    <g id="text_28">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="541.02125" y="256.394687" transform="rotate(-0 541.02125 256.394687)">Beam half-divergence θ (μrad)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_10">
+     <g id="line2d_36">
+      <path d="M 391.18125 228.04 
+L 690.86125 228.04 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_37">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="228.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_29">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="231.839219" transform="rotate(-0 384.18125 231.839219)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_38">
+      <path d="M 391.18125 189.29614 
+L 690.86125 189.29614 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_39">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="189.29614" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_30">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="193.095359" transform="rotate(-0 384.18125 193.095359)">0.2</text>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_40">
+      <path d="M 391.18125 150.552281 
+L 690.86125 150.552281 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_41">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="150.552281" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_31">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="154.351499" transform="rotate(-0 384.18125 154.351499)">0.4</text>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_42">
+      <path d="M 391.18125 111.808421 
+L 690.86125 111.808421 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_43">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="111.808421" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_32">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="115.60764" transform="rotate(-0 384.18125 115.60764)">0.6</text>
+     </g>
+    </g>
+    <g id="ytick_14">
+     <g id="line2d_44">
+      <path d="M 391.18125 73.064561 
+L 690.86125 73.064561 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_45">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="73.064561" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_33">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="76.86378" transform="rotate(-0 384.18125 76.86378)">0.8</text>
+     </g>
+    </g>
+    <g id="ytick_15">
+     <g id="line2d_46">
+      <path d="M 391.18125 34.320702 
+L 690.86125 34.320702 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.17; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_47">
+      <g>
+       <use xlink:href="#mb397432820" x="391.18125" y="34.320702" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_34">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="384.18125" y="38.119921" transform="rotate(-0 384.18125 38.119921)">1.0</text>
+     </g>
+    </g>
+    <g id="text_35">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="362.198438" y="117.62" transform="rotate(-90 362.198438 117.62)">Normalized lower-tail power</text>
+    </g>
+   </g>
+   <g id="line2d_48">
+    <path d="M 404.803068 228.04 
+L 425.269907 227.937739 
+L 427.089181 227.732174 
+L 428.453637 227.419071 
+L 429.818093 226.893264 
+L 431.182549 226.074797 
+L 432.547005 224.880243 
+L 433.911461 223.230031 
+L 435.275917 221.055336 
+L 436.640373 218.303604 
+L 438.004829 214.942151 
+L 439.369285 210.959712 
+L 440.733741 206.366116 
+L 442.553015 199.343385 
+L 444.37229 191.400713 
+L 446.646383 180.409903 
+L 449.830113 163.653542 
+L 459.381305 112.278878 
+L 462.110216 99.142519 
+L 464.839128 87.17855 
+L 467.113221 78.190622 
+L 469.387315 70.129437 
+L 471.661408 62.998515 
+L 473.480682 57.952581 
+L 475.299957 53.475214 
+L 477.119231 49.545513 
+L 478.938506 46.139065 
+L 480.757781 43.229025 
+L 482.577055 40.787008 
+L 484.39633 38.783828 
+L 486.215604 37.190084 
+L 488.034879 35.976628 
+L 489.399335 35.298902 
+L 491.218609 34.682805 
+L 493.037884 34.370768 
+L 494.857158 34.337125 
+L 496.676433 34.557501 
+L 498.495707 35.008872 
+L 500.314982 35.669591 
+L 502.589075 36.75913 
+L 504.863168 38.107573 
+L 507.59208 40.020607 
+L 510.320992 42.206482 
+L 513.504722 45.040276 
+L 517.143272 48.575326 
+L 521.691458 53.321595 
+L 527.6041 59.840513 
+L 539.884203 73.825385 
+L 549.435395 84.520366 
+L 556.712493 92.345609 
+L 563.534773 99.355537 
+L 569.902233 105.585255 
+L 576.269694 111.501761 
+L 582.637155 117.103759 
+L 589.004616 122.396351 
+L 595.372077 127.3889 
+L 601.739538 132.093486 
+L 608.106999 136.523799 
+L 614.47446 140.694349 
+L 621.296739 144.891325 
+L 628.119019 148.825084 
+L 634.941299 152.513132 
+L 642.218397 156.1951 
+L 649.495495 159.63583 
+L 657.227412 163.047435 
+L 665.414147 166.407373 
+L 673.600883 169.529264 
+L 677.239432 170.845673 
+L 677.239432 170.845673 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_49">
+    <path d="M 494.171999 228.04 
+L 494.171999 7.2 
+" clip-path="url(#pd63019b023)" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #d8762d; stroke-width: 1.5"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 391.18125 228.04 
+L 391.18125 7.2 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 391.18125 228.04 
+L 690.86125 228.04 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="508.140999" y="34.320702" transform="rotate(-0 508.140999 34.320702)">Optimum ≈ 10.5 μrad</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p730497b604">
+   <rect x="43.78125" y="7.2" width="299.68" height="220.84"/>
+  </clipPath>
+  <clipPath id="pd63019b023">
+   <rect x="391.18125" y="7.2" width="299.68" height="220.84"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 3. Left: narrowing raises centered intensity but reduces tolerance to displacement. The dashed line is the 99.9% radial-error quantile for σ = 2 μrad. Right: the resulting lower-tail power has an optimum near 10.5 μrad. These are calculated pointing-only curves, with equal transmitted power.</figcaption></figure><p>With σ = 2 μrad and ε = 10⁻³, the optimum is about 10.5 μrad. This motivates the rounded 10 μrad used in the reference budget. At 10 μrad, the same pointing-only model gives approximately 4.8 dB loss at that quantile.</p><p>The budget&#x27;s 12 dB reserve covers pointing and clear-air fading together. We therefore do not subtract that 4.8 dB again. Their joint distribution must set the eventual reserve and service availability. A diffraction limit, pointing bias, non-Gaussian tails or a finite receiver modifies the optimization; the broader pointing-outage framework is developed in [<a href="#ref2">2</a>].</p></section><section id="page8"><h3>Tracking quality is a communication resource</h3><p>The preceding result gives prediction a direct role: reducing angular uncertainty can support a narrower beam at the same pointing-outage target. Power, aperture and estimation accuracy therefore belong in the same design comparison.</p><p>Consider the measured direction of user k as a predictable orbital component, a common satellite-attitude error, and a user-specific residual. A shared sensor can help estimate the common component. Per-user fine control handles residual errors and individual optical paths. The estimate must be propagated to the time when the beam is transmitted and arrives; sensor exposure, processing, command transfer, actuator settling and light travel all contribute.</p><p>This is a useful transfer from RF massive MIMO: use geometry and shared statistics to structure channel knowledge [<a href="#ref10">10</a>]. Its benefit is concrete here. Estimating one common attitude disturbance can assist many beams, while modeling all channel entries as unrelated can discard useful information.</p><h3>More observations do not average away a shared error</h3><p>If normalized branch fluctuations are c + eₘ, with common disturbance c and mutually independent zero-mean residuals eₘ independent of c, then:</p><div class="equation">Var[(1/M) Σ<sub>m</sub>(c + eₘ)] = Var(c) + Var(eₘ)/M.</div><p>Increasing M suppresses only the independent part. A shared attitude error can displace many beams together. Common cloud cover can block nearby ground terminals together. Branch correlation is therefore part of the reliability model, rather than a detail added after counting branches.</p><h3>Add the atmosphere to the geometry</h3><p>Turbulence changes received intensity, beam position and wavefront shape, and can reduce coupling into a selected receiver mode. A scalar irradiance distribution such as Gamma-Gamma describes a marginal power fluctuation under its assumptions [<a href="#ref13">13</a>]; it does not specify spatial-mode mixing or correlation across users. Clouds and large-scale extinction require separate availability treatment.</p><p>Our main case is downlink. Ground-to-space compensation uses a different geometry: an outgoing beam and an incoming beacon can sample different paths because of point-ahead and time evolution. Studies of guide-star/downlink measurements and downlink tomography address that inference problem [<a href="#ref17">17</a>, <a href="#ref18">18</a>]. Their results should be transferred through the appropriate propagation model.</p><p><b>We now have a usable power budget and a reason to retain tracking uncertainty. The next step is to see whether sharing paths over time changes the energy requirement or mainly changes hardware and delay.</b></p></section><section id="page9"><h2>4 · Thirty-two simultaneous paths or eight shared paths?</h2><p>Let M be the number of active independent paths and K = 32 the number of users. Equal time sharing gives each user duty factor M/K before overhead. To deliver average payload rate r = 1 Gb/s, the required active net rate is Kr/M. Total laser power is divided among the M active paths.</p><p>Holding divergence and the listed losses fixed, receive power also scales as 1/M. The consequence is easiest to see in a single table.</p><div class="table-wrap"><table><thead><tr><th>Quantity</th><th>32 simultaneous paths</th><th>8 paths, ideal sharing</th><th>8 paths, example overhead</th></tr></thead><tbody><tr><td>User groups</td><td>1</td><td>4</td><td>4</td></tr><tr><td>Payload duty per user</td><td>1</td><td>1/4</td><td>1/4.4</td></tr><tr><td>Power per active beam</td><td>0.125 W</td><td>0.5 W</td><td>0.5 W</td></tr><tr><td>Required active net rate</td><td>1 Gb/s</td><td>4 Gb/s</td><td>4.4 Gb/s</td></tr><tr><td>Design receive power</td><td>49.6 nW</td><td>198.6 nW</td><td>198.6 nW</td></tr><tr><td>Arriving photons/net bit</td><td>387</td><td>387</td><td>352</td></tr><tr><td>Concurrent data paths</td><td>32</td><td>8</td><td>8</td></tr><tr><td>Per-user service pattern</td><td>Continuous</td><td>Periodic</td><td>1 ms per 4.4 ms</td></tr></tbody></table></div><p>The last column uses a deliberately specified schedule: each group receives <b>1 ms of payload</b>, preceded by <b>0.1 ms of total switching/settling overhead</b>. All eight paths switch groups together. The frame lasts 4 × 1.1 = 4.4 ms. Each active path must deliver 4.4 Mbit during its 1 ms payload slot.</p><figure role="img" aria-label="Figure 4. Two frames of the example eight-path schedule. Each colored interval serves a group of eight users; gray intervals consume 0.1 ms each. The revisit period is 4.4 ms, and the interval without payload between one user&#x27;s slots is 3.4 ms. These are assumed timing inputs, not measured switching performance."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="698.43125pt" height="207.99625pt" viewBox="0 0 698.43125 207.99625" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:33.143481</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 207.99625 
+L 698.43125 207.99625 
+L 698.43125 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 10.38125 170.44 
+L 691.23125 170.44 
+L 691.23125 7.2 
+L 10.38125 7.2 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="PolyCollection_1">
+    <path d="M 10.38125 117.137143 
+L 10.38125 50.508571 
+L 18.118182 50.508571 
+L 18.118182 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_2">
+    <path d="M 18.118182 117.137143 
+L 18.118182 50.508571 
+L 95.4875 50.508571 
+L 95.4875 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #1768a5"/>
+   </g>
+   <g id="PolyCollection_3">
+    <path d="M 95.4875 117.137143 
+L 95.4875 50.508571 
+L 103.224432 50.508571 
+L 103.224432 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_4">
+    <path d="M 103.224432 117.137143 
+L 103.224432 50.508571 
+L 180.59375 50.508571 
+L 180.59375 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #00877c"/>
+   </g>
+   <g id="PolyCollection_5">
+    <path d="M 180.59375 117.137143 
+L 180.59375 50.508571 
+L 188.330682 50.508571 
+L 188.330682 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_6">
+    <path d="M 188.330682 117.137143 
+L 188.330682 50.508571 
+L 265.7 50.508571 
+L 265.7 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d8762d"/>
+   </g>
+   <g id="PolyCollection_7">
+    <path d="M 265.7 117.137143 
+L 265.7 50.508571 
+L 273.436932 50.508571 
+L 273.436932 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_8">
+    <path d="M 273.436932 117.137143 
+L 273.436932 50.508571 
+L 350.80625 50.508571 
+L 350.80625 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #9264a5"/>
+   </g>
+   <g id="PolyCollection_9">
+    <path d="M 350.80625 117.137143 
+L 350.80625 50.508571 
+L 358.543182 50.508571 
+L 358.543182 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_10">
+    <path d="M 358.543182 117.137143 
+L 358.543182 50.508571 
+L 435.9125 50.508571 
+L 435.9125 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #1768a5"/>
+   </g>
+   <g id="PolyCollection_11">
+    <path d="M 435.9125 117.137143 
+L 435.9125 50.508571 
+L 443.649432 50.508571 
+L 443.649432 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_12">
+    <path d="M 443.649432 117.137143 
+L 443.649432 50.508571 
+L 521.01875 50.508571 
+L 521.01875 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #00877c"/>
+   </g>
+   <g id="PolyCollection_13">
+    <path d="M 521.01875 117.137143 
+L 521.01875 50.508571 
+L 528.755682 50.508571 
+L 528.755682 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_14">
+    <path d="M 528.755682 117.137143 
+L 528.755682 50.508571 
+L 606.125 50.508571 
+L 606.125 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d8762d"/>
+   </g>
+   <g id="PolyCollection_15">
+    <path d="M 606.125 117.137143 
+L 606.125 50.508571 
+L 613.861932 50.508571 
+L 613.861932 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #d9dee1"/>
+   </g>
+   <g id="PolyCollection_16">
+    <path d="M 613.861932 117.137143 
+L 613.861932 50.508571 
+L 691.23125 50.508571 
+L 691.23125 117.137143 
+z
+" clip-path="url(#pc5d0c7477b)" style="fill: #9264a5"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="ma9c2e245c4" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="10.38125" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="10.38125" y="185.038437" transform="rotate(-0 10.38125 185.038437)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="87.750568" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="87.750568" y="185.038437" transform="rotate(-0 87.750568 185.038437)">1</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="165.119886" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="165.119886" y="185.038437" transform="rotate(-0 165.119886 185.038437)">2</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="242.489205" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="242.489205" y="185.038437" transform="rotate(-0 242.489205 185.038437)">3</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="319.858523" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="319.858523" y="185.038437" transform="rotate(-0 319.858523 185.038437)">4</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="397.227841" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="397.227841" y="185.038437" transform="rotate(-0 397.227841 185.038437)">5</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="474.597159" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="474.597159" y="185.038437" transform="rotate(-0 474.597159 185.038437)">6</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="551.966477" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.966477" y="185.038437" transform="rotate(-0 551.966477 185.038437)">7</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#ma9c2e245c4" x="629.335795" y="170.44" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="629.335795" y="185.038437" transform="rotate(-0 629.335795 185.038437)">8</text>
+     </g>
+    </g>
+    <g id="text_10">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="350.80625" y="198.716563" transform="rotate(-0 350.80625 198.716563)">Time (ms)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="patch_3">
+    <path d="M 10.38125 170.44 
+L 691.23125 170.44 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="56.802841" y="86.582232" transform="rotate(-0 56.802841 86.582232)">1</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="141.909091" y="86.582232" transform="rotate(-0 141.909091 86.582232)">2</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="227.015341" y="86.582232" transform="rotate(-0 227.015341 86.582232)">3</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="312.121591" y="86.582232" transform="rotate(-0 312.121591 86.582232)">4</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="397.227841" y="86.582232" transform="rotate(-0 397.227841 86.582232)">1</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="482.334091" y="86.582232" transform="rotate(-0 482.334091 86.582232)">2</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="567.440341" y="86.582232" transform="rotate(-0 567.440341 86.582232)">3</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="652.546591" y="86.582232" transform="rotate(-0 652.546591 86.582232)">4</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="14.249716" y="33.851429" transform="rotate(-0 14.249716 33.851429)">Four groups of eight users; numbers identify the group</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 13.501753 134.460571 
+Q 180.594476 134.460571 347.687198 134.460571 
+" style="fill: none; stroke: #000000; stroke-linecap: round"/>
+    <path d="M 17.501753 136.460571 
+L 13.501753 134.460571 
+L 17.501753 132.460571 
+" style="fill: none; stroke: #000000; stroke-linecap: round"/>
+    <path d="M 343.687198 132.460571 
+L 347.687198 134.460571 
+L 343.687198 136.460571 
+" style="fill: none; stroke: #000000; stroke-linecap: round"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="180.59375" y="152.450286" transform="rotate(-0 180.59375 152.450286)">One service frame: 4.4 ms</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pc5d0c7477b">
+   <rect x="10.38125" y="7.2" width="680.85" height="163.24"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 4. Two frames of the example eight-path schedule. Each colored interval serves a group of eight users; gray intervals consume 0.1 ms each. The revisit period is 4.4 ms, and the interval without payload between one user&#x27;s slots is 3.4 ms. These are assumed timing inputs, not measured switching performance.</figcaption></figure><p>A small packet arriving just after its user&#x27;s payload slot closes can wait almost 3.4 ms before the next slot, before transmission and propagation. Packet size, slot admission policy and queued traffic determine its actual delay. The ideal-sharing column leaves slot duration unspecified, so it determines duty and rate but does not determine waiting time.</p></section><section id="page10"><h3>Why more power per active link does not buy free bit energy</h3><p>Write g for the common gain from laser output to the receiver comparison level, including the reserve used in this budget. Ignoring switching overhead:</p><div class="equation">P<sub>r</sub>(M) = gP/M, R<sub>active</sub>(M) = Kr/M.</div><div class="equation">E<sub>bit</sub> = P<sub>r</sub>/R<sub>active</sub> = gP/(Kr).</div><p>The factor M cancels. Eight paths deliver four times the instantaneous receive power at four times the active net rate. Any receiver benefit must come from its actual rate-versus-sensitivity behavior, rather than from power per active beam alone.</p><p>With payload fraction f = 1/1.1 in the example, R<sub>active</sub> = Kr/(Mf), and received energy per delivered bit falls by f if laser output during active transmission remains fixed. The 4 W cap applies during both payload and overhead if the laser stays on. Blanking it during overhead saves average optical energy but does not raise payload-slot power in this comparison.</p><figure role="img" aria-label="Figure 5. Left: the largest required receiver sensitivity that the example budget can support at each active net rate. A real receiver&#x27;s required-power curve must lie below the relevant point. Right: ideal energy per net bit is independent of active-path count; the eight-path timing example reduces it because payload duty is lost."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="697.47544pt" height="262.123469pt" viewBox="0 0 697.47544 262.123469" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:33.612886</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 262.123469 
+L 697.47544 262.123469 
+L 697.47544 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 45.478125 224.567219 
+L 342.441783 224.567219 
+L 342.441783 10.999219 
+L 45.478125 10.999219 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 58.976473 224.567219 
+L 58.976473 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m94ef7a475a" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m94ef7a475a" x="58.976473" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- $\mathdefault{10^{0}}$ -->
+      <g transform="translate(50.176473 239.165656)">
+       <text>
+        <tspan x="0" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">1</tspan>
+        <tspan x="6.362305" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">0</tspan>
+        <tspan x="12.820312" y="-4.804688" style="font-size: 7px; font-family: 'DejaVu Sans'">0</tspan>
+       </text>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 238.33864 224.567219 
+L 238.33864 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="238.33864" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- $\mathdefault{10^{1}}$ -->
+      <g transform="translate(229.53864 239.165656)">
+       <text>
+        <tspan x="0" y="-0.064063" style="font-size: 10px; font-family: 'DejaVu Sans'">1</tspan>
+        <tspan x="6.362305" y="-0.064063" style="font-size: 10px; font-family: 'DejaVu Sans'">0</tspan>
+        <tspan x="12.820312" y="-3.892188" style="font-size: 7px; font-family: 'DejaVu Sans'">1</tspan>
+       </text>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 50.76931 224.567219 
+L 50.76931 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <defs>
+       <path id="mbfb056a3b9" d="M 0 0 
+L 0 2 
+" style="stroke: #000000; stroke-width: 0.6"/>
+      </defs>
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="50.76931" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 112.969865 224.567219 
+L 112.969865 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="112.969865" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 144.553975 224.567219 
+L 144.553975 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="144.553975" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 166.963258 224.567219 
+L 166.963258 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="166.963258" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 184.345248 224.567219 
+L 184.345248 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="184.345248" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_15">
+      <path d="M 198.547367 224.567219 
+L 198.547367 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="198.547367" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_17">
+      <path d="M 210.555089 224.567219 
+L 210.555089 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="210.555089" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_19">
+      <path d="M 220.95665 224.567219 
+L 220.95665 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="220.95665" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_21">
+      <path d="M 230.131477 224.567219 
+L 230.131477 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="230.131477" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_23">
+      <path d="M 292.332032 224.567219 
+L 292.332032 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="292.332032" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_25">
+      <path d="M 323.916142 224.567219 
+L 323.916142 10.999219 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_26">
+      <g>
+       <use xlink:href="#mbfb056a3b9" x="323.916142" y="224.567219" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_3">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="193.959954" y="252.843781" transform="rotate(-0 193.959954 252.843781)">Required active net rate (Gb/s)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_27">
+      <path d="M 45.478125 175.629052 
+L 342.441783 175.629052 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_28">
+      <defs>
+       <path id="mf3e5d00984" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf3e5d00984" x="45.478125" y="175.629052" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- $\mathdefault{10^{2}}$ -->
+      <g transform="translate(20.878125 179.428271)">
+       <text>
+        <tspan x="0" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">1</tspan>
+        <tspan x="6.362305" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">0</tspan>
+        <tspan x="12.820312" y="-4.804688" style="font-size: 7px; font-family: 'DejaVu Sans'">2</tspan>
+       </text>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_29">
+      <path d="M 45.478125 46.636772 
+L 342.441783 46.636772 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_30">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="45.478125" y="46.636772" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- $\mathdefault{10^{3}}$ -->
+      <g transform="translate(20.878125 50.435991)">
+       <text>
+        <tspan x="0" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">1</tspan>
+        <tspan x="6.362305" y="-0.976562" style="font-size: 10px; font-family: 'DejaVu Sans'">0</tspan>
+        <tspan x="12.820312" y="-4.804688" style="font-size: 7px; font-family: 'DejaVu Sans'">3</tspan>
+       </text>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_31">
+      <path d="M 45.478125 214.459597 
+L 342.441783 214.459597 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_32">
+      <defs>
+       <path id="mab835e69e7" d="M 0 0 
+L -2 0 
+" style="stroke: #000000; stroke-width: 0.6"/>
+      </defs>
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="214.459597" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_33">
+      <path d="M 45.478125 204.245828 
+L 342.441783 204.245828 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_34">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="204.245828" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_35">
+      <path d="M 45.478125 195.610209 
+L 342.441783 195.610209 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_36">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="195.610209" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_37">
+      <path d="M 45.478125 188.129695 
+L 342.441783 188.129695 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_38">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="188.129695" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_39">
+      <path d="M 45.478125 181.531415 
+L 342.441783 181.531415 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_40">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="181.531415" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_41">
+      <path d="M 45.478125 136.798507 
+L 342.441783 136.798507 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_42">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="136.798507" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_43">
+      <path d="M 45.478125 114.084094 
+L 342.441783 114.084094 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_44">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="114.084094" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_45">
+      <path d="M 45.478125 97.967961 
+L 342.441783 97.967961 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_46">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="97.967961" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_47">
+      <path d="M 45.478125 85.467318 
+L 342.441783 85.467318 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_48">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="85.467318" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_49">
+      <path d="M 45.478125 75.253548 
+L 342.441783 75.253548 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_50">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="75.253548" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_51">
+      <path d="M 45.478125 66.617929 
+L 342.441783 66.617929 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_52">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="66.617929" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_14">
+     <g id="line2d_53">
+      <path d="M 45.478125 59.137416 
+L 342.441783 59.137416 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_54">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="59.137416" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_15">
+     <g id="line2d_55">
+      <path d="M 45.478125 52.539135 
+L 342.441783 52.539135 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_56">
+      <g>
+       <use xlink:href="#mab835e69e7" x="45.478125" y="52.539135" style="stroke: #000000; stroke-width: 0.6"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="14.798438" y="117.783219" transform="rotate(-90 14.798438 117.783219)">Available receive power (nW)</text>
+    </g>
+   </g>
+   <g id="line2d_57">
+    <path d="M 328.943435 20.706855 
+L 274.950042 59.537401 
+L 220.95665 98.367946 
+L 166.963258 137.198491 
+L 112.969865 176.029037 
+L 58.976473 214.859582 
+" clip-path="url(#pf244ed45c9)" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m2e785bb0a1" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #1768a5"/>
+    </defs>
+    <g clip-path="url(#pf244ed45c9)">
+     <use xlink:href="#m2e785bb0a1" x="328.943435" y="20.706855" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="274.950042" y="59.537401" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="220.95665" y="98.367946" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="166.963258" y="137.198491" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="112.969865" y="176.029037" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="58.976473" y="214.859582" style="fill: #1768a5; stroke: #1768a5"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 45.478125 224.567219 
+L 45.478125 10.999219 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 45.478125 224.567219 
+L 342.441783 224.567219 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="73.178593" y="199.761785" transform="rotate(-0 73.178593 199.761785)">32 paths</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="179.525401" y="124.297863" transform="rotate(-0 179.525401 124.297863)">8 paths</text>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m8a04b8be73" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #d8762d"/>
+    </defs>
+    <g clip-path="url(#pf244ed45c9)">
+     <use xlink:href="#m8a04b8be73" x="174.387539" y="137.198491" style="fill: #d8762d; stroke: #d8762d"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_5">
+     <path d="M 51.078125 40.884219 
+L 205.974375 40.884219 
+Q 207.574375 40.884219 207.574375 39.284219 
+L 207.574375 16.599219 
+Q 207.574375 14.999219 205.974375 14.999219 
+L 51.078125 14.999219 
+Q 49.478125 14.999219 49.478125 16.599219 
+L 49.478125 39.284219 
+Q 49.478125 40.884219 51.078125 40.884219 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_58">
+     <path d="M 52.678125 21.477969 
+L 60.678125 21.477969 
+L 68.678125 21.477969 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m2e785bb0a1" x="60.678125" y="21.477969" style="fill: #1768a5; stroke: #1768a5"/>
+     </g>
+    </g>
+    <g id="text_9">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="75.078125" y="24.277969" transform="rotate(-0 75.078125 24.277969)">Sensitivity ceiling (no overhead)</text>
+    </g>
+    <g id="PathCollection_2">
+     <g>
+      <use xlink:href="#m8a04b8be73" x="60.678125" y="33.920469" style="fill: #d8762d; stroke: #d8762d"/>
+     </g>
+    </g>
+    <g id="text_10">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="75.078125" y="36.020469" transform="rotate(-0 75.078125 36.020469)">8 paths; 9.1% overhead</text>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 393.311783 224.567219 
+L 690.27544 224.567219 
+L 690.27544 10.999219 
+L 393.311783 10.999219 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p643cc49cc9)">
+     <use xlink:href="#m8a04b8be73" x="467.770412" y="131.748717" style="fill: #d8762d; stroke: #d8762d"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_14">
+     <g id="line2d_59">
+      <path d="M 398.101519 224.567219 
+L 398.101519 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_60">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="398.101519" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="398.101519" y="239.165656" transform="rotate(-0 398.101519 239.165656)">0</text>
+     </g>
+    </g>
+    <g id="xtick_15">
+     <g id="line2d_61">
+      <path d="M 441.644577 224.567219 
+L 441.644577 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_62">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="441.644577" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="441.644577" y="239.165656" transform="rotate(-0 441.644577 239.165656)">5</text>
+     </g>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_63">
+      <path d="M 485.187636 224.567219 
+L 485.187636 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_64">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="485.187636" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="485.187636" y="239.165656" transform="rotate(-0 485.187636 239.165656)">10</text>
+     </g>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_65">
+      <path d="M 528.730694 224.567219 
+L 528.730694 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_66">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="528.730694" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="528.730694" y="239.165656" transform="rotate(-0 528.730694 239.165656)">15</text>
+     </g>
+    </g>
+    <g id="xtick_18">
+     <g id="line2d_67">
+      <path d="M 572.273752 224.567219 
+L 572.273752 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_68">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="572.273752" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="572.273752" y="239.165656" transform="rotate(-0 572.273752 239.165656)">20</text>
+     </g>
+    </g>
+    <g id="xtick_19">
+     <g id="line2d_69">
+      <path d="M 615.816811 224.567219 
+L 615.816811 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_70">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="615.816811" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_16">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="615.816811" y="239.165656" transform="rotate(-0 615.816811 239.165656)">25</text>
+     </g>
+    </g>
+    <g id="xtick_20">
+     <g id="line2d_71">
+      <path d="M 659.359869 224.567219 
+L 659.359869 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_72">
+      <g>
+       <use xlink:href="#m94ef7a475a" x="659.359869" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_17">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="659.359869" y="239.165656" transform="rotate(-0 659.359869 239.165656)">30</text>
+     </g>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="541.793611" y="252.843781" transform="rotate(-0 541.793611 252.843781)">Number of active paths</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_16">
+     <g id="line2d_73">
+      <path d="M 393.311783 224.567219 
+L 690.27544 224.567219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_74">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="224.567219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_19">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="228.366437" transform="rotate(-0 386.311783 228.366437)">300</text>
+     </g>
+    </g>
+    <g id="ytick_17">
+     <g id="line2d_75">
+      <path d="M 393.311783 188.972552 
+L 690.27544 188.972552 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_76">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="188.972552" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_20">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="192.771771" transform="rotate(-0 386.311783 192.771771)">320</text>
+     </g>
+    </g>
+    <g id="ytick_18">
+     <g id="line2d_77">
+      <path d="M 393.311783 153.377885 
+L 690.27544 153.377885 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_78">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="153.377885" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_21">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="157.177104" transform="rotate(-0 386.311783 157.177104)">340</text>
+     </g>
+    </g>
+    <g id="ytick_19">
+     <g id="line2d_79">
+      <path d="M 393.311783 117.783219 
+L 690.27544 117.783219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_80">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="117.783219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_22">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="121.582437" transform="rotate(-0 386.311783 121.582437)">360</text>
+     </g>
+    </g>
+    <g id="ytick_20">
+     <g id="line2d_81">
+      <path d="M 393.311783 82.188552 
+L 690.27544 82.188552 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_82">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="82.188552" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_23">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="85.987771" transform="rotate(-0 386.311783 85.987771)">380</text>
+     </g>
+    </g>
+    <g id="ytick_21">
+     <g id="line2d_83">
+      <path d="M 393.311783 46.593885 
+L 690.27544 46.593885 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_84">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="46.593885" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_24">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="50.393104" transform="rotate(-0 386.311783 50.393104)">400</text>
+     </g>
+    </g>
+    <g id="ytick_22">
+     <g id="line2d_85">
+      <path d="M 393.311783 10.999219 
+L 690.27544 10.999219 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_86">
+      <g>
+       <use xlink:href="#mf3e5d00984" x="393.311783" y="10.999219" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_25">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="386.311783" y="14.798438" transform="rotate(-0 386.311783 14.798438)">420</text>
+     </g>
+    </g>
+    <g id="text_26">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="361.144595" y="117.783219" transform="rotate(-90 361.144595 117.783219)">Arriving photons per net bit</text>
+    </g>
+   </g>
+   <g id="line2d_87">
+    <path d="M 406.810131 69.074866 
+L 415.518742 69.074866 
+L 432.935966 69.074866 
+L 467.770412 69.074866 
+L 537.439306 69.074866 
+L 676.777092 69.074866 
+" clip-path="url(#p643cc49cc9)" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+    <g clip-path="url(#p643cc49cc9)">
+     <use xlink:href="#m2e785bb0a1" x="406.810131" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="415.518742" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="432.935966" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="467.770412" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="537.439306" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+     <use xlink:href="#m2e785bb0a1" x="676.777092" y="69.074866" style="fill: #1768a5; stroke: #1768a5"/>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 393.311783 224.567219 
+L 393.311783 10.999219 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 393.311783 224.567219 
+L 690.27544 224.567219 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="legend_2">
+    <g id="patch_9">
+     <path d="M 563.30919 40.884219 
+L 684.67544 40.884219 
+Q 686.27544 40.884219 686.27544 39.284219 
+L 686.27544 16.599219 
+Q 686.27544 14.999219 684.67544 14.999219 
+L 563.30919 14.999219 
+Q 561.70919 14.999219 561.70919 16.599219 
+L 561.70919 39.284219 
+Q 561.70919 40.884219 563.30919 40.884219 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_88">
+     <path d="M 564.90919 21.477969 
+L 572.90919 21.477969 
+L 580.90919 21.477969 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m2e785bb0a1" x="572.90919" y="21.477969" style="fill: #1768a5; stroke: #1768a5"/>
+     </g>
+    </g>
+    <g id="text_27">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="587.30919" y="24.277969" transform="rotate(-0 587.30919 24.277969)">No overhead</text>
+    </g>
+    <g id="PathCollection_4">
+     <g>
+      <use xlink:href="#m8a04b8be73" x="572.90919" y="33.920469" style="fill: #d8762d; stroke: #d8762d"/>
+     </g>
+    </g>
+    <g id="text_28">
+     <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="587.30919" y="36.020469" transform="rotate(-0 587.30919 36.020469)">8 paths; 9.1% overhead</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf244ed45c9">
+   <rect x="45.478125" y="10.999219" width="296.963658" height="213.568"/>
+  </clipPath>
+  <clipPath id="p643cc49cc9">
+   <rect x="393.311783" y="10.999219" width="296.963658" height="213.568"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 5. Left: the largest required receiver sensitivity that the example budget can support at each active net rate. A real receiver&#x27;s required-power curve must lie below the relevant point. Right: ideal energy per net bit is independent of active-path count; the eight-path timing example reduces it because payload duty is lost.</figcaption></figure><p>For 32-way concurrency, the receiver must support 1 Gb/s at a required input power of at most 49.6 nW under the intended error and background conditions. The eight-path schedule requires at most 198.6 nW at 4.4 Gb/s. These are <b>sensitivity requirements</b>, not measured receiver specifications. They give a concrete next measurement without inventing a device curve.</p><h3>Why the receiver curve can change the answer</h3><p>In the coherent Gaussian reference R = B log₂(1 + γ), increasing rate at fixed B requires an exponential increase in SNR. Increasing B instead changes receiver bandwidth, noise and processing. At a constant spectral efficiency with noise power proportional to B, required power can approximately scale with rate. Modulation, coding, peak limits and implementation penalties decide which regime applies. Thus equal received energy per bit does not guarantee equal packet error performance.</p></section><section id="page11"><h3>Separate users in space first, then allocate time or wavelength</h3><p>If angular separation and beam patterns provide adequate isolation, spatial-division multiple access (SDMA) lets different users reuse wavelength and modulation bandwidth. If beams overlap enough to matter, wavelength-division multiple access (WDMA) can isolate a crowded group, at the cost of extra sources, filtering and routing. Time-division multiple access (TDMA) reduces concurrent path count when the service contract permits waiting.</p><div class="table-wrap"><table><thead><tr><th>Observed conflict</th><th>First comparison to make</th><th>What to measure</th></tr></thead><tbody><tr><td>Well-separated users, continuous demand</td><td>Concurrent spatial beams</td><td>Leakage under pointing errors; per-user power</td></tr><tr><td>Few data paths, delay-tolerant demand</td><td>Time sharing</td><td>Active-rate sensitivity; switching and revisit time</td></tr><tr><td>Angular crowding</td><td>Wavelength separation or time sharing</td><td>Filter isolation, extra loss, bandwidth and delay</td></tr><tr><td>One user&#x27;s deep fades</td><td>Diversity or extra margin</td><td>Correlation, recovered energy and outage</td></tr></tbody></table></div><p>A wider beam can tolerate pointing error but increase leakage. Better prediction can permit narrower beams and wavelength reuse. These interactions explain why grouping, pointing control and access allocation should use the same uncertainty model. FDMA, optical code separation and power-domain NOMA are additional options when their particular receiver costs are justified; Technical note C explains their roles.</p><h3>Check service continuity for the whole group</h3><p>Suppose each user&#x27;s service is independently available with probability 0.99 during a declared interval. Then all 32 are available with probability 0.99³² ≈ <b>0.725</b>. An all-user outage target of 1% can instead be guaranteed by allocating each user at most 0.01/32 ≈ <b>3.1 × 10⁻⁴</b> outage through the union bound. This sufficient allocation does not require independence, but can be conservative.</p><p>Define whether availability is conditional on visibility, clear sky and acquisition. The 12 dB illustrative reserve alone cannot establish the target. Correlated weather and common motion should be simulated jointly. Local aperture diversity can help coupling or scintillation, while geographic diversity, buffering or RF fallback may address broader outages.</p><p>Propagation adds approximately <b>3.34 ms one way</b> over 1000 km to both optical and RF links. In the scheduled example, waiting for a slot adds to that delay, together with serialization, coding, queues and possible reacquisition. Average rate is therefore only one part of the service contract.</p><p><b>The comparison now has three tests:</b> sensitivity at the active rate, enough control speed to sustain duty, and acceptable per-user and joint service continuity. Experiments can tell us how credible the assumed optical and control functions are.</p></section><section id="page12"><h2>5 · What the experiments establish</h2><p>The relevant studies address four different bottlenecks. Each example below contributes one capability to the same terminal. The experimental conditions stay attached to that capability, so the reader can see where transfer to our downlink requires an additional measurement.</p><h3>Bottleneck 1 · Keep useful observations during fading</h3><p>A distorted field can couple poorly into a single receiving mode even when the telescope still collects energy. One response is to collect additional modes or apertures and combine their observations of the same payload. The receiver then needs to align delays and phases while keeping the processing affordable.</p><p>Ju and colleagues demonstrated two-aperture coherent reception with a real-time adaptive equalizer [<a href="#ref4">4</a>]. For this tutorial, the useful result is that collected branches can be digitally combined in an operating receiver. Wang and colleagues studied a photonic-lantern alternative: a multimode input is mapped to several single-mode outputs, and the resulting observations are combined [<a href="#ref9">9</a>]. This moves the engineering question from “how many branches?” to “how much additional useful signal survives, at what correlation and processing cost?”</p><p><b>Use in our terminal:</b> evaluate diversity on a vulnerable user at fixed total receiving area. Measure the outage reduction and compare it with spending the same resources on extra optical power. Keep branch count separate from payload count.</p><h3>Bottleneck 2 · Separate messages mixed on one path</h3><p>Modal multiplexing sends different messages on different field patterns. Turbulence can mix them, so the receiver must estimate and undo the mixing in the collected subspace.</p><p>Zhou and colleagues demonstrated four mode-division-multiplexed QPSK channels with a co-propagating pilot and self-coherent processing [<a href="#ref5">5</a>]. The pilot supplies information that helps separate the streams. That information has an optical-resource cost. The experiment illustrates the connection between a measurement design and a demultiplexing algorithm.</p><p>Belmonte and Kahn formulate mode selection using propagation statistics in a near-field setting [<a href="#ref3">3</a>]. This supports designing a basis for the physical channel rather than treating a named family of modes as automatically suitable.</p><p><b>Use in our terminal:</b> first calculate the singular spectrum for the intended range and apertures. The weak single-pair coupling in our 1000 km example makes the number of sufficiently strong collected channels a decisive question. Modal-processing performance alone does not settle it.</p></section><section id="page13"><h3>Bottleneck 3 · Send independent information to distinct destinations</h3><p>This is the hardware capability most directly connected to the 32-user case. Ren and colleagues report an 8 × 8 vector optical phased-array prototype, using four beams for a 100 km multipoint communication demonstration [<a href="#ref6">6</a>]. The public abstract reports a maximum 40 Gb/s communication capacity with OOK and no FEC. It does not resolve the per-beam versus aggregate accounting sufficiently for our per-user budget, so the evidence used here is the demonstrated four-beam long-range operation.</p><p>A complementary route is integrated acousto-optic steering. Lin and colleagues demonstrate independent communication using four 2 Mb/s streams at 780 nm [<a href="#ref7">7</a>]. Microwave control signals address the beams and encode their data. This is useful evidence for independent beam control and modulation in an integrated device; a link at a different wavelength and power level still needs a new budget.</p><p>The two devices should be compared at common measurement planes. Ren&#x27;s reported subarray combining efficiency and Lin&#x27;s waveguide-referenced steering efficiency describe different operations. End-to-end laser-output-to-user efficiency is the quantity needed to replace our assumed 3 dB steering loss.</p><p><b>Use in our terminal:</b> retain independent payload paths through the shared optics, measure the effective aperture of every beam, and characterize loss over scan angle and concurrent beam count. These determine whether the 49.6 nW budget survives scaling.</p><h3>Bottleneck 4 · Know where the users are when a path revisits</h3><p>A switching terminal benefits if it can keep tracking users while they are not receiving payload. ESA&#x27;s completed MUATS concept study addresses shared acquisition and tracking assistance, with a design for up to 20 counterpart terminals and 200 Hz angular-position updates [<a href="#ref8">8</a>]. Its breadboard uses representative simulated targets. This is evidence for a shared sensing architecture; payload throughput is a separate requirement.</p><p>For our eight-path schedule, the key quantity is the residual error when each beam arrives at its next user. Sensor updates, target identity, prediction and actuator settling jointly determine that error. A 200 Hz sensor provides an update every 5 ms; its update rate alone cannot validate the example&#x27;s assumed 0.1 ms switching overhead.</p><p><b>Use in our terminal:</b> track every user&#x27;s state continuously, including during inactive slots, then measure full sensor-to-payload settling and reacquisition. That measurement decides whether the 4.4 ms frame is feasible.</p><p>These four examples give a division of work: diversity preserves useful observations, modal processing separates streams, multi-beam hardware addresses users, and shared tracking maintains continuity. Their combination must now pass one common service and resource comparison.</p></section><section id="page14"><h2>6 · Choose an architecture by its measured thresholds</h2><p>For separated users requiring strict concurrency, the first candidate is <b>shared coarse optics with 32 independently modulated payload paths and suitable per-user fine control</b>. For frame-average traffic, the eight-path candidate deserves an equal-resource comparison. Aperture partitioning is a separate axis that must be evaluated for either shared or replicated hardware.</p><div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Numerical requirement in this example</th><th>Condition that decides its value</th></tr></thead><tbody><tr><td>32 full-aperture paths</td><td>Receiver supports 1 Gb/s at ≤49.6 nW</td><td>Full pupil use and independent payloads survive routing loss; 32 electronic paths fit power and thermal limits</td></tr><tr><td>8 full-aperture paths, example schedule</td><td>Receiver supports 4.4 Gb/s at ≤198.6 nW</td><td>0.1 ms total overhead is realized; 3.4 ms payload gap is acceptable; eight faster paths reduce actual hardware cost</td></tr><tr><td>32 equal-area subaperture paths</td><td>Receiver supports 1 Gb/s at approximately ≤1.55 nW</td><td>Geometric loss is offset by another measured benefit within the same total resources</td></tr></tbody></table></div><p>These thresholds include the same provisional 12 dB fluctuation reserve. Actual outage needs its own calibration. Different architecture efficiencies change the threshold values directly.</p><h3>Charge electronic power where it is consumed</h3><p>A useful satellite-side bookkeeping model is:</p><div class="equation">P<sub>DC</sub> = P<sub>laser</sub>/η<sub>wall</sub> + M p<sub>chain</sub>(R<sub>active</sub>) + P<sub>control</sub> + P<sub>shared</sub>.</div><p>P<sub>laser</sub> is time-average optical output at the laser plane; η<sub>wall</sub> is electrical-to-optical efficiency. The measured p<sub>chain</sub> includes the modulator/driver and non-shared per-path processing at the stated rate. P<sub>control</sub> covers acquisition, sensing and steering; P<sub>shared</sub> covers remaining common electronics. Assign each physical component once. User-terminal power is added if the objective is total-system energy.</p><p>The relevant chain comparison is <b>8 p<sub>chain</sub>(4.4 Gb/s) versus 32 p<sub>chain</sub>(1 Gb/s)</b>. It is not automatically a fourfold saving. Shared tracking may save hardware while faster drivers, switching and cooling consume part of that saving.</p><p>If a measured 3 dB routing loss can be removed, the receive budget improves by 3 dB without doubling laser power. If common jitter dominates, reducing residual uncertainty may be more effective than adding receivers. The next measurement should target the term that changes the architecture choice most.</p></section><section id="page15"><h3>Close the evaluation loop with delivered service</h3><p>Use the same user trajectories, offered traffic and atmospheric realizations for each candidate. Give every architecture its own optical transfer, observation noise, control delay and power model. A controller observes noisy data, predicts the current state, selects beams and powers, and produces decoded packets. Those packets update the queues and service metrics.</p><p>Perfect future channel knowledge would remove exactly the prediction and switching costs that matter here. Instead, record what each decision knew and when it became available. Begin with equal power and round-robin scheduling, then add prediction, adaptive grouping and queue-aware allocation to identify where any improvement comes from.</p><div class="table-wrap"><table><thead><tr><th>Measurement</th><th>What it closes in the example</th></tr></thead><tbody><tr><td>Efficiency and beam pattern versus scan angle and beam count</td><td>Replaces the assumed full-aperture mapping and routing loss</td></tr><tr><td>Sensitivity versus active net rate, background and error target</td><td>Tests the 49.6 nW and 198.6 nW requirements</td></tr><tr><td>Residual angular-error distribution and full loop delay</td><td>Sets usable divergence and pointing contribution to outage</td></tr><tr><td>Settling, identity retention and reacquisition time</td><td>Tests the 0.1 ms overhead and the resulting active-rate requirement</td></tr><tr><td>Per-path and shared electrical power</td><td>Resolves the hardware saving after faster electronics are counted</td></tr><tr><td>Matched-trajectory service trials</td><td>Establishes per-user rate, delay tails, joint outage and energy per delivered bit</td></tr></tbody></table></div><h3>Return to the original question</h3><p>A 32-user terminal needs enough <b>independent optical delivery</b>, not simply a modem whose aggregate rate exceeds 32 Gb/s. In the reference budget, 32 full-aperture beams leave 49.6 nW per receiver after the chosen reserve. Dividing the aperture as well reduces that to about 1.55 nW under the stated illumination model.</p><p>Eight paths raise active-link power to 198.6 nW, but also require a higher active rate: 4 Gb/s ideally or 4.4 Gb/s in the timing example. They preserve ideal received bit energy and trade concurrent electronics for faster paths and waiting. Strict concurrency selects the 32-path service pattern; delay-tolerant traffic permits a measured comparison with eight paths.</p><p>The decisive next result is therefore a <b>joint measurement of aperture use, end-to-end efficiency, active-rate sensitivity and switching performance</b>. With those quantities, the designer can predict which combinations of user rate, delay and availability the terminal can actually support. That is the practical meaning of a scalable multiuser architecture.</p><p><b>End of the main tutorial.</b> The following notes provide derivations, alternative observation models, access-method notes and a research outlook for readers who want to go further.</p></section><details class="note" id="note16"><summary>Technical note A · Observation models and receiver constraints</summary><section id="page16"><h2>Technical note A · Observation models and receiver constraints</h2><h3>Intensity observations</h3><p>An additive-power IM/DD model is y = Gp + n, with nonnegative input vector p. Mean optical power constrains E[Σpⱼ]; individual peak-power limits constrain each pⱼ. The gain matrix G maps transmitted powers to measured outputs under the specified detector and noise approximation [<a href="#ref11">11</a>, <a href="#ref12">12</a>].</p><p>This sum-of-powers description requires an appropriate incoherence, filtering or averaging argument. If fields overlap coherently at a detector, the incident intensity is proportional to |ΣhⱼEⱼ|². Expanding that square generates cross terms. A linear propagation operator on fields and a linear observation operator on powers are therefore different assumptions.</p><p>For counts collected over interval Δt, an idealized model is:</p><div class="equation">N<sub>i</sub> | p ∼ Poisson{Δt [η<sub>q</sub> Σ<sub>j</sub>G<sub>ij</sub>p<sub>j</sub>/(hν) + b<sub>i</sub>]}.</div><p>Here G maps optical power into the detector input, η<sub>q</sub> is quantum efficiency, hν is photon energy, and b<sub>i</sub> is background-plus-dark count rate. Conditional independence between count channels is a separate assumption. Dead time, saturation and afterpulsing require extensions when relevant. The mean and variance both depend on intensity, so a constant-variance Gaussian approximation can be poor at low counts.</p><h3>Achievable rate and cooperative references</h3><p>For independent coherent Gaussian streams, treating interference as Gaussian noise gives the familiar reference R<sub>k</sub> = B<sub>k</sub> log₂(1 + γ<sub>k</sub>). Its SINR must include actual leakage, powers and receiver noise. Non-Gaussian residuals, finite constellations and mismatched decoding may instead require mutual information, generalized mutual information, or direct coded-link evaluation.</p><p>If all receivers could pool their observations, a Gaussian covariance reference would be:</p><div class="equation">C<sub>joint</sub> = B max<sub>Q</sub> log₂ det(I + N⁻¹ᐟ²HQHᴴN⁻¹ᐟ²).</div><p>Q is an admissible input covariance and N the positive-definite noise covariance. The constraint set must respect available power and hardware. Separate downlink users normally cannot pool raw observations, so this cooperative reference can bound a model without describing the actual terminal&#x27;s achievable sum rate. Intensity and peak constraints need their own treatment.</p><h3>Two further limits, for different questions</h3><p>For an ideal pure-loss bosonic channel, a single mode with transmissivity τ and mean input photon number n̄ has capacity g(τn̄), where g(x) = (x + 1)log₂(x + 1) − x log₂x [<a href="#ref14">14</a>]. This is a physical information bound with optimal measurement. A terminal rate also needs the number of usable modes per second.</p><p>Finite-blocklength theory connects block size, coding rate and error probability [<a href="#ref15">15</a>]. It becomes relevant when the service contract limits coding delay. It complements propagation, switching and queueing calculations rather than determining them.</p></section></details><details class="note" id="note17"><summary>Technical note B · What the simplified rate comparison measures</summary><section id="page17"><h2>Technical note B · What the simplified rate comparison measures</h2><p>Suppose K independent coherent Gaussian links each have bandwidth B, with fixed noise power and no interference. Let ρ be the SNR of one full-aperture link using all the optical power. The receive-power scalings in Section 3 give:</p><div class="equation">R<sub>full</sub>/B = K log₂(1 + ρ/K),</div><div class="equation">R<sub>split</sub>/B = K log₂(1 + ρ/K²).</div><p>Ideal TDMA uses the full power and aperture for one user at a time. Ignoring switching, its aggregate rate is B log₂(1 + ρ). Parallel operation reuses B spatially but employs K full-bandwidth data paths. Thus the figure compares optical sharing effects, with electrical hardware still to be charged.</p><figure role="img" aria-label="Figure 6. Calculated sum-rate illustration with ρ = 100 (20 dB). The vertical line marks 32 beams. Full-aperture sharing and aperture partitioning have very different trends, even though both divide total optical power. Each concurrent beam retains bandwidth B; electronics and device losses are excluded."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="698.033125pt" height="229.59625pt" viewBox="0 0 698.033125 229.59625" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-03T14:28:33.857339</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 229.59625 
+L 698.033125 229.59625 
+L 698.033125 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 40.603125 192.04 
+L 690.833125 192.04 
+L 690.833125 7.2 
+L 40.603125 7.2 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 60.776206 192.04 
+L 60.776206 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m2cec492430" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m2cec492430" x="60.776206" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="60.776206" y="206.638438" transform="rotate(-0 60.776206 206.638438)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 154.604489 192.04 
+L 154.604489 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m2cec492430" x="154.604489" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="154.604489" y="206.638438" transform="rotate(-0 154.604489 206.638438)">10</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 248.432771 192.04 
+L 248.432771 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m2cec492430" x="248.432771" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="248.432771" y="206.638438" transform="rotate(-0 248.432771 206.638438)">20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 342.261054 192.04 
+L 342.261054 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m2cec492430" x="342.261054" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="342.261054" y="206.638438" transform="rotate(-0 342.261054 206.638438)">30</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 436.089337 192.04 
+L 436.089337 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m2cec492430" x="436.089337" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="436.089337" y="206.638438" transform="rotate(-0 436.089337 206.638438)">40</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 529.91762 192.04 
+L 529.91762 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m2cec492430" x="529.91762" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="529.91762" y="206.638438" transform="rotate(-0 529.91762 206.638438)">50</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 623.745903 192.04 
+L 623.745903 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m2cec492430" x="623.745903" y="192.04" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="623.745903" y="206.638438" transform="rotate(-0 623.745903 206.638438)">60</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="365.718125" y="220.316563" transform="rotate(-0 365.718125 220.316563)">Concurrent beams K</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_15">
+      <path d="M 40.603125 188.058879 
+L 690.833125 188.058879 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <defs>
+       <path id="m8b98bf402b" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m8b98bf402b" x="40.603125" y="188.058879" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="33.603125" y="191.858098" transform="rotate(-0 33.603125 191.858098)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_17">
+      <path d="M 40.603125 148.36034 
+L 690.833125 148.36034 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m8b98bf402b" x="40.603125" y="148.36034" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="33.603125" y="152.159559" transform="rotate(-0 33.603125 152.159559)">20</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_19">
+      <path d="M 40.603125 108.661801 
+L 690.833125 108.661801 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m8b98bf402b" x="40.603125" y="108.661801" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="33.603125" y="112.461019" transform="rotate(-0 33.603125 112.461019)">40</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_21">
+      <path d="M 40.603125 68.963261 
+L 690.833125 68.963261 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m8b98bf402b" x="40.603125" y="68.963261" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="33.603125" y="72.76248" transform="rotate(-0 33.603125 72.76248)">60</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_23">
+      <path d="M 40.603125 29.264722 
+L 690.833125 29.264722 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.15; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#m8b98bf402b" x="40.603125" y="29.264722" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="33.603125" y="33.063941" transform="rotate(-0 33.603125 33.063941)">80</text>
+     </g>
+    </g>
+    <g id="text_14">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17364d" x="14.798438" y="99.62" transform="rotate(-90 14.798438 99.62)">Illustrative sum rate / B</text>
+    </g>
+   </g>
+   <g id="line2d_25">
+    <path d="M 70.159034 174.842816 
+L 79.541862 165.540179 
+L 88.924691 157.680338 
+L 98.307519 150.738761 
+L 107.690347 144.466733 
+L 117.073176 138.718066 
+L 126.456004 133.396404 
+L 135.838832 128.43346 
+L 145.22166 123.778342 
+L 154.604489 119.391688 
+L 163.987317 115.242178 
+L 173.370145 111.304316 
+L 182.752973 107.55697 
+L 192.135802 103.982353 
+L 201.51863 100.5653 
+L 210.901458 97.292743 
+L 220.284287 94.153311 
+L 229.667115 91.13703 
+L 239.049943 88.235087 
+L 248.432771 85.439644 
+L 257.8156 82.743692 
+L 267.198428 80.140929 
+L 276.581256 77.625664 
+L 285.964085 75.192734 
+L 295.346913 72.837437 
+L 304.729741 70.55548 
+L 314.112569 68.342924 
+L 323.495398 66.19615 
+L 332.878226 64.111819 
+L 342.261054 62.086846 
+L 351.643883 60.118372 
+L 361.026711 58.203743 
+L 370.409539 56.340487 
+L 379.792367 54.5263 
+L 389.175196 52.759032 
+L 398.558024 51.036667 
+L 407.940852 49.357319 
+L 417.323681 47.719216 
+L 426.706509 46.120692 
+L 436.089337 44.560179 
+L 445.472165 43.036198 
+L 454.854994 41.547356 
+L 464.237822 40.092334 
+L 473.62065 38.669884 
+L 483.003479 37.278826 
+L 492.386307 35.918039 
+L 501.769135 34.586462 
+L 511.151963 33.283085 
+L 520.534792 32.006948 
+L 529.91762 30.757139 
+L 539.300448 29.532788 
+L 548.683277 28.333066 
+L 558.066105 27.157183 
+L 567.448933 26.004384 
+L 576.831761 24.873948 
+L 586.21459 23.765187 
+L 595.597418 22.677441 
+L 604.980246 21.610078 
+L 614.363074 20.562496 
+L 623.745903 19.534114 
+L 633.128731 18.524378 
+L 642.511559 17.532754 
+L 651.894388 16.558731 
+L 661.277216 15.601818 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 70.159034 174.842816 
+L 79.541862 169.39882 
+L 88.924691 166.632033 
+L 98.307519 165.367345 
+L 107.690347 165.014591 
+L 117.073176 165.221844 
+L 126.456004 165.765746 
+L 135.838832 166.501747 
+L 145.22166 167.336315 
+L 154.604489 168.20961 
+L 163.987317 169.084104 
+L 173.370145 169.936996 
+L 182.752973 170.755124 
+L 192.135802 171.531565 
+L 201.51863 172.263385 
+L 210.901458 172.950142 
+L 220.284287 173.592908 
+L 229.667115 174.193632 
+L 239.049943 174.754727 
+L 248.432771 175.278804 
+L 257.8156 175.768512 
+L 267.198428 176.226434 
+L 276.581256 176.655032 
+L 285.964085 177.056615 
+L 295.346913 177.433327 
+L 304.729741 177.787143 
+L 314.112569 178.119876 
+L 323.495398 178.433182 
+L 332.878226 178.728574 
+L 342.261054 179.007428 
+L 351.643883 179.271 
+L 361.026711 179.520434 
+L 370.409539 179.756769 
+L 379.792367 179.980957 
+L 389.175196 180.193862 
+L 398.558024 180.396275 
+L 407.940852 180.58892 
+L 417.323681 180.772458 
+L 426.706509 180.947494 
+L 436.089337 181.114585 
+L 445.472165 181.274241 
+L 454.854994 181.426932 
+L 464.237822 181.573088 
+L 473.62065 181.71311 
+L 483.003479 181.847364 
+L 492.386307 181.97619 
+L 501.769135 182.099903 
+L 511.151963 182.218794 
+L 520.534792 182.333133 
+L 529.91762 182.443171 
+L 539.300448 182.54914 
+L 548.683277 182.651259 
+L 558.066105 182.749728 
+L 567.448933 182.844738 
+L 576.831761 182.936462 
+L 586.21459 183.025067 
+L 595.597418 183.110706 
+L 604.980246 183.193524 
+L 614.363074 183.273654 
+L 623.745903 183.351224 
+L 633.128731 183.426354 
+L 642.511559 183.499154 
+L 651.894388 183.56973 
+L 661.277216 183.638182 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #d8762d; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_27">
+    <path d="M 40.603125 174.842816 
+L 690.833125 174.842816 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke: #00877c; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_28">
+    <path d="M 361.026711 192.04 
+L 361.026711 7.2 
+" clip-path="url(#p957b8d8854)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #17364d"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 40.603125 192.04 
+L 40.603125 7.2 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 40.603125 192.04 
+L 690.833125 192.04 
+" style="fill: none; stroke: #a8bac5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="370.409539" y="49.113992" transform="rotate(-0 370.409539 49.113992)">K = 32</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_5">
+     <path d="M 47.603125 59.234375 
+L 241.046875 59.234375 
+Q 243.046875 59.234375 243.046875 57.234375 
+L 243.046875 14.2 
+Q 243.046875 12.2 241.046875 12.2 
+L 47.603125 12.2 
+Q 45.603125 12.2 45.603125 14.2 
+L 45.603125 57.234375 
+Q 45.603125 59.234375 47.603125 59.234375 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_29">
+     <path d="M 49.603125 20.298438 
+L 59.603125 20.298438 
+L 69.603125 20.298438 
+" style="fill: none; stroke: #1768a5; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="77.603125" y="23.798438" transform="rotate(-0 77.603125 23.798438)">Full effective aperture per beam</text>
+    </g>
+    <g id="line2d_30">
+     <path d="M 49.603125 34.976563 
+L 59.603125 34.976563 
+L 69.603125 34.976563 
+" style="fill: none; stroke: #d8762d; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_17">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="77.603125" y="38.476563" transform="rotate(-0 77.603125 38.476563)">Partitioned total aperture</text>
+    </g>
+    <g id="line2d_31">
+     <path d="M 49.603125 49.654688 
+L 59.603125 49.654688 
+L 69.603125 49.654688 
+" style="fill: none; stroke: #00877c; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17364d" x="77.603125" y="53.154688" transform="rotate(-0 77.603125 53.154688)">Ideal TDMA</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p957b8d8854">
+   <rect x="40.603125" y="7.2" width="650.23" height="184.84"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Figure 6. Calculated sum-rate illustration with ρ = 100 (20 dB). The vertical line marks 32 beams. Full-aperture sharing and aperture partitioning have very different trends, even though both divide total optical power. Each concurrent beam retains bandwidth B; electronics and device losses are excluded.</figcaption></figure><h3>Why a fixed rate per user eventually limits K</h3><p>For identical gain g and noise power σ², one user requiring rate r at bandwidth B needs at least (σ²/g)(2^(r/B) − 1) optical power in this Gaussian model. K independent users therefore require:</p><div class="equation">P<sub>total</sub> ≥ K(σ²/g)(2<sup>r/B</sup> − 1).</div><p>This bound assumes unchanged per-user gain and bandwidth as K grows. Aperture partitioning or extra routing loss makes g depend on K and tightens the practical constraint. The supported user count is meaningful only together with its service target and resource boundary.</p><h3>Reproducing the reference calculations</h3><p>The source package contains the numerical constants and figure-generation code. Geometric collection uses the exact Gaussian aperture integral; the partitioned-aperture value reported in the text uses its small-receiver scaling. The pointing optimum is obtained analytically and checked on the plotted curve. The schedule follows directly from four groups, 1 ms payload and 0.1 ms overhead per group.</p><p>The figure&#x27;s Gaussian rates are separate from the receiver-agnostic optical budget. Neither the 387 photons/net bit nor the plotted Gaussian curve is a measured sensitivity claim.</p></section></details><details class="note" id="note18"><summary>Technical note C · Optional access choices and practical vocabulary</summary><section id="page18"><h2>Technical note C · Optional access choices and practical vocabulary</h2><h3>When additional access methods earn their complexity</h3><p>Electrical-frequency division allocates subcarrier bands within an optical modulation/receiver chain. Wavelength division separates optical carriers and requires the corresponding optical generation, routing and filtering. Microwave tones used to control an acousto-optic steerer have yet another role. A frequency label is useful only after its physical resource is identified.</p><p>Code-division schemes require spreading codes that remain separable after the chosen intensity mapping, synchronization error and detector likelihood. Power-domain NOMA deliberately superposes users and requires a decoding order, sufficient dynamic range and a model of residual cancellation error. A four-user SLM-based experiment motivates this option [<a href="#ref16">16</a>]. Compare it with time, spatial or wavelength separation at the same power, bandwidth and service target.</p><p>A dense K-by-K equalizer with L taps scales as K²L operations per sample in a straightforward implementation. Angular or wavelength grouping may permit smaller processing blocks. This operation count does not by itself specify electrical power; hardware architecture, precision, memory movement and sample rate also matter.</p><h3>Rate and unit bookkeeping</h3><p>One baud means one symbol per second. For independent, equivalently configured streams, a useful accounting relation is R<sub>net</sub> = N<sub>streams</sub>R<sub>sym</sub>log₂(M<sub>const</sub>)r<sub>FEC</sub>f<sub>payload</sub>. The factors must describe distinct resources and overheads. If a measured input rate is already net of FEC, do not apply the code rate again. Duty, switching and retransmissions then determine delivered service over the declared interval.</p><p>Watts measure optical power; dBm is absolute power relative to 1 mW; dB is a ratio. A reference plane is the physical location at which power is specified, such as laser output, steering-network output or receiver input. Comparing efficiencies requires matching both input and output planes.</p><div class="table-wrap"><table><thead><tr><th>Term</th><th>Meaning used here</th></tr></thead><tbody><tr><td>Aperture / spatial mode</td><td>A physical collecting or emitting opening / a field pattern used to describe transmission or reception</td></tr><tr><td>Field of regard / divergence</td><td>Accessible pointing directions / width of an individual beam under a stated convention</td></tr><tr><td>PAT / adaptive optics</td><td>Pointing, acquisition and tracking / correction of wavefront distortion</td></tr><tr><td>Photonic lantern</td><td>An interface mapping a multimode optical input into single-mode branches</td></tr><tr><td>Identity continuity</td><td>Retaining the association between each detected target and its user</td></tr><tr><td>Feasible service region</td><td>Rate, delay and availability combinations supported simultaneously by the architecture</td></tr></tbody></table></div><p><b>Directional security.</b> Narrow beams restrict where substantial signal energy travels. A security analysis must still specify potential interception positions, apertures, leakage and channel correlation. Authentication and encryption remain separate system functions. This topic does not alter the optical-budget comparison developed here.</p></section></details><details class="note" id="note19"><summary>Research outlook · Three experiments that would change the decision</summary><section id="page19"><h2>Research outlook · Three experiments that would change the decision</h2><p>The strongest research program follows the quantities that can reverse the architecture choice. Each task below connects a signal-processing contribution to a measurable service outcome.</p><div class="table-wrap"><table><thead><tr><th>Question</th><th>Concrete experiment or model</th><th>Decision-changing output</th></tr></thead><tbody><tr><td>Does sharing preserve usable optical power?</td><td>Measure beam pattern, leakage and end-to-end efficiency versus scan angle and concurrent beam count; compare full and partitioned pupil use</td><td>A calibrated gain and interference model that replaces the assumed losses</td></tr><tr><td>Can shared inference support narrow moving beams?</td><td>Estimate common attitude and per-user residuals; predict across measured sensor and actuator delay; compare with independent tracking</td><td>Lower-tail receive power, loss-of-lock probability and reacquisition cost at fixed sensing resources</td></tr><tr><td>Do fewer paths actually reduce service cost?</td><td>Replay matched trajectories and traffic for 32-way concurrency and eight-path scheduling, using measured receiver curves and electronics</td><td>Delivered-rate and delay regions versus energy, path count and outage</td></tr></tbody></table></div><p>A calibrated random propagation model specifies how chosen transmitted patterns map to collected observations as the platform and atmosphere vary. Its parameters should come from identifiable measurements. This connects finite-aperture optics, common jitter and modal coupling to estimation rather than assuming an arbitrary channel matrix.</p><p>For control, start with known geometry and equal-power scheduling. Add prediction, then adaptive beam width or user grouping, measuring the incremental service improvement. For scheduling, use realizable rates and actual switching costs; wavelength/beam/time allocation studies provide a useful networking connection [<a href="#ref19">19</a>]. Architecture studies can help identify implementable alternatives [<a href="#ref20">20</a>].</p><p>Validation can begin with four independent users to check payload separation and optical efficiency, then eight moving users to test identity and switching, and finally service emulation or hardware scaling toward 32. Each stage should retain equal-resource references, matched trajectories where possible, repeated trials and uncertainty intervals. Rare outage estimates need an explicit sampling or tail-model procedure.</p><h3>Preparation and feedback</h3><p>This revision was prepared with ChatGPT assistance for restructuring, explanatory writing, diagram code and illustrative calculations. Figures are original schematics or calculations from the stated models. Numerical budgets were recomputed; selected experimental claims were checked against public primary records. Literature results, design assumptions and calculated examples are identified separately throughout.</p><p>This is a technical tutorial, not a report of a new terminal experiment. Corrections and comments are welcome through the contact information on the author&#x27;s website. Version date: 3 November 2026.</p></section></details><section id="page20"><h2>References · Experiments and physical models</h2><p>References are grouped by their role in the tutorial. Links lead to primary publications, author-hosted papers or official project records. The collection is selected to support the design argument.</p><p id="ref1">[1] K. Riesing et al. <b>Operations and Results from the 200 Gbps TBIRD Laser Communication Mission.</b> NASA NTRS, 2023. Space-to-ground mission evidence. <a href="https://ntrs.nasa.gov/citations/20230007959">Source link ↗</a></p><p id="ref2">[2] A. A. Farid and S. Hranilovic. <b>Outage Capacity Optimization for Free-Space Optical Links With Pointing Errors.</b> Journal of Lightwave Technology 25, 1702–1710, 2007. <a href="https://doi.org/10.1109/JLT.2007.899174">Source link ↗</a></p><p id="ref3">[3] A. Belmonte and J. M. Kahn. <b>Optimal modes for spatially multiplexed free-space communication in atmospheric turbulence.</b> Optics Express 29, 2021. <a href="https://doi.org/10.1364/OE.442797">Source link ↗</a></p><p id="ref4">[4] C. Ju et al. <b>Real-time demonstration of two-aperture coherent digital combining free-space optical transmission with a real-valued MIMO adaptive equalizer.</b> Optics Letters 49, 903–906, 2024. <a href="https://doi.org/10.1364/OL.511941">Source link ↗</a></p><p id="ref5">[5] H. Zhou et al. <b>Turbulence mitigation of four mode-division-multiplexed QPSK channels in a pilot-assisted self-coherent free-space optical link using a photodetector array and DSP-based channel demultiplexing.</b> Optics Letters 49, 1209–1212, 2024. <a href="https://doi.org/10.1364/OL.511797">Source link ↗</a></p><p id="ref6">[6] W. Ren, P. Hou, Y. Jiang, X. Zeng and J. Sun. <b>100 km One-Point to Multi-Point Simultaneous Laser Communication Based on 8×8 Matrix Vector Optical Phased Array.</b> Journal of Lightwave Technology 43, 8029–8039, 2025. Four-beam prototype; rate accounting in the main text follows the limits of the public abstract. <a href="https://doi.org/10.1109/JLT.2025.3581583">Source link ↗</a></p><p id="ref7">[7] Lin et al. <b>Optical multi-beam steering and communication using integrated acousto-optics arrays.</b> Nature Communications 16, 4501, 2025. <a href="https://doi.org/10.1038/s41467-025-59831-x">Source link ↗</a></p><p id="ref8">[8] ESA / Jena-Optronik. <b>MUATS: Multi User Acquisition and Tracking Sensor for optical communication terminals.</b> Completed concept study, 2022. Shared-sensing concept and breadboard. <a href="https://resilience.esa.int/archives/projects/muats">Source link ↗</a></p><p id="ref9">[9] F. Wang, C. Qiu, M. Zhang and G. Hu. <b>Free-Space Optical Communication Based on Mode Diversity Reception Using a Nonmode Selective Photonic Lantern and Equal Gain Combining.</b> IEEE Photonics Journal 15(1), 2023. <a href="https://doi.org/10.1109/JPHOT.2022.3225337">Source link ↗</a></p><p id="ref10">[10] L. You et al. <b>Massive MIMO Transmission for LEO Satellite Communications.</b> IEEE Journal on Selected Areas in Communications 38, 1851–1865, 2020. RF statistical-CSI and geometry-based design reference. <a href="https://doi.org/10.1109/JSAC.2020.3000803">Source link ↗</a></p></section><section id="page21"><h2>References · Information, inference and service</h2><p id="ref11">[11] Li, Moser, Wang and Wigger. <b>On the Capacity of MIMO Optical Wireless Channels.</b> IEEE Transactions on Information Theory 66, 2020. <a href="https://doi.org/10.1109/TIT.2020.2979716">Source link ↗</a></p><p id="ref12">[12] A. Chaaban, Z. Rezki and M.-S. Alouini. <b>On the Capacity of the Intensity-Modulation Direct-Detection Optical Broadcast Channel.</b> IEEE Transactions on Wireless Communications 15, 3114–3130, 2016. <a href="https://doi.org/10.1109/TWC.2016.2517152">Source link ↗</a></p><p id="ref13">[13] M. A. Al-Habash, L. C. Andrews and R. L. Phillips. <b>Mathematical model for the irradiance probability density function of a laser beam propagating through turbulent media.</b> Optical Engineering 40, 2001. <a href="https://doi.org/10.1117/1.1386641">Source link ↗</a></p><p id="ref14">[14] V. Giovannetti et al. <b>Classical Capacity of the Lossy Bosonic Channel: The Exact Solution.</b> Physical Review Letters 92, 027902, 2004. Author preprint: <a href="https://arxiv.org/abs/quant-ph/0308012">Source link ↗</a></p><p id="ref15">[15] Y. Polyanskiy, H. V. Poor and S. Verdú. <b>Channel Coding Rate in the Finite Blocklength Regime.</b> IEEE Transactions on Information Theory 56, 2307–2359, 2010. <a href="https://doi.org/10.1109/TIT.2010.2043769">Source link ↗</a></p><p id="ref16">[16] Jian et al. <b>Hardware and Software Improvements of Spatial Light Modulator (SLM)-Based Optical Wireless Communication Supporting Four Users Using Non-Orthogonal Multiple Access (NOMA).</b> Journal of Lightwave Technology 42, 5839–5845, 2024. <a href="https://doi.org/10.1109/JLT.2024.3406593">Source link ↗</a></p><p id="ref17">[17] Lognoné et al. <b>Tip tilt and focus estimation based on LGS and downlink joint measurements for ground to GEO satellite optical communication link.</b> Optics Express 32, 37739–37757, 2024. <a href="https://doi.org/10.1364/OE.538333">Source link ↗</a></p><p id="ref18">[18] Frost et al. <b>Uplink pre-compensation for ground-to-space optical communications using downlink tomographic reconstruction.</b> Optics Express 33, 45142–45153, 2025. <a href="https://doi.org/10.1364/OE.576114">Source link ↗</a></p><p id="ref19">[19] Wang et al. <b>Multi-Beam Satellite Optical Networks: A Joint Time-Slot Resource Scheduling for End-to-End Services From a Networking Perspective.</b> IEEE Transactions on Network and Service Management 22, 426–438, 2025. <a href="https://doi.org/10.1109/TNSM.2024.3468376">Source link ↗</a></p><p id="ref20">[20] Spaander et al. <b>Free Space Optical Communications with Multi-Beam Laser Terminals for Satellites: Design Insights and Applications.</b> Proceedings of SPIE 13699, 2025 (ICSO 2024 proceedings). <a href="https://doi.org/10.1117/12.3075401">Source link ↗</a></p></section></main><footer class="article-footer"><div>Written by Changheng Li · 3 November 2026<br>Questions or corrections? <a href="mailto:C.Li-7@tudelft.nl">C.Li-7@tudelft.nl</a></div><a href="/blog/">More tutorials & research notes →</a></footer><script>document.getElementById('theme-toggle').addEventListener('click',()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('cl-theme',t)}catch{}});document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const id=a.getAttribute('href').slice(1);const el=document.getElementById(id);const parent=el&&el.closest('details');if(parent)parent.open=true}));</script></body></html>
