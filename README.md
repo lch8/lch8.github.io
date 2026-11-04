@@ -41,3 +41,5 @@ No database or external CMS is required. The article URLs and downloads work as 
 The homepage presents two main research areas, three representative contributions, two future questions and the latest article. Detailed research, the full publication archive and academic background have their own pages. Publications initially shows all records; the `Selected` filter gives five representative papers. Ongoing LC-RIS work and future research questions have their own status.
 
 To regenerate the downloadable CV after updating the profile or publications, run `python scripts/generate-cv.py`, review both PDF pages, and commit the script/data changes together with `public/downloads/changheng-li-cv.pdf`. The checked-in PDF is served directly; the site build does not require Python.
+
+The optical satellite tutorial has an editable source in `content/blog/multiuser-optical-satellite-communications.md`. Run `python scripts/generate-optical-tutorial.py` (Matplotlib and ReportLab required) to update its HTML and PDF together, then review both outputs.

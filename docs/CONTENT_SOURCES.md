@@ -28,3 +28,5 @@ The first post is the revised tutorial prepared in the same conversation. Its En
 ## Deployment
 
 The existing GitHub Pages workflow is retained. No new hosting service, account, analytics provider or production domain is introduced.
+
+On 4 November 2026, the optical tutorial was revised from the author-supplied “Why a Fast Satellite Laser Can Still Struggle to Serve 32 Users.md”. The shorter article replaces the long technical tutorial and its PDF, preserving the URL and original publication date. Equations, a beam-sharing comparison table, four source links and calculation/preparation notes accompany the new narrative.
