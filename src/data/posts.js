@@ -11,7 +11,7 @@ export const posts = [
     updatedLabel: '4 November 2026',
     type: 'Tutorial',
     tags: ['Optical communications', 'System design'],
-    readingTime: '8 min read',
+    readingTime: '10 min read',
     pdf: '/downloads/multiuser-fso-tutorial.pdf',
     href: '/blog/multiuser-optical-satellite-communications/',
   },

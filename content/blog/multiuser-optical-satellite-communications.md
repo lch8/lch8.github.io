@@ -10,9 +10,13 @@ The challenge becomes clearer when we compare two ways of sharing the equipment.
 
 One option is to send 32 independently controlled beams, one to each receiver. Everyone receives continuously.
 
-Another is to use eight beams and rotate them among four groups of eight receivers. This could reduce the number of sending channels and associated electronics, but each receiver gets a turn only one quarter of the time.
+Why consider fewer beams? In a design with one independently driven branch per beam, serving 32 receivers at once means operating 32 branches at once. Each must put its user's data onto the light and direct that light toward the correct receiver. Depending on the architecture, this involves separate modulators, electronic drivers and steering components, with their own power consumption, space and calibration needs.
 
-To receive the same amount of data overall, it must receive four times as fast during its turn.
+An eight-beam design reuses eight such branches across four groups of eight receivers. After serving one group, each branch points to a receiver in the next group and sends that receiver's data. The potential gain is a smaller terminal with fewer parallel components and less fixed overhead per channel. This matters on a satellite, where mass, electrical power and heat removal are limited.
+
+The exchange is eight faster, reusable branches in place of 32 slower ones. It does not mean that the whole terminal becomes four times cheaper: shared equipment remains, each branch must support a higher data rate, and switching adds work. The 32 ground receivers are still needed, and the total transmitted optical power need not decrease.
+
+Each receiver now gets a turn only one quarter of the time. To receive the same amount of data overall, it must receive four times as fast during its turn.
 
 | | 32 beams at once | Eight beams taking turns |
 | - | - | - |
@@ -25,43 +29,45 @@ This is already a meaningful design choice. Continuous connections require more 
 
 Switching also takes time, so a real eight-beam system would need to send somewhat faster than the ideal fourfold rate.
 
-# A brighter beam does not give every bit more energy
+# Four times the power, but one quarter of the time per bit
 
-Using fewer beams has an apparent bonus: each beam can be brighter.
+Fewer active beams let us put more light into each beam. To see whether this helps a receiver read its data, we need to count both the light arriving each second and the bits arriving each second.
 
-Suppose the satellite divides four watts of light equally among its active beams. If there are M active beams, each receives:
+For this first comparison, keep the total optical power at four watts and assume that each beam has the same width, pointing accuracy and propagation losses in both designs. The receiver therefore collects the same fraction of its beam's transmitted power. Ignore switching time for now.
+
+If M beams share the power equally, the transmitted power per beam is:
 
 ```math
 P_{\mathrm{beam}}=\frac{P_{\mathrm{total}}}{M}.
 ```
 
-With 32 beams, that is 0.125 watts per beam. With eight, it is 0.5 watts: four times as much.
+With 32 beams, each carries 0.125 watts. With eight beams, each carries 0.5 watts. A receiver gets four times as much light per second while its beam is on.
 
-It is tempting to conclude that the eight-beam design has made communication four times easier. But each beam must also carry data four times as fast.
-
-For 32 receivers, each needing an average rate r, the required rate during a receiver's turn is:
+But it must also receive four times as many bits per second. If each of the 32 users needs an average rate r, serving only M at a time requires:
 
 ```math
 R_{\mathrm{active}}=\frac{32}{M}\,r.
 ```
 
-The energy received for each bit, each tiny piece of digital data, is:
+For our one-gigabit-per-second service, the continuous design sends a bit every nanosecond. The eight-beam design must send a bit every quarter of a nanosecond during a user's turn. Its brighter beam has only one quarter as long to deliver the energy associated with each bit.
+
+Power measures energy arriving per second. Dividing it by the number of bits arriving per second gives the average received energy per bit:
 
 ```math
 E_{\mathrm{bit}}=\frac{P_{\mathrm{received}}}{R_{\mathrm{active}}}.
 ```
 
-If the beam shape and losses stay the same, four times the transmitted power gives four times the received power. But four times the data rate gives each bit only one quarter as much transmission time. The two changes cancel:
+At the transmitter, 0.125 watts divided by one billion bits per second is 125 picojoules per bit. The eight-beam case gives the same result: 0.5 watts divided by four billion bits per second is also 125 picojoules per bit. Because the collected fraction is unchanged, the received energy per bit is unchanged too:
 
 ```math
 \frac{4P}{4R}=\frac{P}{R}.
 ```
 
-**In this ideal comparison, taking turns gives each active receiver more light, but no more light energy per bit.**
+**With the same beam width and losses, time sharing concentrates both power and data into shorter turns. It does not increase the average light energy available to each bit.**
 
-That does not make the two designs equivalent. A receiver operating four times faster may need different electronics or suffer different noise and processing penalties. Switching wastes time, and waiting may matter to the application.
+This is an energy comparison, not a prediction of identical error rates. Faster receivers can have different bandwidth, noise and coding requirements. Switching time also reduces the useful sending time.
 
-The potential saving is fewer simultaneous channels. Whether that saving is worthwhile depends on what the faster channels cost and how well they work.
+The hardware saving remains possible: we may need only eight transmitting branches. An additional optical gain would require something else to improve, such as a narrower beam or lower optical loss. That brings us to the telescope.
 
 # Most of the light never enters the receiver
 
@@ -93,17 +99,17 @@ The squared ratio expresses an area effect: doubling the receiver's radius gives
 
 This is why a design can have ample total data-processing speed yet struggle to deliver enough usable light to every receiver.
 
-# Sharing a telescope and dividing it are different choices
+# Does each beam use the full telescope or a smaller opening?
 
-A larger transmitting telescope can produce a narrower beam. That helps concentrate light on a distant receiver. Natural wave spreading, known as diffraction, is why the size of the transmitting opening matters.
+The previous example showed why beam width matters: a smaller spot puts a larger fraction of the light into the receiving telescope. The transmitting telescope helps determine that spot size. For a diffraction-limited beam, at the same wavelength and distance, doubling the transmitting opening's diameter roughly halves the beam's width at the receiver.
 
-But there are different ways to build a multi-beam terminal.
+Now consider two ways to build a terminal with M beams. Keep the total transmitted power and the total available transmitting area fixed.
 
-One approach lets several independently controlled beams use the same large telescope. Another divides the same total transmitting area into smaller openings, one for each beam.
+**One full opening shared by all beams.** An optical system can combine independently modulated beams so that each uses the full transmitting opening, while leaving in a different direction. The beams share a telescope; they are not assigned separate pieces of its area. Ideally, adding beams divides the available power without reducing the aperture available to each beam. Each receiver then collects the same fraction of its beam, and its received power falls in proportion to 1/M.
 
-The distinction matters. When each beam gets a smaller opening, it may spread more widely. The receiver then loses light for two reasons: less power was assigned to its beam, and more of that beam misses the receiver.
+**One smaller opening for each beam.** Alternatively, divide the available transmitting area equally among M separate, similarly shaped apertures. Each beam gets 1/M of the area as well as 1/M of the power. Since circular area grows as diameter squared, each opening's diameter is smaller by a factor of the square root of M. Its diffraction-limited beam becomes wider by that same factor, spreading over M times the area at the receiver.
 
-For a simplified model in which diffraction sets the beam width and the receiving opening is small:
+For a small, centred receiving aperture, that wider spot reduces the collected fraction by another factor of M. The two reductions multiply: one from sharing power, one from spreading that power over a larger spot.
 
 ```math
 \begin{aligned}
@@ -114,13 +120,13 @@ P_{\mathrm{received}}\propto\frac{1}{M^2}.
 \end{aligned}
 ```
 
-M is again the number of beams. The second factor comes from the wider light spot.
+A concrete comparison makes the difference easier to see. Suppose we replace 32 small transmitting openings with eight larger ones, keeping their total area unchanged. Each new opening has four times the area and twice the diameter. Its beam is roughly half as wide at the receiver, so the receiver collects about four times the fraction of light. Each beam also carries four times the transmitted power. Together, these changes give about 16 times the received power during a turn.
 
-These scalings describe the stated optical arrangement. They do not mean that every multi-beam device incurs the second penalty.
+The active data rate still increases fourfold. In this ideal example, received energy per bit therefore rises by a factor of four: 16 times the received power divided by four times the bit rate. **That extra gain comes from the larger aperture available to each beam.** It was absent from the earlier comparison because that comparison held beam width fixed.
 
-They explain why “this device produces 32 beams” is an incomplete specification. We also need to know how much power each beam carries, how widely it spreads, and how much light the shared optics lose.
+Merely switching off 24 beams in a terminal with 32 fixed small openings does not enlarge the remaining openings. To obtain this gain, the eight-beam design must actually give each beam more transmitting area. A terminal in which every beam already uses the full telescope does not obtain this particular aperture gain by taking turns.
 
-Keeping the full telescope useful for every beam can help. Doing so requires an optical system that carries different messages and steers their beams without excessive loss.
+These estimates assume diffraction-limited beams, comparable optical efficiency, accurate pointing and a receiving aperture much smaller than the light spot. Sharing the full telescope requires suitable combining and steering optics; dividing it requires separate apertures. The useful design question is therefore how much power and transmitting area each active beam can actually use, and at what hardware cost.
 
 # Narrow beams demand steady aim
 
