@@ -1,191 +1,103 @@
-NASA has demonstrated a satellite laser link running at 200 gigabits per second. That is a very fast connection to one ground station. [1]
+NASA's TBIRD mission demonstrated a 200 Gbit/s optical downlink from a small satellite to a ground station. Now imagine a satellite sending different data to 32 ground receivers at 1 Gbit/s each. The total rate is much lower, but the terminal has to deliver 32 distinct messages, put enough light into each receiving telescope and keep its beams on target. [1]
 
-Now suppose a satellite needs to send different data to 32 ground receivers, each at just one gigabit per second. The total is only 32 gigabits per second. Why should that be difficult?
+One approach gives each active beam its own modulation chain, the electronics and optical modulator that put data onto the light. In this arrangement, 32 simultaneous links require 32 chains. Could we reduce the number of chains while letting users receive at the same time?
 
-Because a fast connection to one destination does not automatically become 32 separate connections. Each receiver needs its own data, enough light to read it, and a beam that stays on target.
+# A third way to share the equipment
 
-The challenge becomes clearer when we compare two ways of sharing the equipment.
+With eight chains, a satellite could take turns serving four groups of eight users. Each user would receive for one quarter of the time and would need 4 Gbit/s during its turn to average 1 Gbit/s. With the same total optical power and the same fraction of light collected, an active receiver gets four times the power and four times the bit rate. Its average received energy per bit stays the same. Switching time and the faster receiver's noise and bandwidth requirements still enter the comparison.
 
-# Keep 32 beams on or take turns with eight
-
-One option is to send 32 independently controlled beams, one to each receiver. Everyone receives continuously.
-
-Why consider fewer beams? In a design with one independently driven branch per beam, serving 32 receivers at once means operating 32 branches at once. Each must put its user's data onto the light and direct that light toward the correct receiver. Depending on the architecture, this involves separate modulators, electronic drivers and steering components, with their own power consumption, space and calibration needs.
-
-An eight-beam design reuses eight such branches across four groups of eight receivers. After serving one group, each branch points to a receiver in the next group and sends that receiver's data. The potential gain is a smaller terminal with fewer parallel components and less fixed overhead per channel. This matters on a satellite, where mass, electrical power and heat removal are limited.
-
-The exchange is eight faster, reusable branches in place of 32 slower ones. It does not mean that the whole terminal becomes four times cheaper: shared equipment remains, each branch must support a higher data rate, and switching adds work. The 32 ground receivers are still needed, and the total transmitted optical power need not decrease.
-
-Each receiver now gets a turn only one quarter of the time. To receive the same amount of data overall, it must receive four times as fast during its turn.
-
-| | 32 beams at once | Eight beams taking turns |
+| Approach | How users get their data | Main constraint |
 | - | - | - |
-| Receivers served at a time | 32 | 8 |
-| Each receiver gets data | Continuously | One quarter of the time |
-| Speed while receiving | 1 gigabit per second | 4 gigabits per second |
-| Waiting between turns | None from this schedule | Depends on how often the beams switch |
+| Separate modulation | Each link has a dedicated chain and can transmit continuously | More parallel high-speed hardware |
+| Time sharing | A chain serves users in successive turns | Higher rate during each turn and gaps between turns |
+| Shared modulation | Several links transmit together through one chain | The combined waveform must fit its bandwidth and voltage limits |
 
-This is already a meaningful design choice. Continuous connections require more simultaneous sending channels. Taking turns allows fewer channels, but those channels must run faster and the users must tolerate gaps.
+A shared chain can serve users during the same interval, with a separate data stream and pointing path for each. The simplest case has two users.
 
-Switching also takes time, so a real eight-beam system would need to send somewhat faster than the ideal fourfold rate.
+# Two beams from one modulation chain
 
-# Four times the power, but one quarter of the time per bit
+Put user A's data in one frequency band and user B's in another. Add the two electrical waveforms and use a shared in-phase and quadrature (IQ) modulator to transfer the result onto light. Frequency-selective optics then separate the bands and route them into the two pointing paths. Each receiver processes its own band.
 
-Fewer active beams let us put more light into each beam. To see whether this helps a receiver read its data, we need to count both the light arriving each second and the bits arriving each second.
-
-For this first comparison, keep the total optical power at four watts and assume that each beam has the same width, pointing accuracy and propagation losses in both designs. The receiver therefore collects the same fraction of its beam's transmitted power. Ignore switching time for now.
-
-If M beams share the power equally, the transmitted power per beam is:
-
-```math
-P_{\mathrm{beam}}=\frac{P_{\mathrm{total}}}{M}.
+```figure
+architecture
 ```
 
-With 32 beams, each carries 0.125 watts. With eight beams, each carries 0.5 watts. A receiver gets four times as much light per second while its beam is on.
+A shared chain saves one set of high-speed modulation hardware in this example. Its driver and modulator must handle the combined signal, and the terminal still needs a way to separate and steer both beams. Coherent digital subcarrier multiplexing already supports point-to-multipoint transmission in fibre networks. In free space, Ren and colleagues demonstrated four-beam communication over 100 km with a phased-array terminal. These results illustrate different parts of the architecture. Here I use ideal separation of the two optical bands as a starting assumption. [2] [3]
 
-But it must also receive four times as many bits per second. If each of the 32 users needs an average rate r, serving only M at a time requires:
+# Average power leaves out the peaks
 
-```math
-R_{\mathrm{active}}=\frac{32}{M}\,r.
+Imagine checking the two electrical waveforms one at a time. Each may fit within the driver's voltage range. When they are added, a large excursion in one can coincide with a large excursion in the other. A peak beyond the driver's linear range can distort the transmitted signal. Reducing the drive amplitude to avoid that peak uses less of the available optical signal power in the linear model, which can make the data harder to decode.
+
+We can change each waveform's phase by a constant amount over a transmission block. In an IQ modulator, that rotates the waveform in the plane of its two drive voltages. The rotation preserves the user's average drive power and frequency band within the block. Choosing the phases together changes how the voltages add, and can make their peaks smaller.
+
+```figure
+waveforms
 ```
 
-For our one-gigabit-per-second service, the continuous design sends a bit every nanosecond. The eight-beam design must send a bit every quarter of a nanosecond during a user's turn. Its brighter beam has only one quarter as long to deliver the energy associated with each bit.
+In this example, each user has four tones carrying QPSK symbols, with the two sets of tones in disjoint bands. Both users keep the same data and average drive power in the two panels. The transmitter chooses one phase per user from 64 options. On a dense time grid, the largest I or Q voltage in absolute value drops from 1.97 V to 1.39 V. A derivative bound places the continuous-time peak after phase selection below 1.41 V, within the example's 1.5 V limit. The gain depends on the data block and the power split.
 
-Power measures energy arriving per second. Dividing it by the number of bits arriving per second gives the average received energy per bit:
-
-```math
-E_{\mathrm{bit}}=\frac{P_{\mathrm{received}}}{R_{\mathrm{active}}}.
-```
-
-At the transmitter, 0.125 watts divided by one billion bits per second is 125 picojoules per bit. The eight-beam case gives the same result: 0.5 watts divided by four billion bits per second is also 125 picojoules per bit. Because the collected fraction is unchanged, the received energy per bit is unchanged too:
+The corresponding model writes the combined complex drive voltage as
 
 ```math
-\frac{4P}{4R}=\frac{P}{R}.
+u(t)=\sqrt{q_A}\,e^{j\theta_A}s_A(t)+\sqrt{q_B}\,e^{j\theta_B}s_B(t).
 ```
 
-**With the same beam width and losses, time sharing concentrates both power and data into shorter turns. It does not increase the average light energy available to each bit.**
-
-This is an energy comparison, not a prediction of identical error rates. Faster receivers can have different bandwidth, noise and coding requirements. Switching time also reduces the useful sending time.
-
-The hardware saving remains possible: we may need only eight transmitting branches. An additional optical gain would require something else to improve, such as a narrower beam or lower optical loss. That brings us to the telescope.
-
-# Most of the light never enters the receiver
-
-So far, we have divided the light leaving the satellite. Only a small fraction reaches the receiving instrument.
-
-A laser beam spreads as it travels. Imagine that after a 1,000-kilometre journey, its light spot is roughly 20 metres across. The receiving telescope's opening is only 10 centimetres across.
-
-That small opening is what optical engineers call the receiving aperture. It is the part of the instrument that catches incoming light.
-
-Even with perfect aim, most of the beam misses it.
-
-A common model treats the beam as brightest in the middle and gradually dimmer toward the edges. This is a Gaussian beam. For a small circular receiver centred on such a beam, the fraction of light collected is approximately:
+Each s denotes a unit-power waveform in its user's band. The two waveforms are orthogonal over the block. Each q is a mean-square drive voltage in V² and each angle is a chosen phase. With a fixed laser power and a linear field response, average modulated optical power is proportional to the sum of these mean-square voltages. The hardware constraint applies separately to the real (I) and imaginary (Q) drive voltages throughout the block.
 
 ```math
-\text{fraction collected}\approx
-2\left(\frac{\text{receiver radius}}{\text{beam radius}}\right)^2.
+|\mathrm{Re}\,u(t)|\leq V_{\max},\qquad |\mathrm{Im}\,u(t)|\leq V_{\max}.
 ```
 
-In our example, the receiver radius is 0.05 metres and the characteristic beam radius is 10 metres:
+The example compares voltage at fixed per-user power. A link benefit can arise when phase selection avoids distortion or allows less amplitude reduction to stay within the voltage limit.
+
+# Can each receiver still decode its own data?
+
+The model uses coherent detection. Each receiver estimates the amplitude and phase of its own link from known symbols called pilots. If the transmitter applies the same rotation to a user's data and pilots, the receiver sees that rotation as part of the link's phase. With a channel that is approximately constant over the block and a suitable pilot pattern, ordinary single-user channel estimation and equalization can recover the data.
+
+The required power still depends on propagation. A small receiving aperture may collect very little of a spreading beam, and pointing errors and turbulence change the collected power. Álvarez Roa and colleagues show how to turn these effects into tractable error-rate approximations for pulse-amplitude modulation with intensity modulation and direct detection. In the coherent model here, we need the corresponding link gain and noise model to relate drive power to decoding reliability. [4]
+
+Luo and colleagues demonstrated subcarrier phase selection for reducing peaks in coherent passive optical networks. Adegbite and colleagues studied pilot-assisted phase selection in OFDM with data recovery that avoids a separate phase-index estimate. The question here is how much traffic a shared chain can support under a specified set of hardware and receiver constraints. [5] [6]
+
+# Which pairs of user requirements can one chain support?
+
+Fix a total bandwidth, average optical power budget and peak drive voltage. Give each user a rate target and a maximum probability of a failed block. Under these conditions, a rate pair is feasible when a single shared chain can meet both targets using the allowed waveform, phase selection and receiver processing.
+
+One quick check follows from the two voltage limits. The squared magnitude of the complex drive is the sum of the squared I and Q voltages. It can therefore be at most twice the squared voltage limit. Averaging over a block of duration T and using the orthogonality of the two waveforms gives
 
 ```math
-2\left(\frac{0.05}{10}\right)^2
-\approx\frac{1}{20{,}000}.
+q_A+q_B=\frac{1}{T}\int_0^T|u(t)|^2\,dt\ \leq\ 2V_{\max}^2.
 ```
 
-Only about one part in twenty thousand enters the opening, even before other losses.
+If the two links require more mean-square drive voltage than this, changing the phases cannot make sharing feasible under this model. A pair that passes the check may still have peaks that exceed the limit. A tighter test must account for the shapes of the signals and how much control a single phase per user offers.
 
-The squared ratio expresses an area effect: doubling the receiver's radius gives four times the collecting area. The factor of two accounts for the higher brightness at the centre in this particular beam model.
+The useful answer is a region of rate pairs. An inner bound comes from designs that meet both users' targets. An outer bound rules out pairs for every allowed design. For random data, the analysis should account for the chance of a block exceeding the drive limit alongside the chance of decoding failure. One conservative way to do this is to count blocks that cannot be transmitted within the limit as failures and allocate them part of each user's error budget.
 
-This is why a design can have ample total data-processing speed yet struggle to deliver enough usable light to every receiver.
-
-# Does each beam use the full telescope or a smaller opening?
-
-The previous example showed why beam width matters: a smaller spot puts a larger fraction of the light into the receiving telescope. The transmitting telescope helps determine that spot size. For a diffraction-limited beam, at the same wavelength and distance, doubling the transmitting opening's diameter roughly halves the beam's width at the receiver.
-
-Now consider two ways to build a terminal with M beams. Keep the total transmitted power and the total available transmitting area fixed.
-
-**One full opening shared by all beams.** An optical system can combine independently modulated beams so that each uses the full transmitting opening, while leaving in a different direction. The beams share a telescope; they are not assigned separate pieces of its area. Ideally, adding beams divides the available power without reducing the aperture available to each beam. Each receiver then collects the same fraction of its beam, and its received power falls in proportion to 1/M.
-
-**One smaller opening for each beam.** Alternatively, divide the available transmitting area equally among M separate, similarly shaped apertures. Each beam gets 1/M of the area as well as 1/M of the power. Since circular area grows as diameter squared, each opening's diameter is smaller by a factor of the square root of M. Its diffraction-limited beam becomes wider by that same factor, spreading over M times the area at the receiver.
-
-For a small, centred receiving aperture, that wider spot reduces the collected fraction by another factor of M. The two reductions multiply: one from sharing power, one from spreading that power over a larger spot.
-
-```math
-\begin{aligned}
-\text{Power divided only:}\quad&
-P_{\mathrm{received}}\propto\frac{1}{M},\\
-\text{Power and area divided:}\quad&
-P_{\mathrm{received}}\propto\frac{1}{M^2}.
-\end{aligned}
+```figure
+region
 ```
 
-A concrete comparison makes the difference easier to see. Suppose we replace 32 small transmitting openings with eight larger ones, keeping their total area unchanged. Each new opening has four times the area and twice the diameter. Its beam is roughly half as wide at the receiver, so the receiver collects about four times the fraction of light. Each beam also carries four times the transmitted power. Together, these changes give about 16 times the received power during a turn.
+# What would make the boundary useful?
 
-The active data rate still increases fourfold. In this ideal example, received energy per bit therefore rises by a factor of four: 16 times the received power divided by four times the bit rate. **That extra gain comes from the larger aperture available to each beam.** It was absent from the earlier comparison because that comparison held beam width fixed.
+**Tighter bounds.** Compare a constructively achievable region with an outer bound that applies to every allowed phase rule. A smaller gap gives a clear architecture decision for more user pairs.
 
-Merely switching off 24 beams in a terminal with 32 fixed small openings does not enlarge the remaining openings. To obtain this gain, the eight-beam design must actually give each beam more transmitting area. A terminal in which every beam already uses the full telescope does not obtain this particular aperture gain by taking turns.
+**Attainability.** Construct phases that reach the boundary in identifiable regimes, or quantify the gap. Compare designs at the same power and bandwidth and check both port voltages over the full waveform.
 
-These estimates assume diffraction-limited beams, comparable optical efficiency, accurate pointing and a receiving aperture much smaller than the light spot. Sharing the full telescope requires suitable combining and steering optics; dividing it requires separate apertures. The useful design question is therefore how much power and transmitting area each active beam can actually use, and at what hardware cost.
+**Power imbalance and block duration.** At fixed total power, vary the share each link requires. Compare block durations at fixed bandwidth and symbol rate, with one phase per user per block. A longer block changes the peaks that the phase choice must accommodate, as well as coding performance and pilot overhead.
 
-# Narrow beams demand steady aim
-
-Making the beam narrower seems like an obvious remedy: concentrate more light where the receiver sits.
-
-The difficulty is keeping it there.
-
-A satellite's small pointing error becomes a much larger displacement after a long journey. A narrow beam can deliver a strong signal when centred, then weaken sharply when the spacecraft moves or its pointing estimate is slightly wrong.
-
-A wider beam wastes more light around the receiver, but gives it more room to remain inside the spot.
-
-This creates a trade-off between brightness and reliability. The best beam for a perfectly aligned test may not be the best beam for a moving satellite.
-
-Tracking therefore contributes directly to communication performance. Better estimates of where each receiver is can allow narrower beams without increasing the risk of losing the connection.
-
-Shared tracking equipment may also help several beams at once. If the satellite's orientation shifts, many beams can be affected together; estimating that common motion can improve all of them.
-
-For the eight-beam design, tracking must continue while users wait for their next turn. Otherwise, the equipment may spend too much of each turn finding the receiver again.
-
-# Researchers have demonstrated several pieces
-
-There is experimental progress, but different demonstrations answer different questions.
-
-**Independent beams over a long distance.** A 2025 study reported four-beam communication over 100 kilometres using a prototype terminal that directs several beams toward different receivers. It is relevant evidence that one terminal can support several destinations. Extending that result to dozens of satellite users requires new power, pointing and hardware measurements. [2]
-
-**Independent messages from a compact chip.** Another 2025 study demonstrated four separately controlled beams carrying different data streams using a small chip. Electrically driven sound waves inside the device help steer the light and put different data onto its beams. This demonstrates a compact way to control independent beams; its laboratory data rates and losses do not specify a satellite terminal's performance. [3]
-
-**Shared tracking of many counterparts.** ESA's MUATS project explored a sensor designed to find and track up to 20 counterpart terminals. The concept study included a laboratory demonstrator. Knowing where those terminals are supports communication, but does not itself provide 20 simultaneous data links. [4]
-
-Together, these results show progress in sending, steering and tracking. A scalable terminal has to make those capabilities work together within the same power, weight and cost limits.
-
-# The choice depends on what users need
-
-For a service that must reach all 32 receivers continuously, a design needs 32 simultaneous independent data channels, whether it creates them with separate beams or another suitable arrangement.
-
-If users can accept brief gaps, eight beams taking turns become a serious alternative. The comparison then needs three practical answers:
-
-- Can each receiver read the faster transmission with the light it actually collects?
-
-- Can the beams switch quickly while keeping their aim and tracking which receiver they are serving?
-
-- Do eight faster sending channels consume less power and cost less than 32 slower ones?
-
-The answers can differ by application. A bulk file transfer may tolerate interruptions that are unacceptable for a tightly timed control link. Clouds may also require a different ground station or a backup radio connection, regardless of beam count.
-
-The arithmetic gives one useful result before any hardware is built: concentrating the same power into fewer beams also concentrates the data into shorter turns. It does not automatically improve the energy available to each bit.
-
-The engineering opportunity is to share expensive equipment while preserving enough light, accurate aim and timely delivery for every user.
+The goal is a test for deciding which users can share one modulation chain. Evaluating it on a terminal requires the filter losses and transients, driver response and link gains.
 
 # Sources
 
-1. [NASA TBIRD mission results](https://ntrs.nasa.gov/citations/20230007959), 2023.
+1. [Riesing et al., Operations and Results from the 200 Gbps TBIRD Laser Communication Mission](https://ntrs.nasa.gov/citations/20230007959), 2023.
 
-2. [Four-beam laser communication over 100 kilometres](https://opg.optica.org/jlt/abstract.cfm?uri=jlt-43-17-8029), 2025.
+2. [Duthel et al., DSP Design for Coherent Optical Point-to-Multipoint Transmission](https://doi.org/10.1109/JLT.2023.3322076), 2024.
 
-3. [Integrated multi-beam steering and communication](https://doi.org/10.1038/s41467-025-59831-x), 2025.
+3. [Ren et al., 100 km One-Point to Multi-Point Simultaneous Laser Communication](https://opg.optica.org/jlt/abstract.cfm?uri=jlt-43-17-8029), 2025.
 
-4. [ESA MUATS acquisition and tracking project](https://resilience.esa.int/archives/projects/muats).
+4. [Álvarez Roa et al., On Error Rate Approximations for FSO Systems With Weak Turbulence and Pointing Errors](https://doi.org/10.1109/JSTQE.2025.3590410), 2026.
 
-*Calculation note: The 10-metre beam radius uses the standard Gaussian 1/e² intensity convention. The collection estimate assumes a centred beam and a receiving opening much smaller than the spot.*
+5. [Luo et al., Partial Transmit Subcarrier Technology Based on m-Sequence for Simplified PAPR Reduction in 400G TFDM Coherent PON](https://doi.org/10.1109/JLT.2025.3603788), 2025.
 
-*Preparation note: Revised with ChatGPT assistance. The numerical examples illustrate design trade-offs; they are not measurements of a 32-user satellite terminal.*
+6. [Adegbite et al., A joint OFDM PAPR reduction and data decoding scheme with no SI estimation](https://doi.org/10.1186/s13638-016-0596-2), 2016.
+
+*Prepared with ChatGPT assistance. The voltage example is computed for one illustrative data block. The feasibility diagram shows the roles of the bounds.*

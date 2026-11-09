@@ -99,7 +99,7 @@ function LatestWriting() {
   const post = posts[0];
   return <section id="blog" className="home-section latest-section container">
     <Heading title="Latest writing" link="Blog" href="/blog/" />
-    <article className="latest-post"><div><p className="post-meta">{post.type} <span>·</span> {post.dateLabel}</p><h3><a href={post.href}>{post.title}<ArrowUpRight size={17} /></a></h3><p>A worked example comparing simultaneous optical beams with time sharing.</p></div><a className="text-link" href={post.pdf} target="_blank" rel="noreferrer">PDF <Download size={15} /></a></article>
+    <article className="latest-post"><div><p className="post-meta">{post.type} <span>·</span> {post.dateLabel}</p><h3><a href={post.href}>{post.title}<ArrowUpRight size={17} /></a></h3><p>{post.excerpt}</p></div><a className="text-link" href={post.pdf} target="_blank" rel="noreferrer">PDF <Download size={15} /></a></article>
   </section>;
 }
 

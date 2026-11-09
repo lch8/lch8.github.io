@@ -30,3 +30,5 @@ The first post is the revised tutorial prepared in the same conversation. Its En
 The existing GitHub Pages workflow is retained. No new hosting service, account, analytics provider or production domain is introduced.
 
 On 4 November 2026, the optical tutorial was revised from the author-supplied “Why a Fast Satellite Laser Can Still Struggle to Serve 32 Users.md”. The shorter article replaces the long technical tutorial and its PDF, preserving the URL and original publication date. Equations, a beam-sharing comparison table, four source links and calculation/preparation notes accompany the new narrative.
+
+On 9 November 2026, the optical article was revised around a two-user coherent link with a shared IQ modulation chain. The source lists primary papers on coherent subcarrier multiplexing, phase-based peak reduction, pilot-assisted data recovery and free-space optical error models. The generator computes the voltage example from a specified QPSK block and checks intersample peaks with a derivative bound. The rate region is schematic. The article, downloadable PDF and feed use the updated title.
