@@ -1,0 +1,27 @@
+{
+  "recording": "Ambient sound from a workshop floor",
+  "author": "ftpaddict",
+  "source": "https://freesound.org/people/ftpaddict/sounds/190637/",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "preview": "https://cdn.freesound.org/previews/190/190637_70012-hq.mp3",
+  "previewSha256": "de11b5686ca957a08c5ccf1a8210193bf8e2e5aabba9d07a5080d804e4c28f8c",
+  "seconds": 3137.7994375,
+  "targetsInserted": 0,
+  "eventLabelsAvailable": false,
+  "profiles": {
+    "station": {
+      "proposals": 668,
+      "gateAlarms": 414,
+      "verifierAlarms": 231,
+      "strictAlarms": 0,
+      "verifierAlarmsPerHour": 265.02649916419335
+    },
+    "unseen": {
+      "proposals": 668,
+      "gateAlarms": 387,
+      "verifierAlarms": 474,
+      "strictAlarms": 8,
+      "verifierAlarmsPerHour": 543.8206086745785
+    }
+  }
+}

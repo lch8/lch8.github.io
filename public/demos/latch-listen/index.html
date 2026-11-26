@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f5ef">
+<title>Latch Listen · Changheng Li</title>
+<meta name="description" content="A working, CPU-only acoustic event detector for buckle clicks amid tool impacts. Listen, change operating points and inspect its errors.">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="head"><a class="byline" href="/">Changheng Li</a><span class="division">/</span><span>Audio engineering</span><nav><a href="#results">Benchmarks</a><a class="repo" href="https://github.com/lch8/lch8.github.io/tree/main/public/demos/latch-listen">GitHub ↗</a></nav></header>
+<main>
+<div class="intro"><div><p class="eyebrow">Industrial sound event detection</p><h1>Latch Listen<span>.</span></h1><p class="lead">Can a single microphone pick out a buckle click over a running compressor, a hammer and a ratchet?</p></div>
+<div class="spec"><span class="dot"></span><div><strong>On-device inference</strong><small>16 kHz mono · 5 ms hops</small></div></div></div>
+<section class="desk" aria-label="Interactive audio detector">
+<div class="controls">
+<h2>Detector controls</h2>
+<label for="scene">Recording</label><select id="scene"><option value="mixed">Enrolled buckle + tools</option><option value="tools">Tools only</option><option value="unseen">Unseen buckle + tools</option></select>
+<label for="method">Detection method</label><select id="method"><option value="verifier">Transient gate + verifier</option><option value="gate">Transient gate only</option></select>
+<label for="operating">Operating point</label><select id="operating"><option value="sensitive">Prioritize recall</option><option value="quiet">Limit false alarms</option></select>
+<label class="check"><input type="checkbox" id="context"><span>Use simulated work-step windows</span></label>
+<div class="inputs"><label class="button light" for="upload">Open audio file</label><input id="upload" class="visually-hidden" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a">
+<button id="mic" type="button" class="light">Use microphone</button></div>
+<small id="inputHint">Your audio is processed in this browser.</small></div>
+<div class="monitor"><div class="monitorHead"><div><p class="eyebrow">Signal monitor</p><h2 id="monitorTitle">Enrolled buckle + tools</h2></div><span id="state">Loading</span></div>
+<div class="viz"><canvas id="wave" role="img" aria-label="Audio waveform with accepted events and reference clicks"></canvas></div>
+<div class="legend"><span><i class="accepted"></i>Detector call</span><span id="refLegend"><i class="reference"></i>Known buckle</span><span id="windowLegend" hidden><i class="window"></i>Step window</span></div>
+<div class="transport"><button id="play" disabled>▶ Play</button><label class="visually-hidden" for="seek">Position in recording</label><input id="seek" type="range" min="0" max="15" step=".01" value="0" disabled><span id="clock">0.0 / 15.0 s</span></div>
+<div class="readouts"><div><strong id="calls">–</strong><small>Detector calls</small></div><div><strong id="hits">–</strong><small id="hitsLabel">Buckle clicks found</small></div><div><strong id="extra">–</strong><small id="extraLabel">False alarms</small></div></div></div>
+</section>
+<p role="status" aria-live="polite" id="notice">Loading the recording and detector.</p>
+<section class="listen"><div class="sectionHead"><div><p class="eyebrow">Listen closely</p><h2>Event inspection</h2></div><span id="inspectorHint">Select a call to hear its surroundings.</span></div><div id="anchors" class="eventChips"></div><div id="events" class="eventChips"></div></section>
+<section id="results"><div class="sectionHead"><div><p class="eyebrow">Held-out evaluation</p><h2>Recall and false alarms</h2></div><a href="https://github.com/lch8/lch8.github.io/tree/main/public/demos/latch-listen#evaluation">Evaluation protocol ↗</a></div>
+<p class="bodytext">Each profile was tested on 15 minutes of constructed audio, mixing recorded buckles with real tool impacts and machinery. Thresholds were selected on a separate 9-minute validation split. Each scene lasts 15 seconds.</p>
+<div class="tableWrap"><table><thead><tr><th>Operating point</th><th>Events found</th><th>False alarms</th><th>Precision</th><th>Decision delay, p95</th></tr></thead><tbody id="bench"></tbody></table></div>
+<p id="benchCaption" class="caption"></p><p id="fieldCheck" class="bodytext"></p></section>
+<section class="method"><div><p class="eyebrow">Implementation</p><h2>What runs on the device</h2></div><div><p>A causal high-frequency energy gate tracks the local noise floor every 5 ms. A candidate opens a 50 ms buffer. The verifier scores its frequency distribution and decay, then emits a timestamp.</p><p>The station profile uses a 401-parameter PyTorch head trained on CPU from two buckle takes and tool negatives. The unseen-buckle profile uses a linear head. Both run as plain JavaScript in the browser.</p><p>These are seat-belt buckle recordings. Confirmation of a particular assembly would require recordings and independent mechanical labels from that station.</p></div></section>
+</main><footer><span>Changheng Li · Audio DSP</span><a href="https://github.com/lch8/lch8.github.io/blob/main/public/demos/latch-listen/CREDITS.md">Audio credits &amp; licenses ↗</a></footer>
+<script type="module" src="./app.mjs"></script></body></html>

@@ -1,0 +1,102 @@
+{
+  "id": "demo-002",
+  "duration": 15,
+  "targets": [
+    {
+      "time": 1.30125,
+      "kind": "buckle",
+      "source": "50900",
+      "snrDb": 15
+    },
+    {
+      "time": 3.9735625,
+      "kind": "buckle",
+      "source": "50900",
+      "snrDb": 9
+    },
+    {
+      "time": 6.8995,
+      "kind": "buckle",
+      "source": "315735",
+      "snrDb": 15
+    },
+    {
+      "time": 10.2089375,
+      "kind": "buckle",
+      "source": "315735",
+      "snrDb": -3
+    },
+    {
+      "time": 12.7295625,
+      "kind": "buckle",
+      "source": "315735",
+      "snrDb": 15
+    }
+  ],
+  "clutter": [
+    {
+      "time": 3.1166875,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": -3
+    },
+    {
+      "time": 4.7430625,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": 15
+    },
+    {
+      "time": 8.1476875,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": 9
+    },
+    {
+      "time": 8.8680625,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": -3
+    },
+    {
+      "time": 10.4695625,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": 9
+    },
+    {
+      "time": 12.6016875,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": -3
+    },
+    {
+      "time": 14.4144375,
+      "kind": "drop",
+      "source": "388833",
+      "snrDb": -3
+    }
+  ],
+  "windows": [
+    [
+      0.92997,
+      2.02997
+    ],
+    [
+      3.63888,
+      4.73888
+    ],
+    [
+      6.67633,
+      7.77633
+    ],
+    [
+      9.50005,
+      10.60005
+    ],
+    [
+      12.20067,
+      13.30067
+    ]
+  ]
+}

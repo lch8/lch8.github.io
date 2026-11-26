@@ -1,0 +1,101 @@
+{
+  "id": "demo-001",
+  "duration": 15,
+  "targets": [],
+  "clutter": [
+    {
+      "time": 1.2581875,
+      "kind": "drop",
+      "source": "388833",
+      "snrDb": -3
+    },
+    {
+      "time": 1.7016875,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": 9
+    },
+    {
+      "time": 2.155875,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": 15
+    },
+    {
+      "time": 4.6281875,
+      "kind": "drop",
+      "source": "388833",
+      "snrDb": 9
+    },
+    {
+      "time": 5.97175,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": 9
+    },
+    {
+      "time": 5.981625,
+      "kind": "drop",
+      "source": "388833",
+      "snrDb": 9
+    },
+    {
+      "time": 6.352,
+      "kind": "hammer",
+      "source": "588259",
+      "snrDb": 3
+    },
+    {
+      "time": 9.26925,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": -3
+    },
+    {
+      "time": 10.35575,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": 15
+    },
+    {
+      "time": 10.6805,
+      "kind": "ratchet",
+      "source": "495236",
+      "snrDb": 9
+    },
+    {
+      "time": 11.4260625,
+      "kind": "pen",
+      "source": "716479",
+      "snrDb": -3
+    },
+    {
+      "time": 12.8295625,
+      "kind": "drop",
+      "source": "388833",
+      "snrDb": 3
+    }
+  ],
+  "windows": [
+    [
+      0.91672,
+      2.01672
+    ],
+    [
+      3.68098,
+      4.78098
+    ],
+    [
+      6.57444,
+      7.67444
+    ],
+    [
+      9.36023,
+      10.46023
+    ],
+    [
+      12.21409,
+      13.31409
+    ]
+  ]
+}

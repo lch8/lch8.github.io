@@ -1,0 +1,32 @@
+{
+  "sha256": "3fee0517e19f88099c46b4fc3f381e726b78cb0b4563b3322847c69a24163746",
+  "rows": 68768,
+  "features": 213,
+  "rawClassCounts": [
+    48473,
+    20295
+  ],
+  "duplicateFeatureRows": 6491,
+  "conflictingVectors": 0,
+  "retainedUnique": 62277,
+  "trainAvailable": 40878,
+  "trainUsed": 12000,
+  "dev": 9959,
+  "test": 11239,
+  "purgedAtEachSide": 100,
+  "fitSeconds": 0.08674840599996969,
+  "threshold": -0.2828423657254893,
+  "confusionTrueRowsPredictedColumns": [
+    [
+      8734,
+      152
+    ],
+    [
+      54,
+      2299
+    ]
+  ],
+  "balancedAccuracy": 0.979972507214441,
+  "rocAucClass1": 0.9979340236278023,
+  "majorityBalancedAccuracy": 0.5
+}
