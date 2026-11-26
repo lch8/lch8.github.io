@@ -8,10 +8,11 @@ An interactive CPU-only detector for short mechanical clicks. It listens to one 
 
 ### Try it in one minute
 
-1. Play **Enrolled buckle + tools**. Under **Event inspection**, audition the labeled buckle and the ratchet. Click any detector call to hear what triggered it.
-2. Switch between **Transient gate only** and **Transient gate + verifier** on exactly the same audio. Enable **simulated work-step windows** and watch which calls disappear.
-3. Try **Tools only** or **Unseen buckle + tools**. **Open audio file** and **Use microphone** run the station model locally in the browser. The microphone view shows the latest 15 seconds and discards the audio. Only the bundled replays have reference labels.
+1. Choose **Hear a buckle** at 4.04 s, then **Hear a false alarm** at 6.43 s. The second sound is a dropped hammer. Both snippets come from the same 15-second replay.
+2. Under **Work-step review**, listen to step 3. It contains a buckle and two nearly simultaneous tool drops. The verifier produces three calls. Switch **When several sounds qualify** to flag the highest score, then click its timestamp to hear the chosen sound.
+3. Open **Compare detectors and inspect events** to see the gate and verifier on this recording. Try **Limit false alarms** under **Detector settings**, then choose **Missed buckles** to hear the cost of that threshold.
 
+To try a recording of your own, choose **Open audio file** (up to two minutes). Enter the start and end time of an attempt or import ordered, non-overlapping intervals from a controller in seconds, e.g. `{"windows":[[0.5,1.8],[2,3.4]]}`. For live input, choose **Use microphone**, **Start step**, **End step**, then **Stop microphone**. **Download report** saves each step, its outcome, the active threshold and sample-clock event and score times. The report records the selected rule (`single` or `strongest`). A stopped capture keeps the latest 100 marked steps and the last 15 seconds of event history. Microphone samples are discarded. Reference labels are supplied only for the built-in replays.
 ## Design
 
 A single microphone on an occluded assembly step hears many short, sharp noises. A hammer, a ratchet and a pen button can all cross the same energy threshold as a buckle. The front end therefore proposes events cheaply. A second stage examines the candidate's spectrum and decay.
@@ -19,13 +20,13 @@ A single microphone on an occluded assembly step hears many short, sharp noises.
 - **Always-on trigger.** Sample at 16 kHz. Every 5 ms, compare the energy of the first difference with a slowly updated, clipped noise-floor estimate. The stream uses 150 ms of startup adaptation and an 80 ms refractory interval between triggers.
 - **Candidate verifier.** Retain 5 ms before the trigger block, that 5 ms block and 40 ms after it. Compute 23 features from six frequency bands, a ten-bin energy envelope and the crest factor. The station head has 16 ReLU units and 401 trainable parameters. The unseen-buckle head is logistic regression. Standardization is folded into the exported weights.
 - **Decision clock.** Each call carries an estimated event timestamp and a separate time at which the score became available. The browser, microphone worklet and Node benchmark share the same incremental detector. The visual replay scores the file ahead of playback to make seeking and threshold comparison immediate.
-- **Optional process context.** A supplied time window determines when a call counts. The example schedule is generated before audio placement, includes empty steps and sometimes misses a real event. It illustrates how a future vision or IMU system could provide timing cues. The project has no measured vision or IMU input.
+- **Optional process context.** Controller windows specify which audio timestamps belong to each attempt. Select them manually, import them, or mark a live attempt. The example schedule is generated before audio placement and includes empty steps. The bundled tests use simulated timings.
 
 ### Research behind the design
 
-Cao et al. (2026) studied the same automotive connector problem with a microphone near the operator's hand, a second ambient microphone and a conditioned diffusion model. Glasses alone may lack that near-hand reference. This demo uses the preceding sound from the same channel to estimate the noise floor and spends classifier compute only on short candidate windows. The algorithms and data differ, so the scores below have their own protocol. [Paper](https://doi.org/10.3390/e28040364)
+Cao et al. (2026) studied the same automotive connector problem with a glove microphone about 5 cm from the fingertips and a second microphone for ambient noise. They conditioned a diffusion model on the ambient channel. This demo assumes one microphone and estimates the noise floor from preceding samples. Only the short candidate windows go to the classifier. [Paper](https://doi.org/10.3390/e28040364)
 
-Espinosa, Ponce and Gutiérrez studied automotive electrical-harness clicks and released a labeled feature table. That table enables an independent check on industrial data. Separately, the DCASE 2026 machine-monitoring task explicitly varies environmental noise and recording distance. The unmodified workshop replay below probes transfer to an additional real acoustic environment. [Automotive paper](https://doi.org/10.1016/j.asoc.2021.107465) · [Public dataset](https://doi.org/10.17632/2p4ng7zz3s.1) · [DCASE 2026](https://dcase.community/challenge2026/index)
+Espinosa, Ponce and Gutiérrez studied automotive electrical-harness clicks and released a labeled feature table. That table enables an independent check on industrial data. Separately, the DCASE 2026 machine-monitoring task explicitly varies environmental noise and recording distance. The unmodified workshop replay below probes transfer to an additional real acoustic environment. [Automotive paper](https://doi.org/10.1016/j.asoc.2021.107465) · [Public dataset](https://doi.org/10.17632/2p4ng7zz3s.1) · [DCASE 2026](https://dcase.community/challenge2026/task-first-shot-unsupervised-anomalous-sound-detection-for-machine-condition-monitoring)
 
 ## Evaluation
 
@@ -35,16 +36,31 @@ Each profile uses 72 training scenes, 36 development scenes and 60 test scenes, 
 
 Both methods select their sensitive thresholds on development data using a 90% event-recall target. Neither method uses test labels for threshold selection. The stricter setting maximizes development recall subject to at most one development false alarm.
 
-| Station setting, same 15-minute test | Found / present | Recall | False alarms | Precision | False alarms/h |
-|---|---:|---:|---:|---:|---:|
-| Transient gate only | 176 / 208 | 84.6% | 636 | 21.7% | 2,544 |
-| Gate + verifier | 198 / 208 | 95.2% | 444 | 30.8% | 1,776 |
-| Verifier + simulated work-step windows | 173 / 208 | 83.2% | 168 | 50.7% | 672 |
-| Verifier at strict threshold | 0 / 208 | 0.0% | 1 | 0.0% | 4 |
+| Station setting, same 15-minute test | Found / present | Recall | False alarms | Precision |
+|---|---:|---:|---:|---:|
+| Transient gate only | 176 / 208 | 84.6% | 636 | 21.7% |
+| Gate + verifier | 198 / 208 | 95.2% | 444 | 30.8% |
+| Verifier + simulated work-step windows | 173 / 208 | 83.2% | 168 | 50.7% |
+| Verifier at strict threshold | 0 / 208 | 0.0% | 1 | 0.0% |
 
-The station verifier reduced false alarms by **30.2%** against the gate while recovering **22 more events**. The injected tool density is high (typically 7–12 tools per 15 seconds, plus some overlaps). At the strict operating point every station-test buckle was missed. The demo therefore demonstrates the recall/false-alarm trade-off and leaves factory acceptance open.
+The station verifier reduced false alarms by **30.2%** against the gate while recovering **22 more events**. The injected tool density is high (typically 7–12 tools per 15 seconds, plus some overlaps). At the strict operating point every station-test buckle was missed.
 
 On the unseen-buckle test, the gate found 178/201 events with 577 false alarms. The verifier found 196/201 with 602 false alarms. The extra recall came with more false calls on the held-out tools. Full per-SNR counts, development scores and timings are included. [Station results](results/station/benchmark.json) · [Unseen results](results/unseen/benchmark.json)
+
+### Work-step decisions
+
+Each simulated controller interval expects one buckle. If several sounds qualify, the review panel can send the step to an operator (default) or flag the highest-scoring sound. No calls, an unclosed step, startup calibration, or a recording that ends before the last 45 ms is available all require review. A flag identifies a sound to inspect. Physical engagement needs a separate mechanical check.
+
+The three rules below use identical verifier scores. An occupied step contains a labeled buckle. A flag in that step counts as correct when its timestamp falls within ±50 ms of the buckle. In an empty step, any flag is a false call.
+
+| Station test | First call | Highest score | Review multiple calls |
+|---|---:|---:|---:|
+| Correct sound flagged, 183 occupied steps | 140 | 149 | 105 |
+| Wrong sound flagged, 183 occupied steps | 39 | 30 | 2 |
+| A sound flagged, 117 empty steps | 43 | 43 | 28 |
+| Sent for review, all 300 steps | 78 | 78 | 165 |
+
+Taking the highest score recovered nine correct timestamps at the same review workload as taking the first call. Reviewing every ambiguous step reduced wrong-time flags to two, with 165 steps sent to an operator. All three rules missed the 25 buckles outside the supplied intervals. On the unseen-buckle profile, choosing the highest score raised correct flags from 131 to 145 of 186 occupied steps at the same 64 reviews. Each test reuses a small number of recorded takes in different mixtures. [Step results and development splits](results/steps.json)
 
 ### Continuous workshop recording
 
@@ -78,7 +94,8 @@ python -m pip install -r lab/requirements.txt
 python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python lab/evaluate.py --profile station --out /tmp/latch-station
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python lab/evaluate.py --profile unseen --out /tmp/latch-unseen
-node --test tests/detector.test.mjs
+python lab/step_eval.py --out /tmp/latch-steps.json
+node --test tests/*.test.mjs
 ```
 
 To stream any local recording through the actual detector, pipe 16 kHz mono PCM into the Node reader. Drop `--summary` to get an event stream with candidate and decision timestamps. FFmpeg is also required for `--render-demos`.

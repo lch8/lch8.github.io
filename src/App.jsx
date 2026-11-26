@@ -67,6 +67,11 @@ function ResearchOverview() {
         <span className="overview-link">Research question <ArrowRight size={15} /></span>
       </a>
     </div>
+    <div className="earlier-work">
+      <span>Audio demo</span>
+      <p>Listen to a buckle and the dropped hammer that triggered the same detector.</p>
+      <a href="/demos/latch-listen/" className="text-link">Open Latch Listen <ArrowRight size={15} /></a>
+    </div>
     <div id="quantized-inference" className="earlier-work"><span>Earlier work</span><p>Model selection and inference from quantized measurements.</p><a href="/research/#quantized-inference" className="text-link">Details <ArrowRight size={15} /></a></div>
   </section>;
 }

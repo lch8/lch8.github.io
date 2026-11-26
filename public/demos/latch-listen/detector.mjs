@@ -2,6 +2,9 @@
 export const RATE = 16000;
 export const HOP = 80;                 // 5 ms
 const LOOKAHEAD_HOPS = 8;
+const WARMUP_HOPS = 30;
+export const WARMUP_SECONDS = WARMUP_HOPS * HOP / RATE;
+export const MAX_DECISION_SECONDS = (LOOKAHEAD_HOPS + 1) * HOP / RATE;
 const CLIP_LENGTH = HOP * (2 + LOOKAHEAD_HOPS);
 const REFRACTORY_HOPS = 16;
 const EPS = 1e-12;
@@ -136,12 +139,12 @@ export class Detector {
         this.candidates++;
         onCandidate(result);
       }
-    } else if (b >= 30 && b >= this.nextAllowed && ratio >= 3.2 && p > 2e-8) {
+    } else if (b >= WARMUP_HOPS && b >= this.nextAllowed && ratio >= 3.2 && p > 2e-8) {
       this.clip.set(this.previous); this.clip.set(this.hop, HOP);
       this.pending = {block: b, time: (b * HOP + at) / RATE, gateDb: 10 * Math.log10(ratio)};
       this.nextAllowed = b + REFRACTORY_HOPS;
     }
-    if (b < 30) this.floor += (p - this.floor) / (b + 1);
+    if (b < WARMUP_HOPS) this.floor += (p - this.floor) / (b + 1);
     else {
       const reference = Math.max(this.floor, 1e-9);
       this.floor += 0.035 * (Math.min(p, 3 * reference) - this.floor);

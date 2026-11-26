@@ -2,6 +2,8 @@
 
 React 19 + Vite. Deployed by the existing GitHub Actions workflow to https://lch8.github.io/.
 
+**[Latch Listen](https://lch8.github.io/demos/latch-listen/)** detects short buckle clicks in workshop noise. Listen to a hit and a false alarm, or bring your own recording. [Source and evaluation](public/demos/latch-listen/)
+
 ## Run locally
 
 ```sh

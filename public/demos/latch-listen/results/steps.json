@@ -1,0 +1,143 @@
+{
+  "sampleRate": 16000,
+  "collarMs": 50,
+  "threshold": "sensitive",
+  "profiles": {
+    "station": {
+      "dev": {
+        "scenes": 36,
+        "steps": 180,
+        "occupied": 106,
+        "empty": 74,
+        "outsideTargets": 16,
+        "firstCall": {
+          "correctTime": 81,
+          "wrongTime": 20,
+          "falseOnEmpty": 25,
+          "reviewOccupied": 5,
+          "reviewEmpty": 49
+        },
+        "highestScore": {
+          "correctTime": 86,
+          "wrongTime": 15,
+          "falseOnEmpty": 25,
+          "reviewOccupied": 5,
+          "reviewEmpty": 49
+        },
+        "singleCall": {
+          "correctTime": 68,
+          "wrongTime": 5,
+          "falseOnEmpty": 20,
+          "reviewOccupied": 33,
+          "reviewEmpty": 54
+        },
+        "eventCheck": {
+          "tp": 110,
+          "fp": 196,
+          "fn": 12
+        }
+      },
+      "test": {
+        "scenes": 60,
+        "steps": 300,
+        "occupied": 183,
+        "empty": 117,
+        "outsideTargets": 25,
+        "firstCall": {
+          "correctTime": 140,
+          "wrongTime": 39,
+          "falseOnEmpty": 43,
+          "reviewOccupied": 4,
+          "reviewEmpty": 74
+        },
+        "highestScore": {
+          "correctTime": 149,
+          "wrongTime": 30,
+          "falseOnEmpty": 43,
+          "reviewOccupied": 4,
+          "reviewEmpty": 74
+        },
+        "singleCall": {
+          "correctTime": 105,
+          "wrongTime": 2,
+          "falseOnEmpty": 28,
+          "reviewOccupied": 76,
+          "reviewEmpty": 89
+        },
+        "eventCheck": {
+          "tp": 198,
+          "fp": 444,
+          "fn": 10
+        }
+      }
+    },
+    "unseen": {
+      "dev": {
+        "scenes": 36,
+        "steps": 180,
+        "occupied": 98,
+        "empty": 82,
+        "outsideTargets": 11,
+        "firstCall": {
+          "correctTime": 69,
+          "wrongTime": 26,
+          "falseOnEmpty": 36,
+          "reviewOccupied": 3,
+          "reviewEmpty": 46
+        },
+        "highestScore": {
+          "correctTime": 78,
+          "wrongTime": 17,
+          "falseOnEmpty": 36,
+          "reviewOccupied": 3,
+          "reviewEmpty": 46
+        },
+        "singleCall": {
+          "correctTime": 55,
+          "wrongTime": 4,
+          "falseOnEmpty": 28,
+          "reviewOccupied": 39,
+          "reviewEmpty": 54
+        },
+        "eventCheck": {
+          "tp": 99,
+          "fp": 257,
+          "fn": 10
+        }
+      },
+      "test": {
+        "scenes": 60,
+        "steps": 300,
+        "occupied": 186,
+        "empty": 114,
+        "outsideTargets": 15,
+        "firstCall": {
+          "correctTime": 131,
+          "wrongTime": 51,
+          "falseOnEmpty": 54,
+          "reviewOccupied": 4,
+          "reviewEmpty": 60
+        },
+        "highestScore": {
+          "correctTime": 145,
+          "wrongTime": 37,
+          "falseOnEmpty": 54,
+          "reviewOccupied": 4,
+          "reviewEmpty": 60
+        },
+        "singleCall": {
+          "correctTime": 94,
+          "wrongTime": 0,
+          "falseOnEmpty": 23,
+          "reviewOccupied": 92,
+          "reviewEmpty": 91
+        },
+        "eventCheck": {
+          "tp": 196,
+          "fp": 602,
+          "fn": 5
+        }
+      }
+    }
+  }
+}

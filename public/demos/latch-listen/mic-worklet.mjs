@@ -6,8 +6,16 @@ class LatchCapture extends AudioWorkletProcessor {
     if (sampleRate !== RATE) throw Error('Capture requires a 16 kHz audio context');
     this.detector = new Detector(options.processorOptions.model);
     this.at = 0; this.peak = 0; this.counter = 0;
+
+    this.stopped = false;
+    this.port.onmessage = ({data}) => {
+      if (this.stopped || !['start','end','stop'].includes(data?.mark)) return;
+      if (data.mark === 'stop') this.stopped = true;
+      this.port.postMessage({mark:data.mark, time:this.at / RATE});
+    };
   }
   process(inputs) {
+    if (this.stopped) return false;
     const x = inputs[0]?.[0];
     if (!x) return true;
     this.detector.push(x, event => this.port.postMessage({event}));
