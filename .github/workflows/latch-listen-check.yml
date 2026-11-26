@@ -2,7 +2,7 @@ name: Latch Listen replay checks
 
 on:
   push:
-    branches: [main]
+    branches: ['demo/stft-frontends']
     paths: ['public/demos/latch-listen/**', '.github/workflows/latch-listen-check.yml']
   pull_request:
     paths: ['public/demos/latch-listen/**', '.github/workflows/latch-listen-check.yml']
@@ -28,6 +28,16 @@ jobs:
           python-version: '3.12'
       - run: node --test tests/*.test.mjs
       - run: python -m pip install numpy==2.3.5
+      - name: Measure the frozen front ends
+        run: |
+          python lab/template_eval.py --out "$RUNNER_TEMP/templates"
+          python - <<'PY'
+          import json, os, pathlib
+          for path in sorted((pathlib.Path(os.environ["RUNNER_TEMP"])/"templates").glob("*.json")):
+              payload=json.dumps(json.loads(path.read_text()),separators=(",",":"))
+              for i in range(0,len(payload),1000):
+                  print("LATCHDATA",path.name,i,payload[i:i+1000])
+          PY
       - name: Replay both profiles on the original splits
         run: |
           python lab/step_eval.py --out "$RUNNER_TEMP/latch-steps.json"
