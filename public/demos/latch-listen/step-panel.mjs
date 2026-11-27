@@ -1,8 +1,8 @@
-import {addCandidate, assessStep, parseWindows, qualifies, resolveStep, stepLabel} from './review.mjs';
+import {addCandidate, assessStep, frontEnd, methodNames, parseWindows, qualifies, resolveStep, stepLabel, thresholdFor} from './review.mjs';
 import {MAX_DECISION_SECONDS, RATE} from './detector.mjs';
 
 const el=id=>document.getElementById(id);
-const modes=['gate','verifier'].flatMap(m=>['sensitive','quiet'].map(o=>[m,o]));
+const modes=Object.keys(methodNames).flatMap(m=>['sensitive','quiet'].map(o=>[m,o]));
 const blankCounts=()=>Object.fromEntries(modes.map(([m,o])=>[m+'/'+o,{count:0,best:null}]));
 
 export class StepPanel {
@@ -116,10 +116,11 @@ export class StepPanel {
   }
   download() {
     const s=this.state();if(!s.ready||!s.model)return;
-    const quiet=s.operating==='quiet',m=s.model;
+    const m=s.model, family=frontEnd(s.method);
     const report={schema:1,recording:s.label,input:s.kind,profile:s.profile,sampleRate:RATE,timeUnit:'seconds from first audio sample',
       audioThrough:s.through,eventHistoryFrom:s.kind==='mic'?s.viewStart:0,olderStepsDiscarded:this.dropped,
-      method:s.method,operatingPoint:s.operating,threshold:s.method==='gate'?(quiet?m.quietGateThresholdDb:m.gateThresholdDb):(quiet?m.quietScoreThreshold:m.scoreThreshold),
+      method:s.method,operatingPoint:s.operating,threshold:thresholdFor(m,s.method,s.operating),
+      ...(s.method.endsWith('Verified')?{proposalThreshold:m.templates.thresholds[family].budget}:{}),
       displayLimitedToSteps:s.onlyInside,stepSource:this.origin,rule:el('rule').value,tailWaitSeconds:MAX_DECISION_SECONDS,
       events:s.raw.map(e=>({...e,aboveThreshold:qualifies(e,m,s.method,s.operating),inMarkedStep:this.contains(e.time)})),
       steps:this.decisions(),referenceTargets:s.reference?.targets??null};

@@ -28,6 +28,22 @@ jobs:
           python-version: '3.12'
       - run: node --test tests/*.test.mjs
       - run: python -m pip install numpy==2.3.5
+      - name: Measure the frozen front ends
+        run: |
+          python lab/template_eval.py --out "$RUNNER_TEMP/templates"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          def reproducible(obj):
+              if isinstance(obj, dict):
+                  return {k:reproducible(v) for k,v in obj.items() if k not in {"environment","legacyRtf","rtf"}}
+              return obj
+          output = Path(os.environ["RUNNER_TEMP"])/"templates"
+          for name in ("station-templates.json","unseen-templates.json","frontends.json"):
+              measured = json.loads((output/name).read_text())
+              expected = json.loads((Path("results")/name).read_text())
+              assert reproducible(measured) == reproducible(expected), name+" differs from the reference run"
+          PY
       - name: Replay both profiles on the original splits
         run: |
           python lab/step_eval.py --out "$RUNNER_TEMP/latch-steps.json"

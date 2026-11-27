@@ -8,8 +8,6 @@ import subprocess
 import tempfile
 import time
 import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
 from scenes import DURATION, RATE, ROOT, SPLIT_SIZE, Recordings
 
 COLLAR = .050
@@ -83,6 +81,8 @@ def choose(rows, out, key):
 
 
 def fit(rows, out, profile):
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
     X, y = [], []
     for r, o in zip(rows, out, strict=True):
         good = {j for _, j in matches(r["targets"], o["events"])}

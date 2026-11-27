@@ -1,6 +1,6 @@
 # Recordings and attribution
 
-The training and replay fixtures contain excerpts of the following recordings. The authors released them on Freesound. Excerpts were decoded from the public high-quality previews, folded to mono, resampled to 16 kHz and cropped. The mixture generator changes speed, gain and spectral tilt, adds noise and combines these excerpts. Each recording retains its indicated license. The demo FLAC mixes can be reused under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with the applicable recording credits and a description of these changes.
+The training and replay fixtures contain excerpts of the following recordings. The authors released them on Freesound. Excerpts were decoded from the public high-quality previews, folded to mono, resampled to 16 kHz and cropped. The mixture generator changes speed, gain and spectral tilt, adds noise and combines these excerpts. The template banks store 40 ms per enrolled take from the same clips. Each template’s source ID identifies its recording in the table below. Each recording retains its indicated license. The demo FLAC mixes can be reused under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with the applicable recording credits and a description of these changes.
 
 | Original recording | Recordist | License | Excerpt in the 16 kHz decoded preview (s) |
 |---|---|---|---:|

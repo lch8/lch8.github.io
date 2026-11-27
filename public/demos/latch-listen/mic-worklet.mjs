@@ -1,10 +1,17 @@
 import {Detector, RATE} from './detector.mjs';
+import {TemplateDetector} from './spectral.mjs';
+import {TemplateVerifier} from './template-verifier.mjs';
+import {frontEnd} from './review.mjs';
 
 class LatchCapture extends AudioWorkletProcessor {
   constructor(options) {
     super();
     if (sampleRate !== RATE) throw Error('Capture requires a 16 kHz audio context');
-    this.detector = new Detector(options.processorOptions.model);
+    const {model,method='verifier'}=options.processorOptions;
+    const family=frontEnd(method);
+    if(family==='energy') this.detector=new Detector(model);
+    else if(method.endsWith('Verified')) this.detector=new TemplateVerifier(model.templates,family,model);
+    else this.detector=new TemplateDetector(model.templates,family);
     this.at = 0; this.peak = 0; this.counter = 0;
 
     this.stopped = false;

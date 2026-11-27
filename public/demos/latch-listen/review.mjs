@@ -2,12 +2,28 @@ import {MAX_DECISION_SECONDS, WARMUP_SECONDS} from './detector.mjs';
 
 export const COLLAR = 0.050;
 
-export function qualifies(e, model, method, operating) {
-  const strict = operating === 'quiet';
-  if (method === 'gate') return e.gateDb >= (strict ? model.quietGateThresholdDb : model.gateThresholdDb);
-  return e.score >= (strict ? model.quietScoreThreshold : model.scoreThreshold);
+export const methodNames = {
+  verifier:'Energy + acoustic verifier', gate:'Energy gate',
+  coherent:'Whitened waveform match', coherentVerified:'Waveform match + verifier',
+  spectral:'STFT magnitude template', spectralVerified:'STFT template + verifier'
+};
+
+export function frontEnd(method) {
+  if (method==='gate' || method==='verifier') return 'energy';
+  return method.replace(/Verified$/,'');
 }
 
+export function thresholdFor(model,method,operating) {
+  const quiet=operating==='quiet';
+  if (method==='gate') return quiet ? model.quietGateThresholdDb : model.gateThresholdDb;
+  if (method==='verifier') return quiet ? model.quietScoreThreshold : model.scoreThreshold;
+  return model.templates.thresholds[method][operating];
+}
+
+export function qualifies(e, model, method, operating) {
+  if (frontEnd(method)==='energy' ? e.method!=null : e.method!==method) return false;
+  return (method==='gate'?e.gateDb:e.score) >= thresholdFor(model,method,operating);
+}
 // Reference labels enter only the evaluation and audition functions.
 export function pairEvents(truth, calls) {
   let i = 0, j = 0;
@@ -53,14 +69,16 @@ export function assessStep(start, end, calls, audioThrough, options = {}) {
   return resolveStep(start,end,summary,audioThrough,options);
 }
 
-export function resolveStep(start, end, summary, audioThrough, {finished = true, rule = 'single'} = {}) {
+export function resolveStep(start, end, summary, audioThrough, {finished = true, rule = 'single', method='verifier'} = {}) {
   const result = {start, end, count:summary.count, event:null, availableAt:null};
   if (end === null) return {...result, reason:finished ? 'unclosed' : 'open'};
   if (audioThrough + 1e-10 < end + MAX_DECISION_SECONDS) {
     return {...result, reason:finished ? 'incomplete' : 'waiting'};
   }
   result.availableAt = end + MAX_DECISION_SECONDS;
-  if (start < WARMUP_SECONDS) return {...result, reason:'warmup'};
+  // Four past score frames and hop alignment are needed for the first template peak.
+  const startup=frontEnd(method)==='energy'?WARMUP_SECONDS:WARMUP_SECONDS+.025;
+  if (start < startup) return {...result, reason:'warmup'};
   if (summary.count === 0) return {...result, reason:'none'};
   if (summary.count === 1) return {...result, reason:'single', event:summary.best};
   if (rule === 'strongest') return {...result, reason:'strongest', event:summary.best};

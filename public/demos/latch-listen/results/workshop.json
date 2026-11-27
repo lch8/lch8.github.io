@@ -14,14 +14,50 @@
       "gateAlarms": 414,
       "verifierAlarms": 231,
       "strictAlarms": 0,
-      "verifierAlarmsPerHour": 265.02649916419335
+      "verifierAlarmsPerHour": 265.02649916419335,
+      "templateActivations": {
+        "coherent": {
+          "sensitive": 452,
+          "quiet": 0
+        },
+        "coherentVerified": {
+          "sensitive": 160,
+          "quiet": 0
+        },
+        "spectral": {
+          "sensitive": 454,
+          "quiet": 0
+        },
+        "spectralVerified": {
+          "sensitive": 114,
+          "quiet": 0
+        }
+      }
     },
     "unseen": {
       "proposals": 668,
       "gateAlarms": 387,
       "verifierAlarms": 474,
       "strictAlarms": 8,
-      "verifierAlarmsPerHour": 543.8206086745785
+      "verifierAlarmsPerHour": 543.8206086745785,
+      "templateActivations": {
+        "coherent": {
+          "sensitive": 339,
+          "quiet": 0
+        },
+        "coherentVerified": {
+          "sensitive": 375,
+          "quiet": 1
+        },
+        "spectral": {
+          "sensitive": 317,
+          "quiet": 0
+        },
+        "spectralVerified": {
+          "sensitive": 305,
+          "quiet": 4
+        }
+      }
     }
   }
 }

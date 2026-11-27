@@ -1,3 +1,4 @@
+import {forward, NFFT} from './fft256.mjs';
 // Shared by the browser, command-line benchmark and feature extractor.
 export const RATE = 16000;
 export const HOP = 80;                 // 5 ms
@@ -5,38 +6,12 @@ const LOOKAHEAD_HOPS = 8;
 const WARMUP_HOPS = 30;
 export const WARMUP_SECONDS = WARMUP_HOPS * HOP / RATE;
 export const MAX_DECISION_SECONDS = (LOOKAHEAD_HOPS + 1) * HOP / RATE;
-const CLIP_LENGTH = HOP * (2 + LOOKAHEAD_HOPS);
+export const CLIP_LENGTH = HOP * (2 + LOOKAHEAD_HOPS);
 const REFRACTORY_HOPS = 16;
 const EPS = 1e-12;
 const BANDS = [0, 500, 1000, 2000, 3500, 5500, 8001];
-const NFFT = 256;
-const WINDOW = Float64Array.from({length: NFFT}, (_, i) =>
-  0.5 - 0.5 * Math.cos(2 * Math.PI * i / (NFFT - 1)));
-const reverse = Uint16Array.from({length: NFFT}, (_, i) => {
-  let n = i, v = 0;
-  for (let k = 0; k < 8; k++, n >>= 1) v = (v << 1) | (n & 1);
-  return v;
-});
-const cos = Float64Array.from({length: NFFT / 2}, (_, i) => Math.cos(-2 * Math.PI * i / NFFT));
-const sin = Float64Array.from({length: NFFT / 2}, (_, i) => Math.sin(-2 * Math.PI * i / NFFT));
-
 function bandEnergy(x, offset, re, im) {
-  for (let i = 0; i < NFFT; i++) {
-    re[reverse[i]] = x[offset + i] * WINDOW[i];
-    im[reverse[i]] = 0;
-  }
-  for (let span = 2; span <= NFFT; span *= 2) {
-    const half = span / 2, step = NFFT / span;
-    for (let base = 0; base < NFFT; base += span) {
-      for (let j = 0; j < half; j++) {
-        const a = base + j, b = a + half, k = j * step;
-        const u = cos[k] * re[b] - sin[k] * im[b];
-        const v = sin[k] * re[b] + cos[k] * im[b];
-        re[b] = re[a] - u; im[b] = im[a] - v;
-        re[a] += u; im[a] += v;
-      }
-    }
-  }
+  forward(x, offset, re, im);
   const sums = Array(BANDS.length - 1).fill(0);
   let band = 0;
   for (let i = 1; i <= NFFT / 2; i++) {
@@ -50,7 +25,7 @@ function relativeLog(energy, total) {
   return Math.log(Math.max(1e-6, energy / Math.max(EPS, total)));
 }
 
-function features(x) {
+export function features(x) {
   const envelope = Array(10).fill(0);
   let peak = 0, total = 0;
   for (let i = 0; i < x.length; i++) {

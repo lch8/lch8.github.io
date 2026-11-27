@@ -6,6 +6,8 @@ An interactive CPU-only detector for short mechanical clicks. It listens to one 
 
 [![The running detector with event markers, reference clicks and playback controls](preview.jpg)](https://lch8.github.io/demos/latch-listen/)
 
+**Try a different front end.** Compare a noise-weighted waveform match and an STFT magnitude template on every 5 ms hop, with or without the original verifier. Click a detector call to inspect its winning template. [Interactive STFT comparison](https://lch8.github.io/demos/latch-listen/?method=spectralVerified) · [Equations, matched-recall results and CPU timings](TEMPLATE_DETECTION.md)
+
 ### Try it in one minute
 
 1. Choose **Hear a buckle** at 4.04 s, then **Hear a false alarm** at 6.43 s. The second sound is a dropped hammer. Both snippets come from the same 15-second replay.
@@ -13,9 +15,10 @@ An interactive CPU-only detector for short mechanical clicks. It listens to one 
 3. Open **Compare detectors and inspect events** to see the gate and verifier on this recording. Try **Limit false alarms** under **Detector settings**, then choose **Missed buckles** to hear the cost of that threshold.
 
 To try a recording of your own, choose **Open audio file** (up to two minutes). Enter the start and end time of an attempt or import ordered, non-overlapping intervals from a controller in seconds, e.g. `{"windows":[[0.5,1.8],[2,3.4]]}`. For live input, choose **Use microphone**, **Start step**, **End step**, then **Stop microphone**. **Download report** saves each step, its outcome, the active threshold and sample-clock event and score times. The report records the selected rule (`single` or `strongest`). A stopped capture keeps the latest 100 marked steps and the last 15 seconds of event history. Microphone samples are discarded. Reference labels are supplied only for the built-in replays.
+
 ## Design
 
-A single microphone on an occluded assembly step hears many short, sharp noises. A hammer, a ratchet and a pen button can all cross the same energy threshold as a buckle. The front end therefore proposes events cheaply. A second stage examines the candidate's spectrum and decay.
+A single microphone on an occluded assembly step hears many short, sharp noises. A hammer, a ratchet and a pen button can all cross the same energy threshold as a buckle. The default front end uses an inexpensive energy gate. The waveform and STFT alternatives search for an enrolled pulse continuously. Each front end can send candidates to the same verifier, which examines the spectrum and decay.
 
 - **Always-on trigger.** Sample at 16 kHz. Every 5 ms, compare the energy of the first difference with a slowly updated, clipped noise-floor estimate. The stream uses 150 ms of startup adaptation and an 80 ms refractory interval between triggers.
 - **Candidate verifier.** Retain 5 ms before the trigger block, that 5 ms block and 40 ms after it. Compute 23 features from six frequency bands, a ten-bin energy envelope and the crest factor. The station head has 16 ReLU units and 401 trainable parameters. The unseen-buckle head is logistic regression. Standardization is folded into the exported weights.
@@ -42,6 +45,8 @@ Both methods select their sensitive thresholds on development data using a 90% e
 | Gate + verifier | 198 / 208 | 95.2% | 444 | 30.8% |
 | Verifier + simulated work-step windows | 173 / 208 | 83.2% | 168 | 50.7% |
 | Verifier at strict threshold | 0 / 208 | 0.0% | 1 | 0.0% |
+
+On these same test mixtures, a waveform front end plus the frozen verifier found 185/208 targets with 375 false calls. An STFT magnitude front end plus the verifier found 166/208 with 238 false calls. At a common 167 detections, the three chains produced 270 (energy), 233 (waveform) and 274 (STFT) false calls. [What changes at higher recall and on unseen buckles](TEMPLATE_DETECTION.md#comparing-the-front-ends)
 
 The station verifier reduced false alarms by **30.2%** against the gate while recovering **22 more events**. The injected tool density is high (typically 7–12 tools per 15 seconds, plus some overlaps). At the strict operating point every station-test buckle was missed.
 
